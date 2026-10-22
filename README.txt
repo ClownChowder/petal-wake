@@ -1,6 +1,14 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.21
+PETAL WAKE — ANDROID ALARM APP 0.1.22
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.22 — ALARM SAFETY & SETTINGS
+- After a successful calendar download, changed, added, or removed future work wake-ups appear in local activity history. A private notification summarizes the changes while work alarms are enabled. A provider can still delay publishing a change; Petal Wake cannot detect it before the feed changes.
+- Optional unattended backup alert: after 5, 10, or 15 minutes without a response, the gentle selection changes to a full-volume standard ring. It is off by default. The phone's alarm volume still applies.
+- Recent activity lists scheduled, ringing, snoozed, dismissed, timed-out, and changed alarms. It stores no calendar links or event titles, keeps at most 100 entries for 30 days, and can be cleared in the app.
+- Settings can be saved to and restored from a JSON file with Android's document picker. Calendar links, calendar contents, personal alarms, and activity history are excluded. Reconnect calendars on a new phone and check Android permissions.
+- Settings also offers a complete wake-up volume preview using media volume. It plays the selected sound through the configured volume rise without creating an alarm.
+- The optional orchestra pack remains downloadable from the compatible v0.1.21 release and plays offline after installation.
 
 INSTALL & FIRST TEST
 1. Install petal-wake.apk from the GitHub release or update it through Obtainium. Android may ask you to allow installation from the browser or file manager you used. Requires Android 8.0 or newer with an updated Android System WebView.

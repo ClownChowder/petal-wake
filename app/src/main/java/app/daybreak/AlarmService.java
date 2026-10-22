@@ -13,7 +13,7 @@ public class AlarmService extends Service {
     private VolumeShaper volumeShaper;private float targetVolume=1f;private int fadeSeconds;private long playbackBegan;
     private static volatile AlarmService active;
     private final Handler handler=new Handler(Looper.getMainLooper());
-    private JSONObject current; private AudioManager audio;private AudioFocusRequest focus;
+    private JSONObject current; private AudioManager audio;private AudioFocusRequest focus;private boolean fallbackActive;
     @Override public void onCreate(){super.onCreate();active=this;}
     private float fadeGain(){try{return volumeShaper==null?1f:volumeShaper.getVolume();}catch(IllegalStateException e){return -1f;}}
     public static int playbackPercent(){AlarmService service=active;if(service==null||service.player==null)return -1;float gain=service.fadeGain();return gain<0?-1:Math.round(100f*service.targetVolume*(float)Math.sqrt(gain));}
@@ -34,16 +34,17 @@ public class AlarmService extends Service {
                     if(!Scheduler.allowed(this))throw new IllegalStateException("Alarm permission is off. Allow Alarms & reminders before snoozing.");
                     JSONObject batch=Store.object(this,"ringing");
                     for(java.util.Iterator<String> it=batch.keys();it.hasNext();)Scheduler.snooze(this,batch.getJSONObject(it.next()));
-                    handler.post(this::finish);
+                    handler.post(()->finish("snoozed"));
                 } catch(Exception e){Store.error(this,"Snooze failed. Allow Alarms & reminders in Android settings.");handler.post(()->android.widget.Toast.makeText(this,"Snooze failed. The alarm will keep ringing.",android.widget.Toast.LENGTH_LONG).show());}
             });
             return START_STICKY;
         }
-        if("STOP".equals(action)){finish();return START_NOT_STICKY;}
+        if("STOP".equals(action)){finish("dismissed");return START_NOT_STICKY;}
         try {
             if(i!=null&&i.hasExtra("alarm")){
                 JSONObject incoming=new JSONObject(i.getStringExtra("alarm"));
                 JSONObject batch=Store.object(this,"ringing");batch.put(incoming.getString("id"),incoming);Store.put(this,"ringing",batch);
+                AlarmHistory.record(this,"rang",incoming);
                 if(current==null)current=incoming;
             } else {JSONObject batch=Store.object(this,"ringing");java.util.Iterator<String> keys=batch.keys();if(keys.hasNext())current=batch.getJSONObject(keys.next());}
             if(current==null){stopSelf();return START_NOT_STICKY;}
@@ -54,14 +55,14 @@ public class AlarmService extends Service {
             if(player==null)play();
             ((DaybreakApp)getApplication()).changed();
             return START_STICKY;
-        }catch(Exception e){Store.error(this,"Alarm playback failed. Check the phone’s alarm volume.");finish();return START_NOT_STICKY;}
+        }catch(Exception e){Store.error(this,"Alarm playback failed. Check the phone’s alarm volume.");finish("playback failed");return START_NOT_STICKY;}
     }
     private Notification alarmNotification(){
         Intent open=new Intent(this,RingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent full=PendingIntent.getActivity(this,10,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
         int count=Store.object(this,"ringing").length();
         String title=count>1?count+" alarms · "+current.optString("title","Time to wake up"):current.optString("title","Time to wake up");
-        return new Notification.Builder(this,CHANNEL).setSmallIcon(app.daybreak.R.drawable.ic_alarm_notification).setColor(Appearance.current(this).surface).setColorized(true).setOnlyAlertOnce(true).setContentTitle(title).setContentText("Time to wake up · hold I’m up to dismiss or tap Snooze").setCategory(Notification.CATEGORY_ALARM).setVisibility(Notification.VISIBILITY_PUBLIC).setOngoing(true).setContentIntent(full).setFullScreenIntent(full,true)
+        return new Notification.Builder(this,CHANNEL).setSmallIcon(app.daybreak.R.drawable.ic_alarm_notification).setColor(Appearance.current(this).surface).setColorized(true).setOnlyAlertOnce(true).setContentTitle(title).setContentText(fallbackActive?"Backup alert sounding · hold I’m up to dismiss":"Time to wake up · hold I’m up to dismiss or tap Snooze").setCategory(Notification.CATEGORY_ALARM).setVisibility(Notification.VISIBILITY_PUBLIC).setOngoing(true).setContentIntent(full).setFullScreenIntent(full,true)
             .addAction(new Notification.Action.Builder(null,"Snooze",action("SNOOZE")).build())
             .addAction(new Notification.Action.Builder(null,"I’m up",full).build()).build();
     }
@@ -88,10 +89,31 @@ public class AlarmService extends Service {
         }
         playbackBegan=SystemClock.elapsedRealtime();player.start();if(volumeShaper!=null)volumeShaper.apply(VolumeShaper.Operation.PLAY);
         if(Store.p(this).getBoolean("vibrate",true)){vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);vibrator.vibrate(VibrationEffect.createWaveform(new long[]{650,200,650,600},new int[]{255,0,255,0},0),attributes);}
+        int fallbackMinutes=Store.p(this).getInt("fallbackMinutes",0);
+        if(fallbackMinutes>=1&&fallbackMinutes<=20)handler.postDelayed(this::startFallback,fallbackMinutes*60_000L);
         // Keep the ringing service finite if a phone is left unattended.
         handler.postDelayed(this::finish,30*60_000L);
     }
-    private void finish(){
+    private void startFallback(){
+        if(fallbackActive||current==null||player==null)return;
+        MediaPlayer backup=new MediaPlayer();
+        try{
+            backup.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
+            backup.setLooping(true);SoundLibrary.setDataSource(backup,this,"tone_12.wav");backup.prepare();backup.setVolume(1f,1f);backup.start();
+            if(volumeShaper!=null)volumeShaper.close();player.release();player=backup;volumeShaper=null;targetVolume=1f;fadeSeconds=0;fallbackActive=true;playbackBegan=SystemClock.elapsedRealtime();
+            AlarmHistory.record(this,"backup alert",current);
+            try{getSystemService(NotificationManager.class).notify(1,alarmNotification());}catch(SecurityException ignored){}
+            ((DaybreakApp)getApplication()).changed();
+        }catch(Exception e){backup.release();Store.error(this,"Backup alert could not play. The original alarm keeps ringing.");}
+    }
+    private void finish(){finish("timed out");}
+    private void finish(String event){
+        if(!"snoozed".equals(event)){
+            JSONObject batch=Store.object(this,"ringing");
+            if(batch.length()==0&&current!=null)AlarmHistory.record(this,event,current);
+            for(java.util.Iterator<String> keys=batch.keys();keys.hasNext();){JSONObject alarm=batch.optJSONObject(keys.next());if(alarm!=null)AlarmHistory.record(this,event,alarm);}
+        }
+        current=null;
         Store.put(this,"ringing",new JSONObject());Store.put(this,"current",new JSONObject());
         stopForeground(STOP_FOREGROUND_REMOVE);stopSelf();((DaybreakApp)getApplication()).changed();
         sendBroadcast(new Intent("app.daybreak.RING_DONE").setPackage(getPackageName()));

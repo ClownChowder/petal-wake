@@ -167,3 +167,11 @@ UPDATE 0.1.15 — WORK ALARM AUTHENTICATION
 - Existing 27 native alarm smoke checks passed, including recorded audio, exact alarm delivery, lock-screen controls, full-minute fade, and snooze delivery.
 - Existing 21 Quiet Focus layout and touch-target checks passed at 393px and 320px widths. Existing 21 calendar-confidence checks passed.
 - The orchestra pack contains 28 recordings and is SHA-256 pinned in SoundPacks.java. The app always has a bundled gentle fallback if that pack is absent. After publication, a live GitHub download on the Android 15 emulator passed SHA-256 verification, installation, optional recording playback, and removal.
+
+0.1.22 — SHIFT CHANGES, BACKUP ALERT, SETTINGS TRANSFER, HISTORY, VOLUME PREVIEW
+- Gradle debug APK, Android instrumentation APK, and unit tests built successfully with JDK 17 and Android SDK 35.
+- NextReleaseTest: 7 checks passed for moved/canceled/added shifts, unchanged feeds, calendar-link-free settings export, safe restore, rejection of invalid settings, and bounded private history.
+- BackupAlertTest: a real one-minute alarm switched to the standard backup ring at 100% app playback level while unattended.
+- Regression instrumentation: CalendarConnectionTest 22 checks, ConfidenceTest 21, QuietFocusTest 21, ReliabilityTest 6, and NativeSmokeTest 27 checks passed. Native smoke exercised the full one-minute fade and snooze delivery.
+- NativeSmokeTest UI/media mode: 11 checks passed. Theme UI script passed 40 palette switches, restores, and 240 SVG previews. app.js syntax check passed.
+- The APK is signed with the same existing Android debug certificate so it can update installed v0.1.21. No physical phone was connected for this build; the release was tested on Android 15 emulator.

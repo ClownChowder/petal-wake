@@ -20,13 +20,13 @@ public final class Scheduler {
         JSONObject installed=new JSONObject();
         for(Iterator<String> it=old.keys();it.hasNext();) {String id=it.next();if(!desired.has(id)){
             JSONObject pending=old.optJSONObject(id);
-            if(deliveryInProgress(c,id,pending))installed.put(id,pending);else cancel(c,id);
+            if(deliveryInProgress(c,id,pending))installed.put(id,pending);else{cancel(c,id);AlarmHistory.record(c,"removed",pending);}
         }}
         if(allowed(c))for(Iterator<String> it=desired.keys();it.hasNext();) {
             String id=it.next();JSONObject a=desired.getJSONObject(id);
             Intent show=new Intent(c,MainActivity.class).setData(Uri.parse("daybreak://show/"+Uri.encode(id)));
             PendingIntent display=PendingIntent.getActivity(c,0,show,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
-            try {m.setAlarmClock(new AlarmManager.AlarmClockInfo(a.getLong("at"),display),operation(c,id,PendingIntent.FLAG_UPDATE_CURRENT));installed.put(id,a);}
+            try {m.setAlarmClock(new AlarmManager.AlarmClockInfo(a.getLong("at"),display),operation(c,id,PendingIntent.FLAG_UPDATE_CURRENT));installed.put(id,a);JSONObject prior=old.optJSONObject(id);if(prior==null||prior.optLong("at")!=a.optLong("at"))AlarmHistory.record(c,"scheduled",a);}
             catch(SecurityException e){Store.error(c,"Allow Alarms & reminders in Android settings.");break;}
         }
         Store.put(c,"scheduled",installed);
@@ -55,6 +55,6 @@ public final class Scheduler {
     public static synchronized void snooze(Context c,JSONObject alarm)throws Exception {
         String id="snooze:"+UUID.randomUUID();long at=System.currentTimeMillis()+Store.p(c).getInt("snooze",9)*60_000L;
         JSONObject a=new JSONObject(alarm.toString()).put("id",id).put("at",at).put("kind","snooze");
-        JSONObject set=Store.object(c,"snoozes");set.put(id,a);Store.put(c,"snoozes",set);Sync.run(c,false);
+        JSONObject set=Store.object(c,"snoozes");set.put(id,a);Store.put(c,"snoozes",set);AlarmHistory.record(c,"snoozed",alarm);Sync.run(c,false);
     }
 }

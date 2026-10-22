@@ -1,0 +1,91 @@
+package app.daybreak;
+
+import android.content.Context;
+import android.content.SharedPreferences;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+
+/** Portable preferences only. Calendar URLs, events, alarms, and history never leave the app. */
+public final class SettingsTransfer {
+    private static final String[] INTS={"lead","snooze","volume","fade","allDayMinutes","earlyBefore","earlyLead","lateAfter","lateLead","eveningMinutes","fallbackMinutes"};
+    private static final String[] BOOLEANS={"vibrate","allDayEnabled","shiftRulesEnabled","eveningCheck","syncAlerts","quietPreset"};
+    private static final String[] STRINGS={"appearance","iconDesign","sound","filter"};
+
+    public static String exportJson(Context c)throws Exception{
+        SharedPreferences prefs=Store.p(c);JSONObject settings=new JSONObject();
+        for(String key:INTS)if(prefs.contains(key))settings.put(key,prefs.getInt(key,0));
+        for(String key:BOOLEANS)if(prefs.contains(key))settings.put(key,prefs.getBoolean(key,false));
+        for(String key:STRINGS)if(prefs.contains(key))settings.put(key,prefs.getString(key,""));
+        JSONArray themes=new JSONArray(),saved=Appearance.customThemes(c);
+        for(int i=0;i<saved.length();i++){
+            JSONObject source=saved.getJSONObject(i);
+            themes.put(new JSONObject().put("id",source.getString("id")).put("name",source.getString("name"))
+                .put("background",source.getString("background")).put("primary",source.getString("primary"))
+                .put("secondary",source.getString("secondary")).put("preferredText",source.getString("preferredText")));
+        }
+        return new JSONObject().put("app","Petal Wake").put("schema",1).put("settings",settings).put("customThemes",themes).toString(2);
+    }
+
+    public static void importJson(Context c,String text)throws Exception{
+        if(text==null||text.length()>262_144)throw new IllegalArgumentException("Settings file is too large.");
+        JSONObject root=new JSONObject(text);
+        if(!"Petal Wake".equals(root.optString("app"))||root.optInt("schema")!=1)throw new IllegalArgumentException("Choose a Petal Wake settings file.");
+        JSONObject settings=root.getJSONObject("settings");
+        JSONArray rawThemes=root.optJSONArray("customThemes"),themes=new JSONArray();
+        if(rawThemes!=null){
+            if(rawThemes.length()>50)throw new IllegalArgumentException("Too many custom themes in this file.");
+            Set<String> ids=new HashSet<>();
+            for(int i=0;i<rawThemes.length();i++){
+                JSONObject raw=rawThemes.getJSONObject(i);String id=raw.getString("id"),name=raw.getString("name").trim();
+                if(!id.matches("custom:[a-f0-9-]{36}")||!ids.add(id)||name.isEmpty()||name.length()>40)throw new IllegalArgumentException("Invalid custom theme.");
+                ThemeColors colors=new ThemeColors(raw.getString("background"),raw.getString("primary"),raw.getString("secondary"),raw.getString("preferredText"));
+                themes.put(new JSONObject().put("id",id).put("name",name).put("background",colors.background)
+                    .put("primary",colors.primary).put("secondary",colors.secondary).put("preferredText",colors.preferredText));
+            }
+        }
+        for(String key:INTS)if(settings.has(key)){
+            Object value=settings.get(key);if(!(value instanceof Number))throw new IllegalArgumentException("Invalid "+key+" setting.");
+            int n=((Number)value).intValue();
+            if(!validInt(key,n))throw new IllegalArgumentException("Invalid "+key+" setting.");
+        }
+        for(String key:BOOLEANS)if(settings.has(key)&&!(settings.get(key) instanceof Boolean))throw new IllegalArgumentException("Invalid "+key+" setting.");
+        for(String key:STRINGS)if(settings.has(key)&&!(settings.get(key) instanceof String))throw new IllegalArgumentException("Invalid "+key+" setting.");
+        if(settings.has("filter")&&settings.getString("filter").length()>120)throw new IllegalArgumentException("Invalid title filter.");
+        if(settings.has("sound")&&!SoundLibrary.allowed(settings.getString("sound")))throw new IllegalArgumentException("Invalid alarm sound.");
+        if(settings.has("iconDesign")&&!Arrays.asList(Appearance.ICONS).contains(settings.getString("iconDesign")))throw new IllegalArgumentException("Invalid icon design.");
+        if(settings.has("appearance")){
+            String id=settings.getString("appearance");boolean known=false;
+            for(Appearance theme:Appearance.ALL)if(theme.id.equals(id))known=true;
+            for(int i=0;i<themes.length();i++)if(themes.getJSONObject(i).getString("id").equals(id))known=true;
+            if(!known)throw new IllegalArgumentException("Invalid color theme.");
+        }
+        int early=settings.optInt("earlyBefore",Store.p(c).getInt("earlyBefore",600));
+        int late=settings.optInt("lateAfter",Store.p(c).getInt("lateAfter",720));
+        if(late<=early)throw new IllegalArgumentException("Later shift time must follow early shift time.");
+        SharedPreferences.Editor editor=Store.p(c).edit();
+        for(String key:INTS)if(settings.has(key))editor.putInt(key,settings.getInt(key));
+        for(String key:BOOLEANS)if(settings.has(key)&&!"quietPreset".equals(key))editor.putBoolean(key,settings.getBoolean(key));
+        int volume=settings.optInt("volume",Store.p(c).getInt("volume",80));
+        int fade=settings.optInt("fade",Store.p(c).getInt("fade",60));
+        editor.putBoolean("quietPreset",settings.optBoolean("quietPreset",false)&&volume==PlaybackPresets.QUIET_VOLUME&&fade==PlaybackPresets.QUIET_FADE).remove("previousPlayback");
+        for(String key:STRINGS)if(settings.has(key))editor.putString(key,settings.getString(key));
+        if(rawThemes!=null)editor.putString("customThemes",themes.toString());
+        if(!editor.commit())throw new IllegalStateException("Could not save settings.");
+        Appearance.syncLauncher(c);Sync.run(c,false);
+    }
+
+    private static boolean validInt(String key,int n){
+        switch(key){
+            case "lead":case "earlyLead":case "lateLead":return n>=0&&n<=1440;
+            case "snooze":return n>=1&&n<=60;
+            case "volume":return n>=10&&n<=100;
+            case "fade":return n==0||n==5||n==15||n==30||n==60||n==120;
+            case "fallbackMinutes":return n==0||n==5||n==10||n==15;
+            default:return n>=0&&n<=1439;
+        }
+    }
+    private SettingsTransfer(){}
+}
