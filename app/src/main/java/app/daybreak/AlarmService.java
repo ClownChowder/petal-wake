@@ -22,7 +22,7 @@ public class AlarmService extends Service {
     }
     public static void createChannel(Context c){
         NotificationChannel ch=new NotificationChannel(CHANNEL,"Wake-up alarms",NotificationManager.IMPORTANCE_HIGH);
-        ch.setDescription("Scheduled work and personal alarms");ch.setSound(null,null);ch.enableVibration(false);ch.setLockscreenVisibility(Notification.VISIBILITY_PUBLIC);
+        ch.setDescription("Scheduled work and personal alarms");ch.setSound(null,null);ch.enableVibration(false);ch.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
         ((NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE)).createNotificationChannel(ch);
     }
     private PendingIntent action(String action){return PendingIntent.getService(this,action.hashCode(),new Intent(this,AlarmService.class).setAction(action),PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);}
@@ -62,7 +62,7 @@ public class AlarmService extends Service {
         PendingIntent full=PendingIntent.getActivity(this,10,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
         int count=Store.object(this,"ringing").length();
         String title=count>1?count+" alarms · "+current.optString("title","Time to wake up"):current.optString("title","Time to wake up");
-        return new Notification.Builder(this,CHANNEL).setSmallIcon(app.daybreak.R.drawable.ic_alarm_notification).setColor(Appearance.current(this).surface).setColorized(true).setOnlyAlertOnce(true).setContentTitle(title).setContentText(fallbackActive?"Backup alert sounding · hold I’m up to dismiss":"Time to wake up · hold I’m up to dismiss or tap Snooze").setCategory(Notification.CATEGORY_ALARM).setVisibility(Notification.VISIBILITY_PUBLIC).setOngoing(true).setContentIntent(full).setFullScreenIntent(full,true)
+        return new Notification.Builder(this,CHANNEL).setSmallIcon(app.daybreak.R.drawable.ic_alarm_notification).setColor(Appearance.current(this).surface).setColorized(true).setOnlyAlertOnce(true).setContentTitle(title).setContentText(fallbackActive?"Backup alert sounding · hold I’m up to dismiss":"Time to wake up · hold I’m up to dismiss or tap Snooze").setCategory(Notification.CATEGORY_ALARM).setVisibility(Store.p(this).getBoolean("privateLockScreen",true)?Notification.VISIBILITY_PRIVATE:Notification.VISIBILITY_PUBLIC).setPublicVersion(new Notification.Builder(this,CHANNEL).setSmallIcon(R.drawable.ic_alarm_notification).setContentTitle("Petal Wake alarm").setContentText("Alarm sounding").build()).setOngoing(true).setContentIntent(full).setFullScreenIntent(full,true)
             .addAction(new Notification.Action.Builder(null,"Snooze",action("SNOOZE")).build())
             .addAction(new Notification.Action.Builder(null,"I’m up",full).build()).build();
     }

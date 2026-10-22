@@ -19,26 +19,31 @@ final class WorkAlarmAuthorization {
     private Runnable pending;
     private int generation;
     private boolean destroyed;
+    private String failureMessage="Work alarms remain on.";
 
     WorkAlarmAuthorization(Activity activity,Runnable changed,Consumer<String> message){
         this.activity=activity;this.changed=changed;this.message=message;
     }
     boolean isPending(){return pending!=null;}
     void request(String title,String description,Runnable action){
+        request(title,description,action,"Work alarms remain on.");
+    }
+    void request(String title,String description,Runnable action,String onFailure){
         if(destroyed||isPending())return;
+        failureMessage=onFailure;
         KeyguardManager keyguard=activity.getSystemService(KeyguardManager.class);
         if(keyguard==null||!keyguard.isDeviceSecure()){
-            message.accept("Set up a screen lock in Android Settings first. Work alarms remain on.");changed.run();return;
+            message.accept("Set up a screen lock in Android Settings first. "+failureMessage);changed.run();return;
         }
         pending=action;int token=++generation;changed.run();
         try{
             if(Build.VERSION.SDK_INT>=29)prompt(title,description,token);
             else{
                 Intent intent=keyguard.createConfirmDeviceCredentialIntent(title,description);
-                if(intent==null){finish(token,false,"Authentication is unavailable. Work alarms remain on.");return;}
+                if(intent==null){finish(token,false,"Authentication is unavailable. "+failureMessage);return;}
                 activity.startActivityForResult(intent,CREDENTIAL_REQUEST);
             }
-        }catch(RuntimeException error){finish(token,false,"Could not open Android authentication. Work alarms remain on.");}
+        }catch(RuntimeException error){finish(token,false,"Could not open Android authentication. "+failureMessage);}
     }
     @android.annotation.TargetApi(29)
     private void prompt(String title,String description,int token){
@@ -51,13 +56,13 @@ final class WorkAlarmAuthorization {
         cancellation=new CancellationSignal();
         builder.build().authenticate(cancellation,activity.getMainExecutor(),new BiometricPrompt.AuthenticationCallback(){
             @Override public void onAuthenticationSucceeded(BiometricPrompt.AuthenticationResult result){finish(token,true,null);}
-            @Override public void onAuthenticationError(int code,CharSequence text){finish(token,false,"Authentication canceled or unavailable. Work alarms remain on.");}
+            @Override public void onAuthenticationError(int code,CharSequence text){finish(token,false,"Authentication canceled or unavailable. "+failureMessage);}
             // A failed recognition leaves the system prompt open for another try or the screen lock.
         });
     }
     boolean onActivityResult(int request,int result){
         if(request!=CREDENTIAL_REQUEST)return false;
-        finish(generation,result==Activity.RESULT_OK,result==Activity.RESULT_OK?null:"Authentication canceled. Work alarms remain on.");return true;
+        finish(generation,result==Activity.RESULT_OK,result==Activity.RESULT_OK?null:"Authentication canceled. "+failureMessage);return true;
     }
     private void finish(int token,boolean success,String text){
         if(destroyed||token!=generation||pending==null)return;

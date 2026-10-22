@@ -1,8 +1,8 @@
 # Petal Wake
 
-Petal Wake is an Android alarm app that schedules work wake-ups from shared iCalendar feeds and offers gentle recorded music and nature sounds. This repository contains the source for version **0.1.22** (Android version code 23).
+Petal Wake is an Android alarm app that schedules work wake-ups from shared iCalendar feeds and offers gentle recorded music and nature sounds. This repository contains the source for version **0.1.23** (Android version code 24).
 
-Download the signed APK from the [v0.1.22 release](https://github.com/ClownChowder/petal-wake/releases/tag/v0.1.22). That release also includes the compatible optional orchestra pack, checksums, and an exact version-specific `petal-wake-source.zip` archive. The `main` branch contains the same v0.1.22 source.
+Download the signed APK from the [v0.1.23 release](https://github.com/ClownChowder/petal-wake/releases/tag/v0.1.23). That release also includes the compatible optional orchestra pack, checksums, and an exact version-specific `petal-wake-source.zip` archive. The `main` branch contains the same v0.1.23 source.
 
 See [README.txt](README.txt) for setup, calendar sharing, features, practical limits, and testing notes. See [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt) and [CREDITS.txt](CREDITS.txt) for audio and upstream attribution.
 
@@ -20,7 +20,7 @@ Obtainium detects published releases. Updating the app requires a new APK signed
 
 ## Build
 
-Install JDK 17 and the Android SDK for API 35, set up the SDK path through `ANDROID_HOME` or a local `local.properties`, and run `./gradlew assembleDebug`. These personal preview APKs use the same local Android debug signing certificate so they update existing installs. The signing key is not in this repository. A future public release should use a dedicated protected key and plan how existing installs will migrate. The included [VALIDATION.txt](VALIDATION.txt) records checks for this release.
+Install JDK 17 and the Android SDK for API 35, set up the SDK path through `ANDROID_HOME` or a local `local.properties`, and run `./gradlew assembleDebug`. These personal preview APKs use the same local Android debug signing certificate so they update existing installs. The signing key is not in this repository. A future public release should use a dedicated protected key after testing migration from the existing certificate. See [RELEASE_SIGNING.md](RELEASE_SIGNING.md). The included [VALIDATION.txt](VALIDATION.txt) records checks for this release.
 
 ## Credits
 

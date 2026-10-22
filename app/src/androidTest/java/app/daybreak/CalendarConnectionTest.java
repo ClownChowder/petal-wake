@@ -30,7 +30,7 @@ public class CalendarConnectionTest extends Instrumentation {
     private String js(String code)throws Exception{CountDownLatch latch=new CountDownLatch(1);String[] result={null};runOnMainSync(()->web.evaluateJavascript(code,value->{result[0]=value;latch.countDown();}));if(!latch.await(5,TimeUnit.SECONDS))throw new Exception("WebView did not respond");return result[0];}
     private void await(Callable<Boolean> condition)throws Exception{long end=System.currentTimeMillis()+12000;while(System.currentTimeMillis()<end){if(condition.call())return;Thread.sleep(100);}throw new Exception("Expected calendar result was not shown");}
     private void check(boolean pass,String message)throws Exception{if(!pass)throw new Exception(message);checks++;Bundle b=new Bundle();b.putString("passed",message);sendStatus(0,b);}
-    private void connect(String path)throws Exception{js("page('calendar');$('calendarUrl').value='https://fixture.invalid"+path+"';$('connectForm').requestSubmit()");await(()->"false".equals(js("busy")));}
+    private void connect(String path)throws Exception{js("page('calendar');$('calendarUrl').value='https://fixture.invalid"+path+"';$('connectForm').requestSubmit();if($('confirmDialog').open)$('yesConfirm').click()");await(()->"false".equals(js("busy")));}
     private void io(Runnable action)throws Exception{DaybreakApp.IO.submit(action).get(10,TimeUnit.SECONDS);}
     private void capture(String name)throws Exception{Thread.sleep(200);android.graphics.Bitmap bitmap=getUiAutomation().takeScreenshot();java.io.File folder=new java.io.File(context.getFilesDir(),"qa");folder.mkdirs();try(java.io.FileOutputStream out=new java.io.FileOutputStream(new java.io.File(folder,name+".png"))){bitmap.compress(android.graphics.Bitmap.CompressFormat.PNG,100,out);}bitmap.recycle();}
     private void updateUI()throws Exception{js("send('state')");await(()->"true".equals(js("!!st")));Thread.sleep(150);}
@@ -69,7 +69,7 @@ public class CalendarConnectionTest extends Instrumentation {
         check("true".equals(js("$('calendarFeedback').textContent.includes('Full view')")),"Availability-only feed offers Full view guidance");
         connect("/forbidden.ics");check("true".equals(js("$('calendarFeedback').textContent.includes('403')")),"HTTP failure stays visible on Calendar screen");
         check("true".equals(js("$('calendarUrl').value.endsWith('/forbidden.ics')")),"Failed connection retains link for correction");
-        check(Store.p(context).getString("url","").endsWith("/availability.ics"),"Failed replacement preserves working connection");
+        check(Store.url(context).endsWith("/availability.ics"),"Failed replacement preserves working connection");
         io(()->{Store.p(context).edit().clear().commit();try{Store.cache(context,"");Sync.run(context,false);}catch(Exception e){throw new RuntimeException(e);}});
         result.putString("summary",checks+" calendar connection regression checks passed");finish(Activity.RESULT_OK,result);
     }catch(Throwable error){result.putString("error",error.toString());finish(Activity.RESULT_CANCELED,result);}}

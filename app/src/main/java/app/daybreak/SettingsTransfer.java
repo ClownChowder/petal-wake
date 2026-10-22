@@ -11,7 +11,7 @@ import java.util.Set;
 /** Portable preferences only. Calendar URLs, events, alarms, and history never leave the app. */
 public final class SettingsTransfer {
     private static final String[] INTS={"lead","snooze","volume","fade","allDayMinutes","earlyBefore","earlyLead","lateAfter","lateLead","eveningMinutes","fallbackMinutes"};
-    private static final String[] BOOLEANS={"vibrate","allDayEnabled","shiftRulesEnabled","eveningCheck","syncAlerts","quietPreset"};
+    private static final String[] BOOLEANS={"vibrate","allDayEnabled","shiftRulesEnabled","eveningCheck","syncAlerts","quietPreset","privateLockScreen"};
     private static final String[] STRINGS={"appearance","iconDesign","sound","filter"};
 
     public static String exportJson(Context c)throws Exception{

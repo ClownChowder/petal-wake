@@ -12,12 +12,18 @@ import java.util.UUID;
 public final class CalendarSources {
     private static final String KEY="extraCalendars";
     public static JSONArray extras(Context c){return Store.array(c,KEY);}
+    public static String link(Context c,String id){JSONArray list=extras(c);for(int i=0;i<list.length();i++){JSONObject item=list.optJSONObject(i);if(item!=null&&id.equals(item.optString("id")))return item.optString("url");}return "";}
     public static boolean hasPrimary(Context c){return !Store.p(c).getString("source","").isEmpty();}
-    public static String data(Context c,String id){try{return new String(Files.readAllBytes(file(c,id).toPath()),StandardCharsets.UTF_8);}catch(Exception e){return "";}}
+    public static String data(Context c,String id){
+        File path=file(c,id);if(!path.exists())return "";
+        try{String saved=new String(Files.readAllBytes(path.toPath()),StandardCharsets.UTF_8);String plain=PrivateStorage.open(saved);if(!PrivateStorage.encrypted(saved))data(c,id,plain);return plain;}
+        catch(IOException e){throw new IllegalStateException("Saved calendar could not be read. Existing alarms were kept.",e);}
+        catch(Exception e){throw new IllegalStateException("Saved calendar could not be secured. Existing alarms were kept.",e);}
+    }
     private static File file(Context c,String id){if(!id.matches("[a-f0-9-]{36}"))throw new IllegalArgumentException("Invalid calendar ID.");return new File(c.getFilesDir(),"calendar-"+id+".ics");}
     public static void data(Context c,String id,String value)throws Exception{
         AtomicFile target=new AtomicFile(file(c,id));FileOutputStream stream=target.startWrite();
-        try{stream.write(value.getBytes(StandardCharsets.UTF_8));target.finishWrite(stream);}catch(Exception e){target.failWrite(stream);throw e;}
+        try{stream.write(PrivateStorage.seal(value).getBytes(StandardCharsets.UTF_8));target.finishWrite(stream);}catch(Exception e){target.failWrite(stream);throw e;}
     }
     public static void add(Context c,String name,String url)throws Exception{
         if(!hasPrimary(c))throw new IOException("Connect your first work calendar before adding another.");

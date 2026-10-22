@@ -2,12 +2,13 @@ plugins { id 'com.android.application' }
 android {
     namespace 'app.daybreak'
     compileSdk 35
-    defaultConfig { applicationId 'app.daybreak'; minSdk 26; targetSdk 35; versionCode 23; versionName '0.1.22'; testInstrumentationRunner 'app.daybreak.NativeSmokeTest' }
+    defaultConfig { applicationId 'app.daybreak'; minSdk 26; targetSdk 35; versionCode 24; versionName '0.1.23'; testInstrumentationRunner 'app.daybreak.NativeSmokeTest' }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
     buildTypes { release { minifyEnabled false } }
     androidResources { noCompress += ['m4a', 'wav'] }
 }
 dependencies {
     implementation('net.sf.biweekly:biweekly:0.6.8') { exclude group: 'com.fasterxml.jackson.core'; exclude group: 'org.jsoup' }
+    implementation 'androidx.webkit:webkit:1.12.1'
     testImplementation 'junit:junit:4.13.2'
 }

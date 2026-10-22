@@ -28,7 +28,7 @@ public class NextReleaseTest extends Instrumentation {
         JSONObject backup=new JSONObject(exported);backup.getJSONObject("settings").put("volume",65).put("fallbackMinutes",10);
         SettingsTransfer.importJson(c,backup.toString());
         check(Store.p(c).getInt("volume",0)==65&&Store.p(c).getInt("fallbackMinutes",0)==10,"Playback and backup-alert settings restore");
-        check(privateUrl.equals(Store.p(c).getString("url","")),"Settings restore preserves the private calendar link already on the phone");
+        check(privateUrl.equals(Store.url(c))&&!Store.p(c).contains("url")&&!Store.p(c).getString("secureUrl","").contains("secret.example"),"Settings restore preserves and encrypts the private calendar link already on the phone");
         backup.getJSONObject("settings").put("volume",999);boolean rejected=false;try{SettingsTransfer.importJson(c,backup.toString());}catch(IllegalArgumentException expected){rejected=true;}
         check(rejected&&Store.p(c).getInt("volume",0)==65,"Invalid settings are rejected before saved preferences change");
         for(int i=0;i<120;i++)AlarmHistory.record(c,"rang",new JSONObject().put("kind","manual").put("title","Private title"));

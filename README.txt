@@ -1,6 +1,14 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.22
+PETAL WAKE — ANDROID ALARM APP 0.1.23
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.23 — CALENDAR PRIVACY & SETUP
+- Calendar sharing links and downloaded .ics caches are encrypted with a device-bound Android Keystore key. Existing links and caches migrate in place when read. Already scheduled alarms stay scheduled if decryption fails; reconnect the calendar if Android has removed its key.
+- Calendar setup now recommends a dedicated work-only calendar and explains Proton sharing. Petal Wake currently needs Full view to receive shift events; Proton Limited view may contain only availability blocks and cannot schedule alarms. Keep a work-only Full view link private.
+- Replacing a link asks for confirmation and downloads the new calendar before saving it. After checking new shifts, revoke the old link in the calendar service. A saved link can be copied only after Android authentication, and the clipboard is marked sensitive.
+- Lock-screen privacy hides alarm details by default; it can be changed under Settings > Calendars & privacy. Settings are divided into Wake-up, Calendars & privacy, Appearance, and Diagnostics. A first-run checklist helps verify the next alarm.
+- The app's local WebView now uses a scoped HTTPS asset origin and main-frame, origin-checked messages rather than an all-frame JavaScript interface. The settings export remains private and now includes the lock-screen preference.
+- The existing APK signing certificate remains unchanged for Obtainium update compatibility. See RELEASE_SIGNING.md for the dedicated-key migration plan.
 
 VERSION 0.1.22 — ALARM SAFETY & SETTINGS
 - After a successful calendar download, changed, added, or removed future work wake-ups appear in local activity history. A private notification summarizes the changes while work alarms are enabled. A provider can still delay publishing a change; Petal Wake cannot detect it before the feed changes.
@@ -25,7 +33,7 @@ For a paid Proton account:
 - Under "Share with anyone", create and copy a sharing link.
 - Paste it into Petal Wake > Calendar > Calendar sharing link.
 - A calendar containing only work shifts is easiest: leave the title filter blank.
-- Limited view works for a work-only calendar; Full view is needed for filtering by title. Proton's link gives anyone who has it access to the details you choose to share. Petal Wake stores the link on your phone and fetches the calendar directly; it does not send it to an app server.
+- Choose Full view for Petal Wake, even on a work-only calendar. Limited view may contain only availability blocks, which Petal Wake identifies but cannot turn into work alarms. Anyone holding the link can see the event details, so use a separate work-only calendar and revoke unused links. Petal Wake encrypts the link on your phone and fetches the calendar directly; it does not send it to an app server.
 
 For a free Proton account, or if you prefer files:
 - Export the work calendar from Proton Calendar's web Import/export settings.

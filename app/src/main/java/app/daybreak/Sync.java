@@ -28,21 +28,22 @@ public final class Sync {
     }
     public static void connect(Context c,String url)throws Exception {
         String normalized=url.trim().replaceFirst("^webcal:","https:");
-        String data=download(normalized);validate(data);Store.cache(c,data);
-        Store.p(c).edit().putString("url",normalized).putString("source","Shared calendar link").putLong("lastSync",System.currentTimeMillis()).putString("error","").commit();
+        String data=download(normalized);validate(data);Store.cache(c,data);Store.setUrl(c,normalized);
+        Store.p(c).edit().putString("source","Shared calendar link").putLong("lastSync",System.currentTimeMillis()).putString("error","").commit();
         CalendarConfidence.succeeded(c);CalendarConfidence.attempted(c);run(c,false);
     }
     public static void importFile(Context c,String data)throws Exception {
         validate(data);Store.cache(c,data);
-        Store.p(c).edit().remove("url").putString("source","Imported calendar file").putLong("lastSync",System.currentTimeMillis()).putString("error","").commit();CalendarConfidence.reset(c);run(c,false);
+        Store.setUrl(c,"");Store.p(c).edit().putString("source","Imported calendar file").putLong("lastSync",System.currentTimeMillis()).putString("error","").commit();CalendarConfidence.reset(c);run(c,false);
     }
     private static void validate(String data){CalendarReader.read(data,System.currentTimeMillis()-DAY,System.currentTimeMillis()+60*DAY);}
     public static void run(Context c,boolean fetch) {
         var p=Store.p(c);long now=System.currentTimeMillis();String error="";boolean downloaded=false;JSONArray previousShifts=Store.array(c,"shifts");
-        if(fetch&&!p.getString("url","").trim().isEmpty()) {
+        String primaryUrl=Store.url(c);
+        if(fetch&&!primaryUrl.trim().isEmpty()) {
             CalendarConfidence.attempted(c);
-            try{String data=download(p.getString("url",""));validate(data);Store.cache(c,data);p.edit().putLong("lastSync",System.currentTimeMillis()).commit();CalendarConfidence.succeeded(c);downloaded=true;}
-            catch(Exception e){CalendarConfidence.failed(c);error=e.getMessage()==null?"Refresh failed. Existing offline alarms are kept.":e.getMessage();}
+            try{String data=download(primaryUrl);validate(data);Store.cache(c,data);p.edit().putLong("lastSync",System.currentTimeMillis()).commit();CalendarConfidence.succeeded(c);downloaded=true;}
+            catch(Exception e){CalendarConfidence.failed(c);error=e.getMessage()==null?"Refresh failed. Existing offline alarms are kept.":Store.safeError(e.getMessage());}
         }
         JSONArray extras=CalendarSources.extras(c);
         if(fetch){
@@ -52,7 +53,7 @@ public final class Sync {
                 try{
                     String body=download(source.getString("url"));validate(body);CalendarSources.data(c,source.getString("id"),body);
                     source.put("lastSync",System.currentTimeMillis()).put("error","").put("failures",0).remove("firstFailure");downloaded=true;
-                }catch(Exception e){source.put("error",e.getMessage()==null?"Download failed.":e.getMessage()).put("failures",Math.min(1000,source.optInt("failures",0)+1));if(source.optLong("firstFailure")<=0)source.put("firstFailure",attempted);}
+                }catch(Exception e){source.put("error",e.getMessage()==null?"Download failed.":Store.safeError(e.getMessage())).put("failures",Math.min(1000,source.optInt("failures",0)+1));if(source.optLong("firstFailure")<=0)source.put("firstFailure",attempted);}
             }catch(Exception ignored){}
             Store.put(c,"extraCalendars",extras);
         }
@@ -99,7 +100,7 @@ public final class Sync {
             Store.put(c,"calendarInfo",new JSONObject().put("events",totals.events).put("timed",totals.timed).put("allDay",totals.allDay).put("cancelled",totals.cancelled).put("missingStart",totals.missingStart).put("availability",totals.availability).put("upcomingTimed",upcomingTimed).put("upcomingAllDay",upcomingAllDay).put("filtered",filtered).put("needsTime",needsTimeCount).put("windowDays",60));
             Scheduler.reconcile(c,desired);
             if(downloaded&&p.getBoolean("enabled",false))ShiftChanges.publish(c,ShiftChanges.diff(previousShifts,visible,now));
-        } catch(Exception e){error="Calendar could not be read. Existing alarms are kept. "+(e.getMessage()==null?"":e.getMessage());}
+        } catch(Exception e){error="Calendar could not be read. Existing alarms are kept. "+Store.safeError(e.getMessage());}
         Store.error(c,error);
         CalendarConfidence.update(c);
         EveningCheck.update(c);
