@@ -1,0 +1,556 @@
+PETAL WAKE — RECORDED ORCHESTRAL SOUND LIBRARY
+
+32 excerpts from 32 different orchestral movements/works. Each excerpt is 90 seconds and comes from a real instrumental performance, not MIDI or a synthesized orchestra.
+
+Musopen commissioned and released these performances for reuse. Musopen identifies the recordings as public-domain material in its project announcement; the linked Internet Archive compilation is marked Public Domain Mark 1.0.
+Publisher statement: https://musopen.org/blog/musopen-kickstarter-project-1-complete/
+Compilation: https://archive.org/details/musopen-dvd
+Rights metadata: https://archive.org/metadata/musopen-dvd
+Public Domain Mark: https://creativecommons.org/publicdomain/mark/1.0/
+
+Edits: excerpts selected, loudness normalized to -20 LUFS / -3 dBTP target, gentle boundary fades, encoded as stereo AAC at 192 kb/s and 44.1 kHz. No pitch or tempo alteration.
+
+orchestra_01.m4a — Morning Mood — Edvard Grieg
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Grieg - Peer Gynt/Peer Gynt Suite No. 1, Op. 46 - I. Morning.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FGrieg%20-%20Peer%20Gynt%2FPeer%20Gynt%20Suite%20No.%201%2C%20Op.%2046%20-%20I.%20Morning.mp3
+Excerpt: 2–92 seconds
+License: Public Domain Mark 1.0
+
+orchestra_02.m4a — The Death of Åse — Edvard Grieg
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Grieg - Peer Gynt/Peer Gynt Suite No. 1, Op. 46 - II. Aase's Death.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FGrieg%20-%20Peer%20Gynt%2FPeer%20Gynt%20Suite%20No.%201%2C%20Op.%2046%20-%20II.%20Aase%27s%20Death.mp3
+Excerpt: 138–228 seconds
+License: Public Domain Mark 1.0
+
+orchestra_03.m4a — In the Steppes of Central Asia — Alexander Borodin
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Borodin - In The Steppes Of Central Asia/In The Steppes of Central Asia.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBorodin%20-%20In%20The%20Steppes%20Of%20Central%20Asia%2FIn%20The%20Steppes%20of%20Central%20Asia.mp3
+Excerpt: 8–98 seconds
+License: Public Domain Mark 1.0
+
+orchestra_04.m4a — Symphony No. 1 · Andante sostenuto — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No 1 in C Major/Symphony No. 1 in C Minor, Op. 68 - II. Andante sostenuto.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No%201%20in%20C%20Major%2FSymphony%20No.%201%20in%20C%20Minor%2C%20Op.%2068%20-%20II.%20Andante%20sostenuto.mp3
+Excerpt: 33–123 seconds
+License: Public Domain Mark 1.0
+
+orchestra_05.m4a — Symphony No. 1 · Allegretto grazioso — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No 1 in C Major/Symphony No. 1 in C Minor, Op. 68 - III. Un poco allegretto e grazioso.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No%201%20in%20C%20Major%2FSymphony%20No.%201%20in%20C%20Minor%2C%20Op.%2068%20-%20III.%20Un%20poco%20allegretto%20e%20grazioso.mp3
+Excerpt: 13–103 seconds
+License: Public Domain Mark 1.0
+
+orchestra_06.m4a — Symphony No. 2 · Adagio non troppo — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No2 in D major/Symphon No. 2 in D Major, Op. 73 - II. Adagio non toppo.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No2%20in%20D%20major%2FSymphon%20No.%202%20in%20D%20Major%2C%20Op.%2073%20-%20II.%20Adagio%20non%20toppo.mp3
+Excerpt: 18–108 seconds
+License: Public Domain Mark 1.0
+
+orchestra_07.m4a — Symphony No. 2 · Allegretto grazioso — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No2 in D major/Symphon No. 2 in D Major, Op. 73 - III. Allegretto Grazioso (take 2).mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No2%20in%20D%20major%2FSymphon%20No.%202%20in%20D%20Major%2C%20Op.%2073%20-%20III.%20Allegretto%20Grazioso%20%28take%202%29.mp3
+Excerpt: 173–263 seconds
+License: Public Domain Mark 1.0
+
+orchestra_08.m4a — Symphony No. 3 · Andante — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No 3/Symphony No. 3 in F Major, Op. 90 - II. Andante.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No%203%2FSymphony%20No.%203%20in%20F%20Major%2C%20Op.%2090%20-%20II.%20Andante.mp3
+Excerpt: 3–93 seconds
+License: Public Domain Mark 1.0
+
+orchestra_09.m4a — Symphony No. 3 · Poco allegretto — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No 3/Symphony No. 3 in F Major, Op. 90 - III. Poco allegretto.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No%203%2FSymphony%20No.%203%20in%20F%20Major%2C%20Op.%2090%20-%20III.%20Poco%20allegretto.mp3
+Excerpt: 113–203 seconds
+License: Public Domain Mark 1.0
+
+orchestra_10.m4a — Symphony No. 4 · Andante moderato — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No 4 in E minor/Symphony No. 4 in E Minor, Op. 98 - II. Andante Moderato.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No%204%20in%20E%20minor%2FSymphony%20No.%204%20in%20E%20Minor%2C%20Op.%2098%20-%20II.%20Andante%20Moderato.mp3
+Excerpt: 213–303 seconds
+License: Public Domain Mark 1.0
+
+orchestra_11.m4a — Italian Symphony · Andante con moto — Felix Mendelssohn
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Mendelssohn - Italian Symphony/Symphon No. 4 in A Major, Op. 90 'Italian' - II. Andante con moto.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FMendelssohn%20-%20Italian%20Symphony%2FSymphon%20No.%204%20in%20A%20Major%2C%20Op.%2090%20%27Italian%27%20-%20II.%20Andante%20con%20moto.mp3
+Excerpt: 8–98 seconds
+License: Public Domain Mark 1.0
+
+orchestra_12.m4a — Italian Symphony · Con moto moderato — Felix Mendelssohn
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Mendelssohn - Italian Symphony/Symphon No. 4 in A Major, Op. 90 'Italian' - III. Con moto moderato.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FMendelssohn%20-%20Italian%20Symphony%2FSymphon%20No.%204%20in%20A%20Major%2C%20Op.%2090%20%27Italian%27%20-%20III.%20Con%20moto%20moderato.mp3
+Excerpt: 3–93 seconds
+License: Public Domain Mark 1.0
+
+orchestra_13.m4a — Scottish Symphony · Andante con moto — Felix Mendelssohn
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Mendelssohn - Scottish Symphony/Symphony No. 3 in A Minor Scottish, Op. 56 - I. Andante con moto.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FMendelssohn%20-%20Scottish%20Symphony%2FSymphony%20No.%203%20in%20A%20Minor%20Scottish%2C%20Op.%2056%20-%20I.%20Andante%20con%20moto.mp3
+Excerpt: 503–593 seconds
+License: Public Domain Mark 1.0
+
+orchestra_14.m4a — Scottish Symphony · Adagio — Felix Mendelssohn
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Mendelssohn - Scottish Symphony/Symphony No. 3 in A Minor Scottish, Op. 56 - III. Adagio.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FMendelssohn%20-%20Scottish%20Symphony%2FSymphony%20No.%203%20in%20A%20Minor%20Scottish%2C%20Op.%2056%20-%20III.%20Adagio.mp3
+Excerpt: 33–123 seconds
+License: Public Domain Mark 1.0
+
+orchestra_15.m4a — Symphony No. 40 · Andante — Wolfgang Amadeus Mozart
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Mozart - Symphony No 40 in G Minor /Symphony No. 40 in G Minor, K. 550 - II. Andante.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FMozart%20-%20Symphony%20No%2040%20in%20G%20Minor%20%2FSymphony%20No.%2040%20in%20G%20Minor%2C%20K.%20550%20-%20II.%20Andante.mp3
+Excerpt: 3–93 seconds
+License: Public Domain Mark 1.0
+
+orchestra_16.m4a — Pathétique · Allegro con grazia — Pyotr Ilyich Tchaikovsky
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Tchaikovsky - Symphony Pathetique/Symphony No. 6 in B minor, Op. 74, 'Pathetique' - II. Allegro con gracia.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FTchaikovsky%20-%20Symphony%20Pathetique%2FSymphony%20No.%206%20in%20B%20minor%2C%20Op.%2074%2C%20%27Pathetique%27%20-%20II.%20Allegro%20con%20gracia.mp3
+Excerpt: 3–93 seconds
+License: Public Domain Mark 1.0
+
+orchestra_17.m4a — Pathétique · Adagio lamentoso — Pyotr Ilyich Tchaikovsky
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Tchaikovsky - Symphony Pathetique/Symphony No. 6 in B minor, Op. 74, 'Pathetique' - IV. Finale Adagio lamentoso.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FTchaikovsky%20-%20Symphony%20Pathetique%2FSymphony%20No.%206%20in%20B%20minor%2C%20Op.%2074%2C%20%27Pathetique%27%20-%20IV.%20Finale%20Adagio%20lamentoso.mp3
+Excerpt: 58–148 seconds
+License: Public Domain Mark 1.0
+
+orchestra_18.m4a — The Hebrides · Fingal’s Cave — Felix Mendelssohn
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Mendelssohn - Hebrides/Hebrides Overture Fingal's Cave.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FMendelssohn%20-%20Hebrides%2FHebrides%20Overture%20Fingal%27s%20Cave.mp3
+Excerpt: 263–353 seconds
+License: Public Domain Mark 1.0
+
+orchestra_19.m4a — Vltava · The River — Bedřich Smetana
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Smetana - Vltava/Ma Vlast (My Fatherland) - Vltava.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FSmetana%20-%20Vltava%2FMa%20Vlast%20%28My%20Fatherland%29%20-%20Vltava.mp3
+Excerpt: 303–393 seconds
+License: Public Domain Mark 1.0
+
+orchestra_20.m4a — Eroica · Adagio assai — Ludwig van Beethoven
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Beethoven - Symphony No 3 Eroica/Symphony No. 3 in E Flat Major Eroica, Op. 55 - II. Marcia funebre Adagio assai.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBeethoven%20-%20Symphony%20No%203%20Eroica%2FSymphony%20No.%203%20in%20E%20Flat%20Major%20Eroica%2C%20Op.%2055%20-%20II.%20Marcia%20funebre%20Adagio%20assai.mp3
+Excerpt: 23–113 seconds
+License: Public Domain Mark 1.0
+
+orchestra_21.m4a — Anitra’s Dance — Edvard Grieg
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Grieg - Peer Gynt/Peer Gynt Suite No. 1, Op. 46 - III. Anitra's Dream.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FGrieg%20-%20Peer%20Gynt%2FPeer%20Gynt%20Suite%20No.%201%2C%20Op.%2046%20-%20III.%20Anitra%27s%20Dream.mp3
+Excerpt: 8–98 seconds
+License: Public Domain Mark 1.0
+
+orchestra_22.m4a — Symphony No. 2 · Allegro non troppo — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No2 in D major/Symphon No. 2 in D Major, Op. 73 - I. Allegro non troppo.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No2%20in%20D%20major%2FSymphon%20No.%202%20in%20D%20Major%2C%20Op.%2073%20-%20I.%20Allegro%20non%20troppo.mp3
+Excerpt: 578–668 seconds
+License: Public Domain Mark 1.0
+
+orchestra_23.m4a — Symphony No. 4 · Allegro non troppo — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No 4 in E minor/Symphony No. 4 in E Minor, Op. 98 - I. Allegro Non Troppo.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No%204%20in%20E%20minor%2FSymphony%20No.%204%20in%20E%20Minor%2C%20Op.%2098%20-%20I.%20Allegro%20Non%20Troppo.mp3
+Excerpt: 373–463 seconds
+License: Public Domain Mark 1.0
+
+orchestra_24.m4a — Symphony No. 1 · Adagio opening — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No 1 in C Major/Symphony No. 1 in C Minor, Op. 68 - IV. Adagio - Più andante - Allegro non troppo, ma con brio.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No%201%20in%20C%20Major%2FSymphony%20No.%201%20in%20C%20Minor%2C%20Op.%2068%20-%20IV.%20Adagio%20-%20Piu%CC%80%20andante%20-%20Allegro%20non%20troppo%2C%20ma%20con%20brio.mp3
+Excerpt: 138–228 seconds
+License: Public Domain Mark 1.0
+
+orchestra_25.m4a — Symphony No. 3 · Finale — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No 3/Symphony No. 3 in F Major, Op. 90 - IV. Allegro.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No%203%2FSymphony%20No.%203%20in%20F%20Major%2C%20Op.%2090%20-%20IV.%20Allegro.mp3
+Excerpt: 408–498 seconds
+License: Public Domain Mark 1.0
+
+orchestra_26.m4a — Symphony No. 4 · Passacaglia — Johannes Brahms
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Brahms - Symphony No 4 in E minor/Symphony No. 4 in E Minor, Op. 98 - IV. Allegro Energico e Passionato.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBrahms%20-%20Symphony%20No%204%20in%20E%20minor%2FSymphony%20No.%204%20in%20E%20Minor%2C%20Op.%2098%20-%20IV.%20Allegro%20Energico%20e%20Passionato.mp3
+Excerpt: 198–288 seconds
+License: Public Domain Mark 1.0
+
+orchestra_27.m4a — Symphony No. 40 · Molto allegro — Wolfgang Amadeus Mozart
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Mozart - Symphony No 40 in G Minor /1st Mov Molto allegro.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FMozart%20-%20Symphony%20No%2040%20in%20G%20Minor%20%2F1st%20Mov%20Molto%20allegro.mp3
+Excerpt: 48–138 seconds
+License: Public Domain Mark 1.0
+
+orchestra_28.m4a — Symphony No. 40 · Menuetto — Wolfgang Amadeus Mozart
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Mozart - Symphony No 40 in G Minor /Symphony No. 40 in G Minor, K. 550 - III. Menuetto; Allegretto.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FMozart%20-%20Symphony%20No%2040%20in%20G%20Minor%20%2FSymphony%20No.%2040%20in%20G%20Minor%2C%20K.%20550%20-%20III.%20Menuetto%3B%20Allegretto.mp3
+Excerpt: 98–188 seconds
+License: Public Domain Mark 1.0
+
+orchestra_29.m4a — Pathétique · Adagio opening — Pyotr Ilyich Tchaikovsky
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Tchaikovsky - Symphony Pathetique/Symphony No. 6 In B Minor, Op. 74, 'Pathetique' - I. Adagio, Allegro Non Troppo.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FTchaikovsky%20-%20Symphony%20Pathetique%2FSymphony%20No.%206%20In%20B%20Minor%2C%20Op.%2074%2C%20%27Pathetique%27%20-%20I.%20Adagio%2C%20Allegro%20Non%20Troppo.mp3
+Excerpt: 98–188 seconds
+License: Public Domain Mark 1.0
+
+orchestra_30.m4a — Scottish Symphony · Finale — Felix Mendelssohn
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Mendelssohn - Scottish Symphony/Symphony No. 3 in A Minor Scottish, Op. 56 - IV. Allegro vivacissimo.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FMendelssohn%20-%20Scottish%20Symphony%2FSymphony%20No.%203%20in%20A%20Minor%20Scottish%2C%20Op.%2056%20-%20IV.%20Allegro%20vivacissimo.mp3
+Excerpt: 173–263 seconds
+License: Public Domain Mark 1.0
+
+orchestra_31.m4a — Eroica · Scherzo — Ludwig van Beethoven
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Beethoven - Symphony No 3 Eroica/Symphony No. 3 in E Flat Major Eroica, Op. 55 - III. Scherzo Allegro vivace.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBeethoven%20-%20Symphony%20No%203%20Eroica%2FSymphony%20No.%203%20in%20E%20Flat%20Major%20Eroica%2C%20Op.%2055%20-%20III.%20Scherzo%20Allegro%20vivace.mp3
+Excerpt: 208–298 seconds
+License: Public Domain Mark 1.0
+
+orchestra_32.m4a — Eroica · Finale — Ludwig van Beethoven
+Performer: Musopen Symphony Orchestra
+Original file: Musopen DVD/Beethoven - Symphony No 3 Eroica/Symphony No. 3 in E Flat Major Eroica, Op. 55 - IV. Finale Allegro molto.mp3
+Source file: https://archive.org/download/musopen-dvd/Musopen-DVD.zip/Musopen%20DVD%2FBeethoven%20-%20Symphony%20No%203%20Eroica%2FSymphony%20No.%203%20in%20E%20Flat%20Major%20Eroica%2C%20Op.%2055%20-%20IV.%20Finale%20Allegro%20molto.mp3
+Excerpt: 33–123 seconds
+License: Public Domain Mark 1.0
+
+The 12 original Daybreak standard alarm tones remain available, dedicated under CC0 1.0: https://creativecommons.org/publicdomain/zero/1.0/
+
+
+GENTLE MUSIC & NATURE COLLECTION (0.1.6)
+
+16 gentle music choices: eight new solo-piano movements and eight softer edits of existing orchestral works. Six CC0 nature recordings/edited soundscapes are also included. Music uses selected steadier passages, slow swell control and quieter mastering. Nature loops use crossfades and softened peaks.
+
+gentle_01.m4a — Morning Mood · Soft passage
+Performer/recordist: Musopen Symphony Orchestra
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Grieg - Peer Gynt/Peer Gynt Suite No. 1, Op. 46 - I. Morning.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 127.0–217.0 seconds
+
+gentle_02.m4a — The Death of Åse · Soft passage
+Performer/recordist: Musopen Symphony Orchestra
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Grieg - Peer Gynt/Peer Gynt Suite No. 1, Op. 46 - II. Aase's Death.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 45.0–135.0 seconds
+
+gentle_03.m4a — In the Steppes of Central Asia · Soft passage
+Performer/recordist: Musopen Symphony Orchestra
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Borodin - In The Steppes Of Central Asia/In The Steppes of Central Asia.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 239.0–329.0 seconds
+
+gentle_04.m4a — Symphony No. 1 · Andante sostenuto · Soft passage
+Performer/recordist: Musopen Symphony Orchestra
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Brahms - Symphony No 1 in C Major/Symphony No. 1 in C Minor, Op. 68 - II. Andante sostenuto.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 416.0–506.0 seconds
+
+gentle_05.m4a — Symphony No. 2 · Adagio non troppo · Soft passage
+Performer/recordist: Musopen Symphony Orchestra
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Brahms - Symphony No2 in D major/Symphon No. 2 in D Major, Op. 73 - II. Adagio non toppo.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 308.0–398.0 seconds
+
+gentle_06.m4a — Symphony No. 3 · Andante · Soft passage
+Performer/recordist: Musopen Symphony Orchestra
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Brahms - Symphony No 3/Symphony No. 3 in F Major, Op. 90 - II. Andante.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 4.0–94.0 seconds
+
+gentle_07.m4a — Italian Symphony · Andante con moto · Soft passage
+Performer/recordist: Musopen Symphony Orchestra
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Mendelssohn - Italian Symphony/Symphon No. 4 in A Major, Op. 90 'Italian' - II. Andante con moto.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 11.0–101.0 seconds
+
+gentle_08.m4a — Symphony No. 40 · Andante · Soft passage
+Performer/recordist: Musopen Symphony Orchestra
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Mozart - Symphony No 40 in G Minor /Symphony No. 40 in G Minor, K. 550 - II. Andante.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 241.0–331.0 seconds
+
+gentle_09.m4a — Piano Sonata D. 664 · Andante · Soft passage
+Performer/recordist: Paul Pitman
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Schubert - The Piano Sonatas/Sonata A Major, D. 664 - II. Andante.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 56.0–146.0 seconds
+
+gentle_10.m4a — Piano Sonata D. 784 · Andante · Soft passage
+Performer/recordist: Paul Pitman
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Schubert - The Piano Sonatas/Sonata in A Minor, D. 784 - II. Andante.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 97.0–187.0 seconds
+
+gentle_11.m4a — Piano Sonata D. 845 · Andante poco mosso · Soft passage
+Performer/recordist: Paul Pitman
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Schubert - The Piano Sonatas/Sonata in A Minor, D. 845 - II. Andante poco mosso.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 218.0–308.0 seconds
+
+gentle_12.m4a — Piano Sonata D. 959 · Andantino · Soft passage
+Performer/recordist: Paul Pitman
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Schubert - The Piano Sonatas/Sonata in A Minor, D. 959 - II. Andantino.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 200.0–290.0 seconds
+
+gentle_13.m4a — Piano Sonata D. 958 · Adagio · Soft passage
+Performer/recordist: Paul Pitman
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Schubert - The Piano Sonatas/Sonata in C Minor, D. 958 - II. Adagio.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 79.0–169.0 seconds
+
+gentle_14.m4a — Piano Sonata D. 850 · Con moto · Soft passage
+Performer/recordist: Paul Pitman
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Schubert - The Piano Sonatas/Sonata in D Major, D. 850 - II. Con moto.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 502.0–592.0 seconds
+
+gentle_15.m4a — Piano Sonata D. 850 · Rondo · Soft passage
+Performer/recordist: Paul Pitman
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Schubert - The Piano Sonatas/Sonata in D Major, D. 850 - V. Rondo. Allegro moderato.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 356.0–446.0 seconds
+
+gentle_16.m4a — Piano Sonata D. 568 · Andante molto · Soft passage
+Performer/recordist: Paul Pitman
+Source: https://archive.org/details/musopen-dvd
+
+Original file: Musopen DVD/Schubert - The Piano Sonatas/Sonata in E Flat Major, D. 568 - II. Andante molto.mp3
+License: Public Domain Mark 1.0 — https://creativecommons.org/publicdomain/mark/1.0/
+Changes: Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s.
+Excerpt: 162.0–252.0 seconds
+
+nature_01.m4a — Gentle ocean surf
+Performer/recordist: Noted451; davidgtr1
+Source: https://freesound.org/people/Noted451/sounds/531015/
+Additional source: https://freesound.org/people/davidgtr1/sounds/581488/
+Original file: ocean_long_01.mp3 (public high-quality preview); ocean_long_02.mp3 (public high-quality preview)
+License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Changes: Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Soft Atlantic lapping-wave bed mixed underneath to smooth gaps.
+
+nature_02.m4a — Atlantic lapping waves
+Performer/recordist: davidgtr1
+Source: https://freesound.org/people/davidgtr1/sounds/581488/
+
+Original file: ocean_long_02.mp3 (public high-quality preview)
+License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Changes: Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s.
+
+nature_03.m4a — Soft shoreline wash
+Performer/recordist: jasinski; edits by qubodup; davidgtr1
+Source: https://opengameart.org/content/beach-ocean-waves
+Additional source: https://opengameart.org/content/beach-ocean-waves
+Additional source: https://opengameart.org/content/beach-ocean-waves
+Additional source: https://opengameart.org/content/beach-ocean-waves
+Additional source: https://freesound.org/people/davidgtr1/sounds/581488/
+Original file: wave_01_cc0-18363__jasinski__alkaibeach.flac; wave_02_cc0-18363__jasinski__alkaibeach.flac; wave_03_cc0-18363__jasinski__alkaibeach.flac; wave_04_cc0-18363__jasinski__alkaibeach.flac; ocean_long_02.mp3 (public high-quality preview)
+License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Changes: Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Soft Atlantic lapping-wave bed mixed underneath to smooth gaps.
+
+nature_04.m4a — Steady soft rain
+Performer/recordist: Ove Melaa
+Source: https://opengameart.org/content/rain-ambient-not-loopable-2-versions-available
+
+Original file: Ove Melaa - Rainy (NOT loopable) Long Version.ogg
+License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Changes: Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s.
+
+nature_05.m4a — Distant rolling thunder
+Performer/recordist: WuxiaScrub
+Source: https://opengameart.org/content/rain-long-thunder
+
+Original file: rain-thunder.ogg
+License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Changes: Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s.
+
+nature_06.m4a — Rain with far-off rumbles
+Performer/recordist: Ove Melaa; WuxiaScrub
+Source: https://opengameart.org/content/rain-ambient-not-loopable-2-versions-available
+Additional source: https://opengameart.org/content/rain-long-thunder
+Original file: Ove Melaa - Rainy (NOT loopable) Long Version.ogg; rain-thunder.ogg
+License: CC0 1.0 — https://creativecommons.org/publicdomain/zero/1.0/
+Changes: Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s.
+
+
+
+SOFT AUDIO REMASTER (0.1.14)
+The following mastering notes supersede earlier processing targets. Original licenses, sources and performer credits above remain unchanged. Standard tones are unchanged. The source performance, pitch and tempo are retained.
+
+orchestra_01.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_02.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_03.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_04.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_05.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_06.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_07.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_08.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_09.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_10.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_11.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_12.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_13.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_14.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_15.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_16.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_17.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_18.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_19.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_20.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_21.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_22.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_23.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_24.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_25.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_26.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_27.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_28.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_29.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_30.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_31.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_32.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_01.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_02.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_03.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_04.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_05.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_06.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_07.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_08.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_09.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_10.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_11.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_12.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_13.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_14.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_15.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_16.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_01.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Soft Atlantic lapping-wave bed mixed underneath to smooth gaps. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_02.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_03.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Soft Atlantic lapping-wave bed mixed underneath to smooth gaps. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_04.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_05.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_06.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+
+
+SOFT AUDIO REMASTER (0.1.14)
+The following mastering notes supersede earlier processing targets. Original licenses, sources and performer credits above remain unchanged. Standard tones are unchanged. The source performance, pitch and tempo are retained.
+
+orchestra_01.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_02.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_03.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_04.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_05.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_06.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_07.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_08.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_09.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_10.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_11.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_12.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_13.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_14.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_15.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_16.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_17.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_18.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_19.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_20.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_21.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_22.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_23.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_24.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_25.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_26.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_27.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_28.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_29.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_30.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_31.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+orchestra_32.m4a — 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_01.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_02.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_03.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_04.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_05.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_06.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_07.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_08.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_09.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_10.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_11.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_12.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_13.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_14.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_15.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+gentle_16.m4a — Selected stable 90-second passage; slow swell control, mild compression, -27 LUFS / -11 dBTP targets, brief boundary fades, stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_01.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Soft Atlantic lapping-wave bed mixed underneath to smooth gaps. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_02.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_03.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Soft Atlantic lapping-wave bed mixed underneath to smooth gaps. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_04.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_05.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.
+nature_06.m4a — Edited/looped recording with crossfades, strong peak control, -28 LUFS / -14 dBTP targets; filtered thunder to soften sharp cracks; stereo AAC 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -29 LUFS / -14 dBTP ceilings; 2-second circular crossfade, steady-level zero-crossing start, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.

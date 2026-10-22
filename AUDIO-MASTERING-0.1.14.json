@@ -1,0 +1,866 @@
+[
+  {
+    "file": "orchestra_01.m4a",
+    "integratedLUFS": -28.04,
+    "truePeakDbTP": -15.64,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 16.67,
+      "firstHalfSecondRmsDb": -30.58,
+      "seamJump": 0.146142
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.59,
+      "firstHalfSecondRmsDb": -31.06,
+      "seamJump": 0.001098
+    }
+  },
+  {
+    "file": "orchestra_02.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -15.2,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 14.96,
+      "firstHalfSecondRmsDb": -43.52,
+      "seamJump": 0.028703
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 5.95,
+      "firstHalfSecondRmsDb": -31.19,
+      "seamJump": 0.001154
+    }
+  },
+  {
+    "file": "orchestra_03.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -16.06,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 9.86,
+      "firstHalfSecondRmsDb": -42.15,
+      "seamJump": 0.021349
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.74,
+      "firstHalfSecondRmsDb": -30.87,
+      "seamJump": 0.002428
+    }
+  },
+  {
+    "file": "orchestra_04.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -14.94,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 11.31,
+      "firstHalfSecondRmsDb": -28.26,
+      "seamJump": 0.020291
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 4.26,
+      "firstHalfSecondRmsDb": -30.51,
+      "seamJump": 0.002703
+    }
+  },
+  {
+    "file": "orchestra_05.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -15.35,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 10.62,
+      "firstHalfSecondRmsDb": -29.15,
+      "seamJump": 0.036495
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.34,
+      "firstHalfSecondRmsDb": -30.44,
+      "seamJump": 0.000524
+    }
+  },
+  {
+    "file": "orchestra_06.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -15.96,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 11.9,
+      "firstHalfSecondRmsDb": -26.23,
+      "seamJump": 0.015404
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.6,
+      "firstHalfSecondRmsDb": -30.83,
+      "seamJump": 0.003729
+    }
+  },
+  {
+    "file": "orchestra_07.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -15.26,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 13.43,
+      "firstHalfSecondRmsDb": -19.79,
+      "seamJump": 0.003683
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.39,
+      "firstHalfSecondRmsDb": -31.33,
+      "seamJump": 0.000203
+    }
+  },
+  {
+    "file": "orchestra_08.m4a",
+    "integratedLUFS": -28.01,
+    "truePeakDbTP": -14.76,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 5.38,
+      "firstHalfSecondRmsDb": -38.07,
+      "seamJump": 0.055223
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.1,
+      "firstHalfSecondRmsDb": -29.97,
+      "seamJump": 0.000528
+    }
+  },
+  {
+    "file": "orchestra_09.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -15.19,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 9.95,
+      "firstHalfSecondRmsDb": -32.24,
+      "seamJump": 0.01548
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.74,
+      "firstHalfSecondRmsDb": -30.38,
+      "seamJump": 0.000697
+    }
+  },
+  {
+    "file": "orchestra_10.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -16.19,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 9.15,
+      "firstHalfSecondRmsDb": -41.71,
+      "seamJump": 0.063584
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.94,
+      "firstHalfSecondRmsDb": -30.87,
+      "seamJump": 0.0002
+    }
+  },
+  {
+    "file": "orchestra_11.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -15.98,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 7.31,
+      "firstHalfSecondRmsDb": -33.73,
+      "seamJump": 0.015808
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.51,
+      "firstHalfSecondRmsDb": -30.18,
+      "seamJump": 0.000461
+    }
+  },
+  {
+    "file": "orchestra_12.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -16.52,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 9.27,
+      "firstHalfSecondRmsDb": -36.63,
+      "seamJump": 0.010565
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.59,
+      "firstHalfSecondRmsDb": -30.53,
+      "seamJump": 0.000584
+    }
+  },
+  {
+    "file": "orchestra_13.m4a",
+    "integratedLUFS": -28.01,
+    "truePeakDbTP": -15.09,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 7.42,
+      "firstHalfSecondRmsDb": -31.72,
+      "seamJump": 0.030062
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.86,
+      "firstHalfSecondRmsDb": -30.45,
+      "seamJump": 0.001238
+    }
+  },
+  {
+    "file": "orchestra_14.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -14.1,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 15.96,
+      "firstHalfSecondRmsDb": -40.04,
+      "seamJump": 0.004872
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.44,
+      "firstHalfSecondRmsDb": -30.11,
+      "seamJump": 0.000482
+    }
+  },
+  {
+    "file": "orchestra_15.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -13.43,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 10.87,
+      "firstHalfSecondRmsDb": -34.6,
+      "seamJump": 0.024485
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.43,
+      "firstHalfSecondRmsDb": -31.08,
+      "seamJump": 0.003151
+    }
+  },
+  {
+    "file": "orchestra_16.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -15.54,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 8.66,
+      "firstHalfSecondRmsDb": -36.53,
+      "seamJump": 0.007406
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.34,
+      "firstHalfSecondRmsDb": -30.71,
+      "seamJump": 0.000585
+    }
+  },
+  {
+    "file": "orchestra_17.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -14.11,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 10.68,
+      "firstHalfSecondRmsDb": -42.22,
+      "seamJump": 0.005055
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.05,
+      "firstHalfSecondRmsDb": -29.78,
+      "seamJump": 0.000913
+    }
+  },
+  {
+    "file": "orchestra_18.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -14.35,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 9.91,
+      "firstHalfSecondRmsDb": -39.42,
+      "seamJump": 0.016725
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.85,
+      "firstHalfSecondRmsDb": -30.68,
+      "seamJump": 0.00509
+    }
+  },
+  {
+    "file": "orchestra_19.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -15.75,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 10.46,
+      "firstHalfSecondRmsDb": -28.86,
+      "seamJump": 0.037962
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.23,
+      "firstHalfSecondRmsDb": -30.42,
+      "seamJump": 0.001198
+    }
+  },
+  {
+    "file": "orchestra_20.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -15.17,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 14.27,
+      "firstHalfSecondRmsDb": -38.83,
+      "seamJump": 0.000593
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 4.99,
+      "firstHalfSecondRmsDb": -30.06,
+      "seamJump": 0.003312
+    }
+  },
+  {
+    "file": "orchestra_21.m4a",
+    "integratedLUFS": -30.85,
+    "truePeakDbTP": -11.99,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 14.63,
+      "firstHalfSecondRmsDb": -41.6,
+      "seamJump": 0.013745
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 5.82,
+      "firstHalfSecondRmsDb": -33.22,
+      "seamJump": 0.002112
+    }
+  },
+  {
+    "file": "orchestra_22.m4a",
+    "integratedLUFS": -28.01,
+    "truePeakDbTP": -16.78,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 9.17,
+      "firstHalfSecondRmsDb": -31.58,
+      "seamJump": 0.024814
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 4.0,
+      "firstHalfSecondRmsDb": -30.6,
+      "seamJump": 0.001752
+    }
+  },
+  {
+    "file": "orchestra_23.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -14.72,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 11.82,
+      "firstHalfSecondRmsDb": -22.96,
+      "seamJump": 0.057486
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.04,
+      "firstHalfSecondRmsDb": -30.03,
+      "seamJump": 0.00047
+    }
+  },
+  {
+    "file": "orchestra_24.m4a",
+    "integratedLUFS": -28.01,
+    "truePeakDbTP": -16.42,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 9.43,
+      "firstHalfSecondRmsDb": -30.86,
+      "seamJump": 0.030259
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.65,
+      "firstHalfSecondRmsDb": -30.27,
+      "seamJump": 0.001145
+    }
+  },
+  {
+    "file": "orchestra_25.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -15.31,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 11.2,
+      "firstHalfSecondRmsDb": -23.67,
+      "seamJump": 0.007957
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.49,
+      "firstHalfSecondRmsDb": -30.15,
+      "seamJump": 0.001442
+    }
+  },
+  {
+    "file": "orchestra_26.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -15.88,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 11.47,
+      "firstHalfSecondRmsDb": -35.15,
+      "seamJump": 0.009848
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.89,
+      "firstHalfSecondRmsDb": -31.39,
+      "seamJump": 0.00013
+    }
+  },
+  {
+    "file": "orchestra_27.m4a",
+    "integratedLUFS": -28.04,
+    "truePeakDbTP": -13.42,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 13.26,
+      "firstHalfSecondRmsDb": -18.83,
+      "seamJump": 0.057237
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.4,
+      "firstHalfSecondRmsDb": -30.45,
+      "seamJump": 0.001248
+    }
+  },
+  {
+    "file": "orchestra_28.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -14.62,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 9.64,
+      "firstHalfSecondRmsDb": -33.48,
+      "seamJump": 0.022244
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.78,
+      "firstHalfSecondRmsDb": -31.39,
+      "seamJump": 0.001778
+    }
+  },
+  {
+    "file": "orchestra_29.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -13.86,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 12.14,
+      "firstHalfSecondRmsDb": -42.19,
+      "seamJump": 0.013797
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 4.21,
+      "firstHalfSecondRmsDb": -30.99,
+      "seamJump": 0.0011
+    }
+  },
+  {
+    "file": "orchestra_30.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -13.89,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 17.1,
+      "firstHalfSecondRmsDb": -19.94,
+      "seamJump": 0.137157
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.01,
+      "firstHalfSecondRmsDb": -31.01,
+      "seamJump": 0.001508
+    }
+  },
+  {
+    "file": "orchestra_31.m4a",
+    "integratedLUFS": -28.04,
+    "truePeakDbTP": -13.39,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 13.82,
+      "firstHalfSecondRmsDb": -30.42,
+      "seamJump": 0.031613
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.95,
+      "firstHalfSecondRmsDb": -29.77,
+      "seamJump": 0.001095
+    }
+  },
+  {
+    "file": "orchestra_32.m4a",
+    "integratedLUFS": -28.05,
+    "truePeakDbTP": -12.83,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 13.82,
+      "firstHalfSecondRmsDb": -47.9,
+      "seamJump": 0.186085
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 4.12,
+      "firstHalfSecondRmsDb": -30.86,
+      "seamJump": 0.003431
+    }
+  },
+  {
+    "file": "gentle_01.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -15.67,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 12.61,
+      "firstHalfSecondRmsDb": -26.18,
+      "seamJump": 0.035925
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.42,
+      "firstHalfSecondRmsDb": -30.62,
+      "seamJump": 0.000745
+    }
+  },
+  {
+    "file": "gentle_02.m4a",
+    "integratedLUFS": -28.06,
+    "truePeakDbTP": -16.41,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 10.0,
+      "firstHalfSecondRmsDb": -36.87,
+      "seamJump": 0.001103
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.98,
+      "firstHalfSecondRmsDb": -30.11,
+      "seamJump": 0.002278
+    }
+  },
+  {
+    "file": "gentle_03.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -16.48,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 4.88,
+      "firstHalfSecondRmsDb": -31.58,
+      "seamJump": 0.044018
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.57,
+      "firstHalfSecondRmsDb": -30.56,
+      "seamJump": 0.000979
+    }
+  },
+  {
+    "file": "gentle_04.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -16.36,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 9.46,
+      "firstHalfSecondRmsDb": -30.79,
+      "seamJump": 0.062259
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.25,
+      "firstHalfSecondRmsDb": -30.99,
+      "seamJump": 0.002267
+    }
+  },
+  {
+    "file": "gentle_05.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -16.4,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 8.5,
+      "firstHalfSecondRmsDb": -31.42,
+      "seamJump": 0.164876
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.45,
+      "firstHalfSecondRmsDb": -30.42,
+      "seamJump": 0.001712
+    }
+  },
+  {
+    "file": "gentle_06.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -14.9,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 5.55,
+      "firstHalfSecondRmsDb": -35.87,
+      "seamJump": 0.019323
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.21,
+      "firstHalfSecondRmsDb": -30.11,
+      "seamJump": 0.000732
+    }
+  },
+  {
+    "file": "gentle_07.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -16.16,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 6.68,
+      "firstHalfSecondRmsDb": -28.47,
+      "seamJump": 0.103835
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.34,
+      "firstHalfSecondRmsDb": -30.19,
+      "seamJump": 0.00076
+    }
+  },
+  {
+    "file": "gentle_08.m4a",
+    "integratedLUFS": -28.03,
+    "truePeakDbTP": -13.27,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 11.74,
+      "firstHalfSecondRmsDb": -34.23,
+      "seamJump": 0.00268
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.26,
+      "firstHalfSecondRmsDb": -30.44,
+      "seamJump": 0.001645
+    }
+  },
+  {
+    "file": "gentle_09.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -14.4,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 8.26,
+      "firstHalfSecondRmsDb": -28.52,
+      "seamJump": 0.109477
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.51,
+      "firstHalfSecondRmsDb": -29.92,
+      "seamJump": 0.000123
+    }
+  },
+  {
+    "file": "gentle_10.m4a",
+    "integratedLUFS": -28.0,
+    "truePeakDbTP": -14.51,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 10.09,
+      "firstHalfSecondRmsDb": -25.54,
+      "seamJump": 0.027455
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.37,
+      "firstHalfSecondRmsDb": -29.72,
+      "seamJump": 0.000703
+    }
+  },
+  {
+    "file": "gentle_11.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -14.79,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 4.52,
+      "firstHalfSecondRmsDb": -23.53,
+      "seamJump": 0.208954
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.19,
+      "firstHalfSecondRmsDb": -30.65,
+      "seamJump": 0.000556
+    }
+  },
+  {
+    "file": "gentle_12.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -15.6,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 10.06,
+      "firstHalfSecondRmsDb": -20.07,
+      "seamJump": 0.138381
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.12,
+      "firstHalfSecondRmsDb": -30.4,
+      "seamJump": 0.001548
+    }
+  },
+  {
+    "file": "gentle_13.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -15.33,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 10.76,
+      "firstHalfSecondRmsDb": -32.48,
+      "seamJump": 0.019833
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.64,
+      "firstHalfSecondRmsDb": -30.11,
+      "seamJump": 0.002562
+    }
+  },
+  {
+    "file": "gentle_14.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -14.56,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 12.3,
+      "firstHalfSecondRmsDb": -26.55,
+      "seamJump": 0.141518
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.12,
+      "firstHalfSecondRmsDb": -30.12,
+      "seamJump": 0.001427
+    }
+  },
+  {
+    "file": "gentle_15.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -15.53,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 4.42,
+      "firstHalfSecondRmsDb": -27.99,
+      "seamJump": 0.027236
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 0.85,
+      "firstHalfSecondRmsDb": -30.02,
+      "seamJump": 0.000466
+    }
+  },
+  {
+    "file": "gentle_16.m4a",
+    "integratedLUFS": -28.02,
+    "truePeakDbTP": -16.19,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 8.23,
+      "firstHalfSecondRmsDb": -25.76,
+      "seamJump": 0.011297
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.58,
+      "firstHalfSecondRmsDb": -30.57,
+      "seamJump": 0.001207
+    }
+  },
+  {
+    "file": "nature_01.m4a",
+    "integratedLUFS": -31.14,
+    "truePeakDbTP": -14.06,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 11.0,
+      "firstHalfSecondRmsDb": -29.58,
+      "seamJump": 0.005176
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.57,
+      "firstHalfSecondRmsDb": -31.34,
+      "seamJump": 0.000704
+    }
+  },
+  {
+    "file": "nature_02.m4a",
+    "integratedLUFS": -30.16,
+    "truePeakDbTP": -14.26,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 7.12,
+      "firstHalfSecondRmsDb": -25.13,
+      "seamJump": 0.000461
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 0.77,
+      "firstHalfSecondRmsDb": -31.57,
+      "seamJump": 0.00234
+    }
+  },
+  {
+    "file": "nature_03.m4a",
+    "integratedLUFS": -29.08,
+    "truePeakDbTP": -16.24,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 3.27,
+      "firstHalfSecondRmsDb": -25.99,
+      "seamJump": 0.011523
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 1.17,
+      "firstHalfSecondRmsDb": -31.69,
+      "seamJump": 0.000438
+    }
+  },
+  {
+    "file": "nature_04.m4a",
+    "integratedLUFS": -29.07,
+    "truePeakDbTP": -16.45,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 15.38,
+      "firstHalfSecondRmsDb": -33.51,
+      "seamJump": 0.003159
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.74,
+      "firstHalfSecondRmsDb": -31.78,
+      "seamJump": 0.003078
+    }
+  },
+  {
+    "file": "nature_05.m4a",
+    "integratedLUFS": -31.78,
+    "truePeakDbTP": -14.0,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 21.9,
+      "firstHalfSecondRmsDb": -37.2,
+      "seamJump": 0.000622
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 3.83,
+      "firstHalfSecondRmsDb": -31.6,
+      "seamJump": 6.1e-05
+    }
+  },
+  {
+    "file": "nature_06.m4a",
+    "integratedLUFS": -29.03,
+    "truePeakDbTP": -16.4,
+    "duration": 88.004,
+    "before": {
+      "rolling3SecondSpreadDb": 12.9,
+      "firstHalfSecondRmsDb": -21.58,
+      "seamJump": 0.012348
+    },
+    "after": {
+      "rolling3SecondSpreadDb": 2.36,
+      "firstHalfSecondRmsDb": -31.47,
+      "seamJump": 0.000902
+    }
+  }
+]

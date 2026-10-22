@@ -1,0 +1,169 @@
+DAYBREAK — VALIDATION
+
+Android debug APK built successfully with Gradle 8.11.1 / AGP 8.10.1 / JDK 17 / SDK 35.
+14 calendar unit tests passed, covering spring and fall daylight-saving transitions, recurrence, moved/canceled instances, exclusions/additions, folded text, duplicate sequence priority, all-day events, filtering, lead-time validation, UTF-8 BOM and empty calendars.
+12 Android 15 emulator smoke checks passed, including native MIDI and WAV playback, shift scheduling/replacement/skipping, a native alarm firing while the screen was off, dismissal, snooze persistence through refresh, and the snoozed alarm firing again.
+5 targeted Android WebView layout and media checks passed after fixing system-bar overlap.
+All 44 sound files parsed successfully and are present in the APK with music credits and third-party notices.
+APK signature verified.
+
+Limits: no real Proton account or physical phone was used. Proton link syncing and manufacturer-specific battery restrictions require testing on the user's phone. A successful build or emulator test does not guarantee delivery on every phone.
+
+
+UPDATE 0.1.1
+20 calendar unit tests passed, including all prior cases plus all-day visibility, explicitly chosen local start times across DST, exception dates and moved all-day instances, stable occurrence IDs after changing a start time, event counts, and availability-only feed detection.
+17 native Android 15 connection regression checks passed using the actual Connect form and native HTTP reader against isolated fake HTTPS responses. They cover timed entries, Calendar-screen rows, successful/failed link input handling, title filtering and clearing, all-day entries awaiting a start time, explicit all-day scheduling, empty replacement canceling old work alarms, availability-only diagnosis, and HTTP errors retaining the old connection.
+APK upgrade installed successfully over 0.1.0 in the emulator. Signing certificate matches the user's previous APK.
+The user's specific Proton export has not been inspected; this update exposes safe diagnostic counts to identify remaining cases without revealing a private link or event details.
+
+
+UPDATE 0.1.2 — RECORDED ORCHESTRA / LAVENDER & CREAM
+- 20 calendar unit tests passed with the updated build.
+- All 32 new stereo AAC files decoded completely without errors. The APK contains all 32 recordings and 12 standard tones, and no MIDI files.
+- Each orchestral excerpt is from a different source movement or work in the Musopen recording compilation. The publisher release statement and compilation rights metadata are included in credits.
+- 13 Android 15 emulator smoke checks passed, including migration of an old MIDI selection, native AAC playback, standard WAV playback, exact alarm scheduling/replacement/skipping, native alarm firing, the new Dismiss/Snooze controls, snooze persistence through calendar refresh, and the snoozed alarm firing again.
+- 6 targeted Android UI/media checks passed. Screenshots of the new Alarms, Sounds, Settings and ringing screens were inspected.
+- The APK signature verified with the same signing certificate as the previous build, and upgrade installation succeeded in the emulator.
+- APK installation and tests targeted only the disposable emulator, not a connected physical phone.
+
+
+UPDATE 0.1.3 — PETAL CLOCK / VANILLA CREAM
+- Debug APK and instrumentation APK built successfully.
+- 6 Android 15 UI/media checks passed, covering recorded AAC playback, standard WAV playback, library counts, legacy sound migration and navigation bounds.
+- Alarms and Settings screenshots inspected for richer cream, text contrast, header spacing and the selected Petal Clock icon. Android app launcher screenshot inspected.
+- Application label is Petal Clock; application ID remains app.daybreak. Upgrade installation over the prior build succeeded in the disposable emulator.
+- APK signature verified and signing certificate matches the previous APK.
+- This update changes branding and colors; earlier calendar and alarm scheduling validation remains documented above. No connected physical phone was modified.
+
+
+UPDATE 0.1.4 — NAVY, AUDIBLE START & STRONG VIBRATION
+- 23 JVM unit tests passed: 20 calendar tests and 3 volume-envelope tests. Envelope tests cover the 40% start, smooth monotonic rise to the chosen ceiling at 60 seconds, off mode, long fades and input bounds.
+- 14 Android 15 emulator smoke checks passed, including exact alarm firing, AAC/WAV playback, full-screen button geometry, I’m up dismissal, Snooze persistence and snoozed alarm delivery.
+- 6 Android UI/media checks passed on the final build. Alarms and full-screen ringing previews were inspected. Status bar background now matches the app.
+- Settings migration verified on the emulator: playback 100%, fade 60 seconds, vibration enabled. Applies once; later changes are respected.
+- Vibration waveform uses amplitude 255 for two 650 ms pulses, separated by 200 ms and 600 ms pauses. Uses the alarm audio/vibration attributes and cancels on service shutdown.
+- Palette derives from Scribe’s installed color resources: #101D35, #1C304B, #084DBB, #66D5CE, #8AB6FF and #FFF8EB. No Scribe private data was read or modified.
+- Native status-area host and window backgrounds match the navy palette. Alarm notification requests matching colorization; Android controls its final presentation.
+- APK built successfully; package ID and signing certificate remain unchanged.
+
+
+UPDATE 0.1.5 — MEASURED NATIVE VOLUME BUILDUP
+- 24 unit tests passed: 20 calendar tests and 4 volume-envelope tests.
+- 17 Android emulator smoke checks passed. Three new checks read VolumeShaper.getVolume() from the active alarm player: approximately 0.17 at the first sample, 0.4900827 at 30 seconds, and 1.0 at 61 seconds. Earlier scheduling, AAC/WAV playback, full-screen touch areas, dismissal and snooze checks remain passing.
+- Native VolumeShaper runs the fade on the audio playback clock, replacing periodic UI-thread setVolume calls. Sixteen control points approximate a squared control-level curve; interpolation is linear between points. The gain holds at 1.0 after the fade.
+- The UI still expresses a 40–100% buildup, mapped to raw amplitude gain 0.16–1.0 for a more noticeable change. This percentage is a control scale, not calibrated acoustic loudness. The live indicator derives its percentage from the actual native shaper gain.
+- Midpoint and full-volume ringing screenshots inspected.
+- Selected orchestral excerpt 31 has a quieter passage near 40 seconds, which can mask changes in player gain. Recorded musical dynamics are retained. Actual perceived loudness still depends on the music, phone, environment and listener.
+- ADB service diagnostics expose only elapsed playback time, fade duration, gain and percentage. No private calendar or event information is included.
+
+
+UPDATE 0.1.6 — GENTLE MUSIC & NATURE
+- Added 16 gentle music choices: eight softer edits of existing orchestral works and eight new Schubert solo-piano movements performed by Paul Pitman. Added six edited nature soundscapes: three ocean/wave options, soft rain and two distant-thunder/rain options. No chamber or sacred music was added.
+- All 22 added stereo AAC files decoded completely without errors. Each is approximately 90 seconds. Measured decoded sample peaks are below -11.8 dBFS for gentle music and -13.8 dBFS for nature.
+- Every added clip has a measured 95th-to-10th percentile spread below 6 dB in three-second-smoothed RMS, excluding the music’s boundary fades. This screens for steadier levels; it does not measure subjective musical character or guarantee another person will stay asleep.
+- Quiet orchestral passages use slow swell attenuation, light compression and -27 LUFS / -11 dBTP mastering targets. Nature uses -28 LUFS / -14 dBTP targets, crossfades and filtered/softened thunder peaks. Musical attacks and wave motion retain some natural variation.
+- 24 unit tests passed in this build.
+- 11 Android UI/media checks passed on the final APK: catalog counts, gentle default, legacy MIDI migration, native orchestral/piano/ocean/thunder/WAV playback, all category tabs and navigation bounds. The Gentle music and Nature screenshots were inspected.
+- The catalog contains 66 sounds: 48 music choices (including 16 Gentle music edits), six Nature options and 12 Standard tones.
+- Source rights verified against the Musopen publisher/compilation and CC0 source pages. Credits identify sources, performers/recordists and edits. Nature files sourced from public CC0 downloads/previews.
+- The alarm scheduling and volume-rise engine were not changed by this library update; their prior validation is recorded above.
+
+
+UPDATE 0.1.7 — PETAL WAKE NAME
+- Android debug APK built successfully. Package metadata reports Petal Wake, version 0.1.7, version code 8.
+- User-facing launcher label, app header, ringing-screen branding, setup/error/test messages and standard-tone credits use Petal Wake.
+- Application ID remains app.daybreak. APK signing certificate matches the previous version and signature verified.
+- The sound recordings, alarm scheduling, volume envelope and color palette are unchanged.
+
+
+UPDATE 0.1.8 — PETAL KEY PALETTE FOR ICON
+- Android debug APK built successfully. Signature verified with the existing signing certificate.
+- Six-petal vector geometry retained; colors are charcoal #28262D, rose #D89AAA, mauve #A783A8 and warm ivory #F4EADC.
+- Android adaptive icon foreground/background, legacy launcher rasters and in-app SVG brand mark updated together. The 512-pixel SVG render was visually inspected.
+- This is an icon update; app behavior and sound assets are unchanged.
+
+
+UPDATE 0.1.9 — LINKED APPEARANCE AND LAUNCHER PROFILES
+- Debug APK and instrumentation APK built; existing signing certificate retained. All 24 JVM tests passed.
+- Upgraded the owned emulator from 0.1.8: one Rose launcher entry replaces the former MainActivity launcher entry. App package and data remain intact.
+- 51 appearance integration checks passed on the owned emulator: actual Settings button selection, rendered CSS palette, in-app icon, native window, one enabled Android launcher alias with the correct icon resource, preference persistence, unsaved form retention, full-screen alarm colors, active notification recoloring and uninterrupted playback.
+- A real exact alarm fired after both launcher icons were changed while it was armed. Both aliases open the real activity through a finishing entry activity.
+- Both Settings profiles and full-screen ringing previews were rendered and visually inspected. Key text/action contrast ratios exceed 4.5:1.
+- Phone verification and additional UI/media results are recorded in the delivered device-check file. No instrumentation is run on the user's phone.
+
+- Additional 0.1.9 UI/media regression: all 11 checks passed, including AAC orchestra/piano, WAV tones, ocean and thunder playback, catalog counts and navigation bounds.
+- Installed 0.1.9 on the attached Pixel using adb install -r. Compared private preference hashes before/after: all 15 tracked calendar/alarm/playback fields unchanged.
+- Selected both appearance cards through the phone's actual Settings UI. PackageManager reported exactly one launcher entry each time: NavyLauncher for Navy & Teal, RoseLauncher for Rose & Ivory.
+- Phone screenshots visually inspected: status bar and app background match #101D35 for Navy and #28262D for Rose. Final selected appearance is Rose & Ivory.
+
+
+UPDATE 0.1.10 — TWENTY THEMES AND SIX INDEPENDENT ICON DESIGNS
+- Android debug/instrumentation builds succeeded; all 24 JVM unit tests passed. Existing package ID and signing certificate retained.
+- Generated 120 combinations from the original six editable SVG designs, with adaptive and legacy density-specific Android icons and matching in-app SVG previews. All 20 palettes pass 4.5:1 for the checked body, secondary, accent and action text pairs.
+- Upgraded the owned emulator from 0.1.9 to 0.1.10.
+- 35 integration checks passed, including every one of the 120 actual Settings theme/icon combinations: exactly one enabled launcher component, correct launcher icon resource, rendered palette, selected states, recolored previews, independent persistence and unchanged saved/unsaved alarm preferences.
+- Verified reopening through the selected alias. The real task is rooted in MainActivity, rather than the switchable alias. All 20 native ringing palettes update without closing that screen.
+- A native exact alarm fired after both theme and icon changed while it was armed. Its notification changed from a light to a dark palette without interrupting playback.
+- Rose/dark, Ocean/light, Lavender/day and other picker screenshots were rendered and visually inspected, as were light/dark full-screen ringing previews.
+- Additional media and real-phone verification are recorded in the device-check file.
+
+- Additional 0.1.10 UI/media regression: all 11 checks passed, including recorded orchestra, piano, standard WAV tones, ocean and thunder playback, all catalog counts and navigation bounds.
+- Installed 0.1.10 over 0.1.9 on the attached Pixel. All 15 tracked calendar/alarm/playback preference hashes remained unchanged.
+- Real phone: selected Moon Chime in Rose & Ivory, then switched to Navy & Teal and Ocean Mist while retaining the Moon shape. PackageManager reported exactly one matching alias each time: RoseMoonLauncher, NavyMoonLauncher and OceanMoonLauncher. The app remained open throughout.
+- Restored Rose & Ivory plus the Petal icon through actual UI controls. Final single launcher entry: RoseLauncher. Screenshots of the light Ocean palette and the final dark picker were visually inspected; system-bar and body background colors match each selected palette.
+- No test instrumentation or test alarm was started on the personal phone during this update.
+
+
+UPDATE 0.1.11 — SAVED CUSTOM THEMES AND EXACT-COLOR HOME ICON
+- Native/debug and instrumentation builds succeeded. All 28 JVM tests passed, including four new color-math cases covering invalid input, text adjustment and all 256 gray boundary values. Existing signing certificate retained.
+- 27 custom-theme integration checks passed on the owned emulator: live preview, named save/select, six designs, matching app colors, native/JS color parity, editing without duplication, invalid input, persistence, Android home-icon confirmation, exact rendered accent pixels, deletion and restoration to Rose, and preserved calendar/alarm preferences.
+- The home icon uses a stable AppWidgetProvider and explicit MainActivity intent. Its rendered PNG changes with the palette/design and remains present as launcher aliases change. The standard app-drawer entry uses the closest bundled palette for custom colors; this platform limitation is stated in the app and setup guide.
+- All 35 existing appearance checks passed again across all 120 preset theme/icon combinations, including native alarm palettes and playback during notification color updates.
+- A refresh/delivery race is covered: an already-armed alarm whose delivery is queued keeps its claim record for a short 30-second grace period, without rescheduling an overdue alarm. Explicitly deleted/skipped alarms remain cancelable. The regression fixture and a real scheduled custom-theme alarm passed.
+- Installed 0.1.11 over 0.1.10 on the attached Pixel. All 15 tracked calendar/alarm/playback preference hashes matched before and after. No test instrumentation, test alarm or home-icon pinning was performed on the personal phone.
+- Full scheduling/playback/snooze results are recorded in the delivered device-check file.
+
+- Final full native regression: all 22 smoke checks passed, including all audio formats, scheduling/moving/skipping work alarms, a real exact alarm, native fade gains around 0.17 at start / 0.49 at 30 seconds / 1.0 after one minute, full-screen dismissal, calendar refresh during snooze, and snoozed re-delivery.
+- Final real-phone check: all 15 tracked preference hashes remain identical; exactly one app-drawer entry, RoseLauncher. The phone was locked during the final UI check, so custom editing/home-icon interaction was verified on the owned emulator rather than claimed as a physical-phone UI test.
+
+UPDATE 0.1.12 — REMOVE SEPARATE HOME ICON
+- Debug and instrumentation builds succeeded; all 28 JVM tests passed. Existing package and signing certificate retained.
+- Removed the optional home icon panel, PNG creation, bridge action, widget provider and related resources.
+- All 22 revised custom-theme integration checks passed on the owned emulator, including save/edit/delete, all six designs, persistence, preserved calendar/alarm preferences and a real scheduled native alarm.
+- All 35 appearance integration checks passed again across all 120 built-in theme/icon combinations, including exactly one launcher entry, full-screen alarm palettes and notification color changes during playback.
+- Installed on the attached Pixel. All 15 calendar/alarm/playback preference hashes were unchanged. Midnight Violet and the Petal design remain selected, with exactly one app launcher entry: VioletPetalLauncher.
+- Opened the physical phone's Appearance screen through its UI and verified the separate icon section is absent. No test alarm or instrumentation was run on the phone.
+
+UPDATE 0.1.13 — QUIET FOCUS
+- Debug and instrumentation builds succeeded. All 28 JVM tests passed; the original package and signing certificate are retained.
+- 21 Quiet Focus integration checks passed on the owned emulator: real next alarm, three-row home list, all-shifts navigation, native skip/restore, unsaved preference retention, recording search and preview controls, personal alarm dialog, unchanged scheduled alarms, no horizontal overflow across six screens at normal width and 320px with 130% text, and at least 44px visible button targets.
+- 17 calendar connection checks passed, including timed and all-day shifts, chosen start times, hidden-title filters, empty/availability-only downloads and failed replacement preserving the working connection.
+- 22 custom-theme checks passed, including preview, save/edit/delete, persistence, independent designs, native alarm delivery and unchanged preference values.
+- 35 appearance checks passed across all 120 built-in theme/icon combinations, including native full-screen palettes and notification recoloring during playback.
+- All 22 native smoke checks passed, including AAC/WAV playback, orchestra/piano/ocean/thunder, alarm replacement and skipping, exact delivery, full-screen button bounds, volume rise at start/midpoint/full minute, dismissal, refresh during snooze and real snoozed re-delivery.
+- Emulator screenshots of Alarms, Calendar, Sounds, Settings and the compact custom editor were visually inspected.
+- Installed on the attached Pixel and visually checked the actual Alarms and Settings screens. All 19 tracked calendar, alarm, playback, appearance, custom-theme and skip-state hashes were unchanged. Midnight Violet/Petal remains selected, with one VioletPetalLauncher entry. No instrumentation or alarm test was run on the personal phone.
+
+UPDATE 0.1.14 — CALENDAR CONFIDENCE & GENTLER AUDIO
+- Debug/instrumentation builds succeeded; all 32 JVM tests passed, including sync-health timing, first-failure grace, snapshot/disconnected handling and clock rollback.
+- 21 calendar confidence/preset integration checks passed: actual fixture download, preserved offline scheduled alarms on HTTP failure, persistent failure status after local reconciliation, notification delay/deduplication/privacy/channel settings, recovery and notice preference, Calendar deep link, stale receipt, snapshot/disconnect cleanup, preset apply/restore, unsaved work preferences, unchanged selected sound/vibration/system volume, and a real alarm respecting the 70% playback target.
+- All 21 Quiet Focus layout/workflow checks, 17 calendar connection regressions, 22 custom-theme checks and 35 appearance checks passed again. All 120 actual built-in launcher/theme combinations were verified.
+- All 22 full native smoke checks passed, including AAC/WAV/orchestra/piano/ocean/thunder playback, native delivery and full-screen actions, start/midpoint/full-minute volume rise, calendar refresh during snooze and real snoozed delivery.
+- All 54 remastered music/nature assets were decoded and measured after AAC encoding. Peak/loudness ceilings, non-silent starts and loop seam bounds were checked. Standard WAV assets are unchanged. Per-file mastering measurements accompany the source.
+- The original package and signing certificate are retained. Personal-phone installation and preference verification are recorded in the device-check file.
+
+UPDATE 0.1.15 — WORK ALARM AUTHENTICATION
+- Build and 32 JVM tests passed.
+- 16 Android authentication checks passed on the owned emulator using Android's real credential prompt: pending-state preservation, cancellation, incorrect PIN, correct PIN, no caller-supplied authorization bypass, unchanged calendar/personal alarms, immediate enabling, fresh authentication for active-calendar disconnect, successful/canceled disconnect, and missing-screen-lock behavior.
+- 21 Quiet Focus checks, 17 calendar connection checks, and 21 calendar confidence/Quiet wake-up checks passed with isolated fixture state. Total: 107 checks.
+- The first layout regression run encountered an extra personal alarm left by the authentication fixture. Resetting the disposable app data between suites resolved fixture contamination; no production change was needed.
+- Android biometric success uses the same native completion handler as device credential success. Real fingerprint/face enrollment was not exercised by the emulator tests.
+- Original package, signing certificate, themes, music, and alarm playback implementation retained.
+
+0.1.21 — MULTIPLE CALENDARS, EVENING CHECK, READINESS, SHIFT RULES, OPTIONAL MUSIC PACK
+- JDK 17 offline Gradle build and unit tests passed, including ShiftRulesTest boundary checks.
+- Disposable Android 15 emulator: 22 calendar connection checks passed, including adding a second feed, independent lead times, failed second-feed cache retention, recovery, and removal without losing the first feed.
+- Disposable Android 15 emulator: 6 evening-check and optional-sound fallback checks passed.
+- Existing 27 native alarm smoke checks passed, including recorded audio, exact alarm delivery, lock-screen controls, full-minute fade, and snooze delivery.
+- Existing 21 Quiet Focus layout and touch-target checks passed at 393px and 320px widths. Existing 21 calendar-confidence checks passed.
+- The orchestra pack contains 28 recordings and is SHA-256 pinned in SoundPacks.java. The app always has a bundled gentle fallback if that pack is absent. After publication, a live GitHub download on the Android 15 emulator passed SHA-256 verification, installation, optional recording playback, and removal.
