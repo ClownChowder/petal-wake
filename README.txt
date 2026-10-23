@@ -1,10 +1,21 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.23
+PETAL WAKE — ANDROID ALARM APP 0.1.25
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
 
+VERSION 0.1.25 — ALL-DAY CLARITY & STABILITY
+- Home and Calendar now flag every all-day work block with no alarm. The Set start time action opens the correct calendar, leaves the time blank, and requires the actual shift start time before saving. The import control remains available when the setup checklist is complete.
+- Audio-preview callbacks ignore released players; media, audio focus, wake locks, WebView, and receivers are cleaned up through their lifecycle. Background refresh jobs finish reliably and repeated foreground refresh requests are combined.
+- Petal Wake remains the app name and the six-petal clock remains the default icon. Appearance copy now refers to Petal Wake instead of Petal Key.
+
+VERSION 0.1.24 — AVAILABILITY & PHONE MOVE
+- Availability-only iCalendar feeds with explicit busy intervals can now create work alarms. Free and tentative intervals are ignored, and overlapping busy intervals are combined. A work-only calendar is essential: the feed cannot distinguish work from other busy appointments.
+- All-day busy intervals still need a chosen start time. A Limited view link has no event titles, so leave title filtering blank. Review the next wake-up time after connecting.
+- Settings includes a new-phone checklist. The settings file still excludes calendar links and personal alarms; create a fresh sharing link on the new phone, check permissions and alarms, then revoke the old link.
+- The signing check script compares package, version code, and certificate against a previous APK. This build retains the existing signer for Obtainium updates. See RELEASE_SIGNING.md before any key change.
+
 VERSION 0.1.23 — CALENDAR PRIVACY & SETUP
 - Calendar sharing links and downloaded .ics caches are encrypted with a device-bound Android Keystore key. Existing links and caches migrate in place when read. Already scheduled alarms stay scheduled if decryption fails; reconnect the calendar if Android has removed its key.
-- Calendar setup now recommends a dedicated work-only calendar and explains Proton sharing. Petal Wake currently needs Full view to receive shift events; Proton Limited view may contain only availability blocks and cannot schedule alarms. Keep a work-only Full view link private.
+- Calendar setup now recommends a dedicated work-only calendar and explains Proton sharing. Petal Wake 0.1.23 needed Full view to receive shift events; Limited view availability blocks were identified but not scheduled.
 - Replacing a link asks for confirmation and downloads the new calendar before saving it. After checking new shifts, revoke the old link in the calendar service. A saved link can be copied only after Android authentication, and the clipboard is marked sensitive.
 - Lock-screen privacy hides alarm details by default; it can be changed under Settings > Calendars & privacy. Settings are divided into Wake-up, Calendars & privacy, Appearance, and Diagnostics. A first-run checklist helps verify the next alarm.
 - The app's local WebView now uses a scoped HTTPS asset origin and main-frame, origin-checked messages rather than an all-frame JavaScript interface. The settings export remains private and now includes the lock-screen preference.
@@ -33,7 +44,7 @@ For a paid Proton account:
 - Under "Share with anyone", create and copy a sharing link.
 - Paste it into Petal Wake > Calendar > Calendar sharing link.
 - A calendar containing only work shifts is easiest: leave the title filter blank.
-- Choose Full view for Petal Wake, even on a work-only calendar. Limited view may contain only availability blocks, which Petal Wake identifies but cannot turn into work alarms. Anyone holding the link can see the event details, so use a separate work-only calendar and revoke unused links. Petal Wake encrypts the link on your phone and fetches the calendar directly; it does not send it to an app server.
+- Choose Limited view for a work-only calendar if you want to hide event details. Each busy interval can become a work alarm, so do not include personal appointments. Leave title filtering blank. Full view also works and is needed for title filtering. Anyone holding the link can see the information exposed by that link; revoke unused links. Petal Wake encrypts the link on your phone and fetches the calendar directly; it does not send it to an app server.
 
 For a free Proton account, or if you prefer files:
 - Export the work calendar from Proton Calendar's web Import/export settings.
@@ -78,7 +89,7 @@ PRACTICAL LIMITS
 - Failed downloads retain the previously downloaded calendar and alarms. Last successful download time and refresh errors are displayed.
 - Alarms already scheduled can ring without internet. New/changed shifts require a successful calendar update.
 - Calendar > Calendar check shows how many event records arrived, how many are all-day, and how many upcoming entries your title filter excluded. Copy calendar check copies counts only; it does not include your link, titles, UIDs, or event details.
-- Empty downloads and availability-only feeds have an explanation on the Calendar screen. Availability-only feeds require a link exposing event start times (for example a Proton Full view link); Petal Wake does not guess which busy blocks represent work.
+- Empty downloads and availability-only feeds have an explanation on the Calendar screen. Explicit busy intervals in availability-only feeds are treated as work. Petal Wake cannot identify which busy blocks represent work, so use a dedicated work-only calendar and confirm the resulting alarms.
 - A newly imported shift whose wake-up time is already in the past will not suddenly ring; the app flags it so you can add a personal alarm.
 - Alarms are restored after restarting and unlocking the phone. Force-stopping Petal Wake prevents alarms until it is opened again. Powering off the phone prevents Android alarms.
 - Some less common ICS forms (period-valued RDATE and RANGE=THISANDFUTURE overrides) are rejected with an error instead of partially scheduling them.
@@ -110,7 +121,7 @@ Third-party code licenses are in THIRD_PARTY_NOTICES.txt and bundled in the app'
 CALENDAR CONNECTION REGRESSION TESTS (0.1.1)
 Run on a disposable emulator only:
   adb shell am instrument -w app.daybreak.test/app.daybreak.CalendarConnectionTest
-These 17 checks exercise the actual Connect form and native download/parser using fake HTTPS responses inside the test process (timed/all-day/empty/availability-only/403 responses). They do not access a real Proton account.
+These 22 checks exercise the actual Connect form and native download/parser using fake HTTPS responses inside the test process (timed/all-day/empty/availability-only/403 responses). They do not access a real Proton account.
 
 VOLUME BUILDUP (0.1.7)
 Android VolumeShaper now runs the fade on the audio playback clock. The 40–100% level is mapped to a squared gain curve for a more noticeable buildup; this is a UI scale, not calibrated acoustic loudness. The ringing screen shows a percentage derived from the native shaper gain. Music dynamics still vary. Existing fade duration, selected sound and volume ceiling remain unchanged.

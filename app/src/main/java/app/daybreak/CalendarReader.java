@@ -3,7 +3,11 @@ package app.daybreak;
 import biweekly.Biweekly;
 import biweekly.ICalendar;
 import biweekly.component.VEvent;
+import biweekly.component.VFreeBusy;
 import biweekly.io.TimezoneAssignment;
+import biweekly.parameter.FreeBusyType;
+import biweekly.property.FreeBusy;
+import biweekly.util.Period;
 import biweekly.util.com.google.ical.compat.javautil.DateIterator;
 import java.util.*;
 
@@ -55,6 +59,10 @@ public final class CalendarReader {
     private static long startOfDay(long stamp){return java.time.Instant.ofEpochMilli(stamp).atZone(java.time.ZoneId.systemDefault()).toLocalDate().atStartOfDay(java.time.ZoneId.systemDefault()).toInstant().toEpochMilli();}
     private static List<Shift> read(String text,long from,long to,boolean includeAllDay,int allDayMinutes) {
         ICalendar cal=parse(text);
+        // Availability-only feeds (including Proton Limited view) contain no event
+        // details. Never mix these periods with VEVENTs, which could double alarms.
+        if(cal.getEvents().isEmpty()&&!cal.getFreeBusies().isEmpty())
+            return readAvailability(cal,from,to,includeAllDay,allDayMinutes);
         Map<String,VEvent> masters=new LinkedHashMap<>(), overrides=new LinkedHashMap<>();
         for(VEvent e:cal.getEvents()) {
             String id=uid(e);
@@ -94,6 +102,46 @@ public final class CalendarReader {
         }
         out.sort(Comparator.comparingLong(s->s.start));
         if(out.size()>1000)throw new IllegalArgumentException("More than 1,000 shifts in 60 days. Use a work-only calendar.");
+        return out;
+    }
+    private static List<Shift> readAvailability(ICalendar cal,long from,long to,boolean includeAllDay,int allDayMinutes) {
+        List<long[]> periods=new ArrayList<>();
+        for(VFreeBusy component:cal.getFreeBusies())for(FreeBusy property:component.getFreeBusy()){
+            FreeBusyType type=property.getType();
+            if(type!=null&&type!=FreeBusyType.BUSY&&type!=FreeBusyType.BUSY_UNAVAILABLE)continue;
+            for(Period period:property.getValues()){
+                if(period.getStartDate()==null)continue;
+                long start=period.getStartDate().getTime();
+                long end=period.getEndDate()!=null?period.getEndDate().getTime()
+                    :period.getDuration()!=null?period.getDuration().add(new Date(start)).getTime():start;
+                if(end<=start)continue;
+                periods.add(new long[]{start,end});
+                if(periods.size()>5000)throw new IllegalArgumentException("Too many busy intervals. Use a work-only calendar.");
+            }
+        }
+        periods.sort(Comparator.comparingLong(a->a[0]));
+        List<long[]> merged=new ArrayList<>();
+        for(long[] period:periods){
+            if(!merged.isEmpty()&&period[0]<merged.get(merged.size()-1)[1])
+                merged.get(merged.size()-1)[1]=Math.max(merged.get(merged.size()-1)[1],period[1]);
+            else merged.add(period.clone());
+        }
+        List<Shift> out=new ArrayList<>();
+        java.time.ZoneId zone=java.time.ZoneId.systemDefault();
+        for(long[] period:merged){
+            long rawStart=period[0],end=period[1];
+            java.time.ZonedDateTime localStart=java.time.Instant.ofEpochMilli(rawStart).atZone(zone);
+            boolean allDay=localStart.toLocalTime().equals(java.time.LocalTime.MIDNIGHT)
+                &&java.time.Instant.ofEpochMilli(end).atZone(zone).toLocalTime().equals(java.time.LocalTime.MIDNIGHT)
+                &&java.time.Instant.ofEpochMilli(end).atZone(zone).toLocalDate().isAfter(localStart.toLocalDate());
+            if(allDay&&!includeAllDay)continue;
+            long start=allDay&&allDayMinutes>=0
+                ?localStart.toLocalDate().atTime(allDayMinutes/60,allDayMinutes%60).atZone(zone).toInstant().toEpochMilli():rawStart;
+            if(start<(allDay&&allDayMinutes<0?startOfDay(from):from)||start>=to)continue;
+            String id="availability:"+rawStart+":"+end;
+            out.add(new Shift(id,"Busy time",start,end,allDay));
+            if(out.size()>1000)throw new IllegalArgumentException("More than 1,000 busy intervals in 60 days. Use a work-only calendar.");
+        }
         return out;
     }
     private static void add(List<Shift> out,VEvent e,String id,long rawStart,long from,long to,int allDayMinutes) {

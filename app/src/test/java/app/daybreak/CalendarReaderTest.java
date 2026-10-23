@@ -66,7 +66,30 @@ public class CalendarReaderTest {
     }
     @Test public void availabilityOnlyFeedIsIdentified(){
         String ics=calendar("BEGIN:VFREEBUSY\r\nUID:busy\r\nDTSTART:20261013T080000Z\r\nDTEND:20261013T170000Z\r\nFREEBUSY:20261013T080000Z/20261013T170000Z\r\nEND:VFREEBUSY");
-        var counts=CalendarReader.inspect(ics);assertEquals(0,counts.events);assertEquals(1,counts.availability);assertTrue(CalendarReader.readWithAllDay(ics,0,Long.MAX_VALUE,-1).isEmpty());
+        var counts=CalendarReader.inspect(ics);assertEquals(0,counts.events);assertEquals(1,counts.availability);
+        var rows=CalendarReader.readWithAllDay(ics,at("2026-10-12T00:00:00Z"),at("2026-10-15T00:00:00Z"),-1);
+        assertEquals(1,rows.size());assertEquals(at("2026-10-13T08:00:00Z"),rows.get(0).start);assertEquals("Busy time",rows.get(0).title);
+    }
+    @Test public void availabilitySkipsFreeAndTentativeAndMergesOverlap(){
+        String ics=calendar("BEGIN:VFREEBUSY\r\nUID:busy\r\nFREEBUSY;FBTYPE=FREE:20261013T070000Z/20261013T080000Z\r\nFREEBUSY;FBTYPE=BUSY-TENTATIVE:20261013T080000Z/20261013T090000Z\r\nFREEBUSY:20261013T100000Z/20261013T130000Z,20261013T120000Z/20261013T140000Z\r\nEND:VFREEBUSY");
+        var rows=CalendarReader.readWithAllDay(ics,at("2026-10-12T00:00:00Z"),at("2026-10-15T00:00:00Z"),-1);
+        assertEquals(1,rows.size());assertEquals(at("2026-10-13T10:00:00Z"),rows.get(0).start);assertEquals(at("2026-10-13T14:00:00Z"),rows.get(0).end);
+    }
+    @Test public void availabilityAcceptsDurationPeriods(){
+        String ics=calendar("BEGIN:VFREEBUSY\r\nUID:busy\r\nFREEBUSY:20261013T100000Z/PT8H\r\nEND:VFREEBUSY");
+        var rows=CalendarReader.readWithAllDay(ics,at("2026-10-12T00:00:00Z"),at("2026-10-15T00:00:00Z"),-1);
+        assertEquals(1,rows.size());assertEquals(at("2026-10-13T18:00:00Z"),rows.get(0).end);
+    }
+    @Test public void availabilityAllDayNeedsChosenLocalTimeAcrossDst(){
+        String ics=calendar("BEGIN:VFREEBUSY\r\nUID:busy\r\nFREEBUSY:20261101T040000Z/20261102T050000Z\r\nEND:VFREEBUSY");
+        var hidden=CalendarReader.readWithAllDay(ics,at("2026-10-31T00:00:00Z"),at("2026-11-03T00:00:00Z"),-1);
+        assertEquals(1,hidden.size());assertTrue(hidden.get(0).allDay);
+        var timed=CalendarReader.readWithAllDay(ics,at("2026-10-31T00:00:00Z"),at("2026-11-03T00:00:00Z"),480);
+        assertEquals(at("2026-11-01T13:00:00Z"),timed.get(0).start);assertEquals(hidden.get(0).id,timed.get(0).id);
+    }
+    @Test public void eventFeedDoesNotAlsoScheduleAvailability(){
+        String ics=calendar(event("UID:work\r\nDTSTART:20261013T120000Z\r\nSUMMARY:Shift"),"BEGIN:VFREEBUSY\r\nUID:busy\r\nFREEBUSY:20261013T120000Z/20261013T200000Z\r\nEND:VFREEBUSY");
+        assertEquals(1,CalendarReader.readWithAllDay(ics,at("2026-10-12T00:00:00Z"),at("2026-10-15T00:00:00Z"),-1).size());
     }
     @Test public void overnightLeadUsesElapsedTime(){long start=at("2026-11-01T06:30:00Z");assertEquals(at("2026-11-01T05:00:00Z"),CalendarReader.wakeTime(start,90));assertEquals(start,CalendarReader.wakeTime(start,0));}
     @Test public void filteringIsCaseInsensitive(){assertTrue(CalendarReader.matches("WORK – morning","work"));assertFalse(CalendarReader.matches("Dentist","Work"));assertTrue(CalendarReader.matches("Busy",""));}

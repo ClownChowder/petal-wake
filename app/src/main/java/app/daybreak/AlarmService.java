@@ -13,7 +13,7 @@ public class AlarmService extends Service {
     private VolumeShaper volumeShaper;private float targetVolume=1f;private int fadeSeconds;private long playbackBegan;
     private static volatile AlarmService active;
     private final Handler handler=new Handler(Looper.getMainLooper());
-    private JSONObject current; private AudioManager audio;private AudioFocusRequest focus;private boolean fallbackActive;
+    private JSONObject current; private AudioManager audio;private AudioFocusRequest focus;private boolean fallbackActive;private volatile boolean destroyed;
     @Override public void onCreate(){super.onCreate();active=this;}
     private float fadeGain(){try{return volumeShaper==null?1f:volumeShaper.getVolume();}catch(IllegalStateException e){return -1f;}}
     public static int playbackPercent(){AlarmService service=active;if(service==null||service.player==null)return -1;float gain=service.fadeGain();return gain<0?-1:Math.round(100f*service.targetVolume*(float)Math.sqrt(gain));}
@@ -34,8 +34,8 @@ public class AlarmService extends Service {
                     if(!Scheduler.allowed(this))throw new IllegalStateException("Alarm permission is off. Allow Alarms & reminders before snoozing.");
                     JSONObject batch=Store.object(this,"ringing");
                     for(java.util.Iterator<String> it=batch.keys();it.hasNext();)Scheduler.snooze(this,batch.getJSONObject(it.next()));
-                    handler.post(()->finish("snoozed"));
-                } catch(Exception e){Store.error(this,"Snooze failed. Allow Alarms & reminders in Android settings.");handler.post(()->android.widget.Toast.makeText(this,"Snooze failed. The alarm will keep ringing.",android.widget.Toast.LENGTH_LONG).show());}
+                    if(!destroyed)handler.post(()->{if(!destroyed)finish("snoozed");});
+                } catch(Exception e){Store.error(this,"Snooze failed. Allow Alarms & reminders in Android settings.");if(!destroyed)handler.post(()->{if(!destroyed)android.widget.Toast.makeText(this,"Snooze failed. The alarm will keep ringing.",android.widget.Toast.LENGTH_LONG).show();});}
             });
             return START_STICKY;
         }
@@ -108,6 +108,8 @@ public class AlarmService extends Service {
     }
     private void finish(){finish("timed out");}
     private void finish(String event){
+        if(destroyed)return;
+        handler.removeCallbacksAndMessages(null);
         if(!"snoozed".equals(event)){
             JSONObject batch=Store.object(this,"ringing");
             if(batch.length()==0&&current!=null)AlarmHistory.record(this,event,current);
@@ -118,6 +120,14 @@ public class AlarmService extends Service {
         stopForeground(STOP_FOREGROUND_REMOVE);stopSelf();((DaybreakApp)getApplication()).changed();
         sendBroadcast(new Intent("app.daybreak.RING_DONE").setPackage(getPackageName()));
     }
-    @Override public void onDestroy(){handler.removeCallbacksAndMessages(null);if(active==this)active=null;if(player!=null){player.release();player=null;}volumeShaper=null;if(vibrator!=null)vibrator.cancel();if(lock!=null&&lock.isHeld())lock.release();if(audio!=null&&focus!=null)audio.abandonAudioFocusRequest(focus);super.onDestroy();}
+    @Override public void onDestroy(){
+        destroyed=true;handler.removeCallbacksAndMessages(null);if(active==this)active=null;
+        if(volumeShaper!=null){try{volumeShaper.close();}catch(RuntimeException ignored){}volumeShaper=null;}
+        if(player!=null){try{player.release();}catch(RuntimeException ignored){}player=null;}
+        if(vibrator!=null){try{vibrator.cancel();}catch(RuntimeException ignored){}vibrator=null;}
+        if(lock!=null){try{if(lock.isHeld())lock.release();}catch(RuntimeException ignored){}lock=null;}
+        if(audio!=null&&focus!=null){try{audio.abandonAudioFocusRequest(focus);}catch(RuntimeException ignored){}focus=null;}
+        super.onDestroy();
+    }
     @Override public IBinder onBind(Intent i){return null;}
 }

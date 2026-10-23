@@ -80,7 +80,7 @@ public final class Sync {
                     int lead=ShiftRules.lead(shift.start,shift.allDay,ordinary,p.getBoolean("shiftRulesEnabled",false),p.getInt("earlyBefore",600),p.getInt("earlyLead",90),p.getInt("lateAfter",720),p.getInt("lateLead",45));
                     long at=needsTime?0:CalendarReader.wakeTime(shift.start,lead);
                     String id="primary".equals(source.optString("id"))?"shift:"+shift.id:"shift:"+source.getString("id")+":"+shift.id;
-                    all.add(new JSONObject().put("id",id).put("title",shift.title).put("at",at).put("start",shift.start).put("end",shift.end).put("kind","shift").put("skipped",skipped.optBoolean(id)).put("allDay",shift.allDay).put("needsTime",needsTime).put("leadMinutes",lead).put("calendarName",source.optString("name","Work calendar")));
+                    all.add(new JSONObject().put("id",id).put("title",shift.title).put("at",at).put("start",shift.start).put("end",shift.end).put("kind","shift").put("skipped",skipped.optBoolean(id)).put("allDay",shift.allDay).put("needsTime",needsTime).put("leadMinutes",lead).put("calendarId",source.getString("id")).put("calendarName",source.optString("name","Work calendar")));
                 }
             }
             all.sort(Comparator.comparingLong(a->a.optLong("start")));

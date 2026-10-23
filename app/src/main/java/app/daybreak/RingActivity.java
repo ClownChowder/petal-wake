@@ -1,4 +1,5 @@
 package app.daybreak;
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
 import android.content.res.ColorStateList;
@@ -14,7 +15,7 @@ import android.widget.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 public class RingActivity extends Activity {
-    private LinearLayout root;private Button snooze,awake;
+    private LinearLayout root;private Button snooze,awake;private boolean receiverRegistered;
     private final Handler ui=new Handler(Looper.getMainLooper());
     private static final long DISMISS_HOLD_MS=2_000L;
     private long dismissHoldBegan;
@@ -32,6 +33,7 @@ public class RingActivity extends Activity {
     }};
     private final BroadcastReceiver done=new BroadcastReceiver(){public void onReceive(Context c,Intent i){if(Appearance.CHANGED.equals(i.getAction()))applyPalette();else finish();}};
     private int dp(int value){return Math.round(value*getResources().getDisplayMetrics().density);}
+    @SuppressLint("UnspecifiedRegisterReceiverFlag") // Pre-33 receivers require the signature permission; 33+ also use NOT_EXPORTED.
     @Override public void onCreate(Bundle b){
         setTheme(Appearance.current(this).theme);super.onCreate(b);if(Build.VERSION.SDK_INT>=27){setShowWhenLocked(true);setTurnScreenOn(true);}getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON|WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED|WindowManager.LayoutParams.FLAG_TURN_SCREEN_ON);
         if(Build.VERSION.SDK_INT>=30)getWindow().setDecorFitsSystemWindows(false);
@@ -69,7 +71,7 @@ public class RingActivity extends Activity {
         });
         ui.post(new Runnable(){public void run(){snooze.setText(snoozeLabel(time,title,minutes));ui.postDelayed(this,1000);}});
         setContentView(root);if(Build.VERSION.SDK_INT>=30)getWindow().getInsetsController().setSystemBarsAppearance(0,WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS|WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);
-        applyPalette();IntentFilter events=new IntentFilter("app.daybreak.RING_DONE");events.addAction(Appearance.CHANGED);if(Build.VERSION.SDK_INT>=33)registerReceiver(done,events,RECEIVER_NOT_EXPORTED);else registerReceiver(done,events);
+        applyPalette();IntentFilter events=new IntentFilter("app.daybreak.RING_DONE");events.addAction(Appearance.CHANGED);if(Build.VERSION.SDK_INT>=33)registerReceiver(done,events,DaybreakApp.INTERNAL_PERMISSION,null,RECEIVER_NOT_EXPORTED);else registerReceiver(done,events,DaybreakApp.INTERNAL_PERMISSION,null);receiverRegistered=true;
     }
     private void applyPalette(){
         Appearance p=Appearance.current(this);root.setBackgroundColor(p.background);tint(snooze,p.surface,p.text);tint(awake,p.action,p.onAction);
@@ -95,5 +97,5 @@ public class RingActivity extends Activity {
     }
     private void act(String action){startService(new Intent(this,AlarmService.class).setAction(action));finish();}
     @Override public void onBackPressed(){}
-    @Override protected void onDestroy(){ui.removeCallbacksAndMessages(null);unregisterReceiver(done);super.onDestroy();}
+    @Override protected void onDestroy(){ui.removeCallbacksAndMessages(null);if(receiverRegistered){unregisterReceiver(done);receiverRegistered=false;}super.onDestroy();}
 }

@@ -1,5 +1,6 @@
 package app.daybreak;
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.app.*;
 import android.content.*;
 import android.content.pm.PackageManager;
@@ -11,6 +12,7 @@ import android.view.*;
 import android.webkit.*;
 import androidx.webkit.WebViewAssetLoader;
 import androidx.webkit.WebViewCompat;
+import androidx.webkit.WebViewFeature;
 import android.widget.Toast;
 import org.json.*;
 import java.io.*;
@@ -19,13 +21,17 @@ import java.util.*;
 
 public class MainActivity extends Activity {
     private WorkAlarmAuthorization workAlarmAuthorization;
-    private boolean pageReady;private String pendingPage;private WebView web;private MediaPlayer preview;private VolumeShaper previewShaper;private android.widget.FrameLayout host;
+    private boolean pageReady,receiverRegistered,destroying;private String pendingPage;private WebView web;private MediaPlayer preview;private VolumeShaper previewShaper;private android.widget.FrameLayout host;
     private final Handler handler=new Handler(Looper.getMainLooper());
     private WebViewAssetLoader assetLoader;
     private final BroadcastReceiver updates=new BroadcastReceiver(){public void onReceive(Context c,Intent i){state();}};
+    @SuppressLint("UnspecifiedRegisterReceiverFlag") // Pre-33 receivers require the signature permission; 33+ also use NOT_EXPORTED.
     @Override public void onCreate(Bundle saved){
         setTheme(Appearance.current(this).theme);super.onCreate(saved);
         int background=Appearance.current(this).background;getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(background));
+        if(!WebViewFeature.isFeatureSupported(WebViewFeature.WEB_MESSAGE_LISTENER)){
+            android.widget.TextView unavailable=new android.widget.TextView(this);unavailable.setText("Petal Wake needs an updated Android System WebView. Update it in your app store, then reopen Petal Wake.");unavailable.setTextSize(18);unavailable.setPadding(48,48,48,48);setContentView(unavailable);return;
+        }
         web=new WebView(this);web.setBackgroundColor(background);
         host=new android.widget.FrameLayout(this);host.setBackgroundColor(background);host.addView(web,new android.widget.FrameLayout.LayoutParams(-1,-1));
         if(Build.VERSION.SDK_INT>=35)host.setOnApplyWindowInsetsListener((v,insets)->{android.graphics.Insets bars=insets.getInsets(WindowInsets.Type.systemBars()|WindowInsets.Type.ime());v.setPadding(bars.left,bars.top,bars.right,bars.bottom);return insets;});
@@ -36,15 +42,23 @@ public class MainActivity extends Activity {
             String json=message.getData();if(json==null||json.length()>65536)return;
             runOnUiThread(()->{try{dispatch(new JSONObject(json));}catch(Exception e){tell(e.getMessage()==null?"Could not complete that action.":e.getMessage());}});
         });
-        web.setWebViewClient(new WebViewClient(){@Override public WebResourceResponse shouldInterceptRequest(WebView v,WebResourceRequest r){return assetLoader.shouldInterceptRequest(r.getUrl());}@Override public boolean shouldOverrideUrlLoading(WebView v,WebResourceRequest r){return true;}@Override public void onPageFinished(WebView v,String url){if(!url.startsWith("https://appassets.androidplatform.net/assets/index.html"))return;pageReady=true;state();if(pendingPage!=null){web.evaluateJavascript("window.openPage&&window.openPage("+JSONObject.quote(pendingPage)+")",null);pendingPage=null;}}});
+        web.setWebViewClient(new WebViewClient(){@Override public WebResourceResponse shouldInterceptRequest(WebView v,WebResourceRequest r){return assetLoader==null?null:assetLoader.shouldInterceptRequest(r.getUrl());}@Override public boolean shouldOverrideUrlLoading(WebView v,WebResourceRequest r){return true;}@Override public void onPageFinished(WebView v,String url){if(destroying||web!=v||!url.startsWith("https://appassets.androidplatform.net/assets/index.html"))return;pageReady=true;state();if(pendingPage!=null){web.evaluateJavascript("window.openPage&&window.openPage("+JSONObject.quote(pendingPage)+")",null);pendingPage=null;}}});
         setContentView(host);if(Build.VERSION.SDK_INT>=30)getWindow().getInsetsController().setSystemBarsAppearance(0,WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS|WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS);applyAppearance();web.loadUrl("https://appassets.androidplatform.net/assets/index.html#"+Appearance.current(this).id+"/"+Appearance.icon(this));
-        if(Build.VERSION.SDK_INT>=33)registerReceiver(updates,new IntentFilter(DaybreakApp.CHANGED),RECEIVER_NOT_EXPORTED);else registerReceiver(updates,new IntentFilter(DaybreakApp.CHANGED));
+        if(Build.VERSION.SDK_INT>=33)registerReceiver(updates,new IntentFilter(DaybreakApp.CHANGED),DaybreakApp.INTERNAL_PERMISSION,null,RECEIVER_NOT_EXPORTED);else registerReceiver(updates,new IntentFilter(DaybreakApp.CHANGED),DaybreakApp.INTERNAL_PERMISSION,null);receiverRegistered=true;
         workAlarmAuthorization=new WorkAlarmAuthorization(this,this::state,this::tell);
         incoming(getIntent());
     }
     @Override protected void onResume(){super.onResume();if(web!=null){Readiness.update(this);state();((DaybreakApp)getApplication()).refresh(true);}}
     @Override protected void onPause(){stopPreview();super.onPause();}
-    @Override protected void onDestroy(){if(workAlarmAuthorization!=null)workAlarmAuthorization.destroy();unregisterReceiver(updates);stopPreview();web.destroy();super.onDestroy();}
+    @Override protected void onDestroy(){
+        destroying=true;pageReady=false;
+        if(workAlarmAuthorization!=null)workAlarmAuthorization.destroy();
+        if(receiverRegistered){unregisterReceiver(updates);receiverRegistered=false;}
+        stopPreview();
+        if(web!=null){WebView old=web;web=null;if(host!=null)host.removeView(old);old.destroy();}
+        assetLoader=null;
+        super.onDestroy();
+    }
     @Override protected void onNewIntent(Intent i){super.onNewIntent(i);setIntent(i);incoming(i);}
     private void incoming(Intent i){if(i==null)return;if("calendar".equals(i.getStringExtra("page"))){pendingPage="calendar";if(web!=null&&pageReady){web.evaluateJavascript("window.openPage&&window.openPage(\"calendar\")",null);pendingPage=null;}}Uri uri=null;if(Intent.ACTION_SEND.equals(i.getAction()))uri=i.getParcelableExtra(Intent.EXTRA_STREAM);else if(Intent.ACTION_VIEW.equals(i.getAction()))uri=i.getData();if(uri!=null&&"content".equals(uri.getScheme()))confirmImport(uri);else if(Intent.ACTION_SEND.equals(i.getAction())){String text=i.getStringExtra(Intent.EXTRA_TEXT);if(text!=null){String link=text.trim();if(link.startsWith("https://")||link.startsWith("webcal://"))new AlertDialog.Builder(this).setTitle("Connect shared calendar?").setMessage("Petal Wake will download this calendar link and replace the current calendar connection. Review the shifts before enabling work alarms.").setNegativeButton("Cancel",null).setPositiveButton("Connect",(d,w)->background(()->Sync.connect(this,link),"Calendar connected. Review shifts before enabling alarms.")).show();}}}
     private void confirmImport(Uri uri){new AlertDialog.Builder(this).setTitle("Import work calendar?").setMessage("This replaces your current calendar connection with a one-time snapshot. Files do not automatically refresh.").setNegativeButton("Cancel",null).setPositiveButton("Import",(d,w)->importUri(uri)).show();}
@@ -53,13 +67,13 @@ public class MainActivity extends Activity {
     private void importUri(Uri uri){background(()->{try(InputStream in=getContentResolver().openInputStream(uri);ByteArrayOutputStream out=new ByteArrayOutputStream()){if(in==null)throw new IOException("File could not be opened.");byte[] b=new byte[8192];int n;while((n=in.read(b))!=-1){out.write(b,0,n);if(out.size()>4_000_000)throw new IOException("Calendar file is too large.");}Sync.importFile(this,out.toString(StandardCharsets.UTF_8.name()));}},"Calendar imported. Review your shifts, then enable alarms.");}
     private void exportSettings(Uri uri){background(()->{try(OutputStream out=getContentResolver().openOutputStream(uri,"wt")){if(out==null)throw new IOException("Settings file could not be created.");out.write(SettingsTransfer.exportJson(this).getBytes(StandardCharsets.UTF_8));}},"Settings saved. Calendar links, events, and alarms were excluded.");}
     private void confirmSettingsImport(Uri uri){new AlertDialog.Builder(this).setTitle("Restore Petal Wake settings?").setMessage("This replaces alarm preferences and themes from the file. Calendar links, work alarms, and personal alarms stay as they are. Review your next alarm afterward.").setNegativeButton("Cancel",null).setPositiveButton("Restore",(d,w)->background(()->{try(InputStream in=getContentResolver().openInputStream(uri);ByteArrayOutputStream out=new ByteArrayOutputStream()){if(in==null)throw new IOException("Settings file could not be opened.");byte[] b=new byte[8192];int n;while((n=in.read(b))!=-1){out.write(b,0,n);if(out.size()>262_144)throw new IOException("Settings file is too large.");}SettingsTransfer.importJson(this,out.toString(StandardCharsets.UTF_8.name()));}},"Settings restored. Review your next alarm and Android permissions.")).show();}
-    private void tell(String message){runOnUiThread(()->{if(isDestroyed()){Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();return;}web.evaluateJavascript("window.toast&&window.toast("+JSONObject.quote(message)+")",null);});}
+    private void tell(String message){runOnUiThread(()->{if(destroying||isDestroyed()||web==null){Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();return;}web.evaluateJavascript("window.toast&&window.toast("+JSONObject.quote(message)+")",null);});}
     private interface Work {void run()throws Exception;}
-    private void background(Work work,String message){web.evaluateJavascript("window.setBusy(true)",null);DaybreakApp.IO.execute(()->{try{work.run();if(message!=null)tell(message);}catch(Exception e){String error=Store.safeError(e.getMessage()==null?"That action could not be completed.":e.getMessage());Store.error(this,error);tell(error);}finally{runOnUiThread(()->{if(!isDestroyed()){web.evaluateJavascript("window.setBusy&&window.setBusy(false)",null);state();}});}});}
+    private void background(Work work,String message){if(destroying||web==null)return;web.evaluateJavascript("window.setBusy(true)",null);DaybreakApp.IO.execute(()->{try{work.run();if(message!=null)tell(message);}catch(Exception e){String error=Store.safeError(e.getMessage()==null?"That action could not be completed.":e.getMessage());Store.error(this,error);tell(error);}finally{runOnUiThread(()->{if(!destroying&&!isDestroyed()&&web!=null){web.evaluateJavascript("window.setBusy&&window.setBusy(false)",null);state();}});}});}
     private boolean notifyAllowed(){NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);NotificationChannel ch=nm.getNotificationChannel(AlarmService.CHANNEL);return (Build.VERSION.SDK_INT<33||checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)==PackageManager.PERMISSION_GRANTED)&&nm.areNotificationsEnabled()&&(ch==null||ch.getImportance()>=NotificationManager.IMPORTANCE_HIGH);}
     private boolean fullAllowed(){return Build.VERSION.SDK_INT<34||((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).canUseFullScreenIntent();}
     private void state(){
-        if(web==null||isDestroyed())return;
+        if(web==null||destroying||isDestroyed())return;
         try {
             applyAppearance();var p=Store.p(this);JSONObject settings=new JSONObject().put("appearance",Appearance.current(this).id).put("iconDesign",Appearance.icon(this)).put("enabled",p.getBoolean("enabled",false)).put("lead",p.getInt("lead",90)).put("filter",p.getString("filter","")).put("snooze",p.getInt("snooze",9)).put("volume",p.getInt("volume",80)).put("fade",p.getInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS)).put("vibrate",p.getBoolean("vibrate",true)).put("sound",SoundLibrary.playable(this)).put("requestedSound",SoundLibrary.current(this)).put("soundPackInstalled",SoundPacks.installed(this)).put("allDayEnabled",p.getBoolean("allDayEnabled",false)).put("allDayMinutes",p.getInt("allDayMinutes",480)).put("quietPreset",p.getBoolean("quietPreset",false)).put("canRestorePlayback",Store.object(this,"previousPlayback").length()>0).put("shiftRulesEnabled",p.getBoolean("shiftRulesEnabled",false)).put("earlyBefore",p.getInt("earlyBefore",600)).put("earlyLead",p.getInt("earlyLead",90)).put("lateAfter",p.getInt("lateAfter",720)).put("lateLead",p.getInt("lateLead",45)).put("eveningCheck",p.getBoolean("eveningCheck",false)).put("eveningMinutes",p.getInt("eveningMinutes",1140));
             settings.put("fallbackMinutes",p.getInt("fallbackMinutes",0));
@@ -107,14 +121,14 @@ public class MainActivity extends Activity {
             case "updateCalendar":background(()->{String id=q.getString("id");if("primary".equals(id)){Store.p(this).edit().putString("primaryName",CalendarSources.cleanName(q.getString("name"))).putString("filter",q.getString("filter").trim()).putInt("lead",q.getInt("lead")).putBoolean("allDayEnabled",q.getBoolean("allDayEnabled")).putInt("allDayMinutes",q.getInt("allDayMinutes")).commit();Sync.run(this,false);}else CalendarSources.update(this,id,q.getString("name"),q.getString("filter"),q.getInt("lead"),q.getBoolean("allDayEnabled"),q.getInt("allDayMinutes"));},"Calendar rules saved.");break;
             case "removeCalendar":String removeId=q.getString("id");Runnable removeCalendar=()->background(()->CalendarSources.remove(this,removeId),"Calendar removed. Its work alarms were updated.");if(Store.p(this).getBoolean("enabled",false))workAlarmAuthorization.request("Remove work calendar?","This removes the calendar and its work alarms. Other calendars stay connected.",removeCalendar);else removeCalendar.run();break;
             case "clearFilter":background(()->{Store.p(this).edit().putString("filter","").commit();Sync.run(this,false);},"Title filter cleared.");break;
-            case "copyCalendarCheck":JSONObject info=Store.object(this,"calendarInfo");StringBuilder check=new StringBuilder("Petal Wake 0.1.15 calendar check\n");for(String key:new String[]{"events","timed","allDay","cancelled","missingStart","availability","upcomingTimed","upcomingAllDay","filtered","needsTime","windowDays"})check.append(key).append(": ").append(info.optInt(key)).append('\n');check.append("Title filter active: ").append(!Store.p(this).getString("filter","").trim().isEmpty());((android.content.ClipboardManager)getSystemService(CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Calendar check",check.toString()));tell("Calendar counts copied. This includes no calendar link, event titles, or event details.");break;
+            case "copyCalendarCheck":JSONObject info=Store.object(this,"calendarInfo");StringBuilder check=new StringBuilder("Petal Wake calendar check\n");for(String key:new String[]{"events","timed","allDay","cancelled","missingStart","availability","upcomingTimed","upcomingAllDay","filtered","needsTime","windowDays"})check.append(key).append(": ").append(info.optInt(key)).append('\n');check.append("Title filter active: ").append(!Store.p(this).getString("filter","").trim().isEmpty());((android.content.ClipboardManager)getSystemService(CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Calendar check",check.toString()));tell("Calendar counts copied. This includes no calendar link, event titles, or event details.");break;
             case "refresh":background(()->Sync.run(this,true),null);break;
             case "import":Intent choose=new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*");startActivityForResult(choose,10);break;
             case "exportSettings":Intent save=new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/json").putExtra(Intent.EXTRA_TITLE,"petal-wake-settings.json");startActivityForResult(save,20);break;
             case "importSettings":Intent restore=new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*");startActivityForResult(restore,21);break;
             case "clearHistory":AlarmHistory.clear(this);state();tell("Alarm activity cleared from this phone.");break;
             case "disconnect":Runnable disconnect=()->background(()->{CalendarSources.clear(this);Store.setUrl(this,"");Store.p(this).edit().remove("source").remove("lastSync").remove("primaryName").putBoolean("enabled",false).commit();CalendarConfidence.reset(this);Store.cache(this,"");Sync.run(this,false);},"Calendars disconnected.");if(Store.p(this).getBoolean("enabled",false))workAlarmAuthorization.request("Disconnect work calendars?","This removes all calendar connections and turns off their work alarms.",disconnect);else disconnect.run();break;
-            case "exact":startActivity(new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,Uri.parse("package:"+getPackageName())));break;
+            case "exact":if(Build.VERSION.SDK_INT>=31)startActivity(new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,Uri.parse("package:"+getPackageName())));break;
             case "notifications":if(Build.VERSION.SDK_INT>=33&&!notifyAllowed())requestPermissions(new String[]{Manifest.permission.POST_NOTIFICATIONS},12);else startActivity(new Intent(Settings.ACTION_APP_NOTIFICATION_SETTINGS).putExtra(Settings.EXTRA_APP_PACKAGE,getPackageName()));break;
             case "fullscreen":if(Build.VERSION.SDK_INT>=34)startActivity(new Intent(Settings.ACTION_MANAGE_APP_USE_FULL_SCREEN_INTENT,Uri.parse("package:"+getPackageName())));break;
             case "volumeSettings":startActivity(new Intent(Settings.ACTION_SOUND_SETTINGS));break;
@@ -136,21 +150,35 @@ public class MainActivity extends Activity {
     private void preview(String file)throws Exception {preview(file,false);}
     private void preview(String file,boolean fullRamp)throws Exception {
         if(!SoundLibrary.available(this,file))throw new Exception("Download the orchestra pack to preview this recording.");
-        handler.removeCallbacksAndMessages(null);if(previewShaper!=null){previewShaper.close();previewShaper=null;}if(preview!=null){preview.release();preview=null;}preview=new MediaPlayer();preview.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());preview.setLooping(fullRamp);
-        SoundLibrary.setDataSource(preview,this,file);
-        int fade=fullRamp?Store.p(this).getInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS):0;
-        preview.setOnPreparedListener(p->{
-            float level=fullRamp?Store.p(this).getInt("volume",80)/100f:Store.p(this).getBoolean("quietPreset",false)?.42f:.6f;
-            p.setVolume(level,level);
-            if(fullRamp&&fade>0){
-                float[] times=new float[16],gains=new float[16];
-                for(int point=0;point<16;point++){times[point]=point/15f;gains[point]=AlarmEnvelope.volume(1f,fade,Math.round(times[point]*fade*1000));}
-                VolumeShaper.Configuration curve=new VolumeShaper.Configuration.Builder().setDuration(fade*1000L).setCurve(times,gains).setInterpolatorType(VolumeShaper.Configuration.INTERPOLATOR_TYPE_LINEAR).build();
-                previewShaper=p.createVolumeShaper(curve);
-            }
-            p.start();if(previewShaper!=null)previewShaper.apply(VolumeShaper.Operation.PLAY);
-        });
-        preview.setOnCompletionListener(p->stopPreview());preview.setOnErrorListener((p,w,e)->{tell("This sound could not play.");stopPreview();return true;});preview.prepareAsync();handler.postDelayed(this::stopPreview,fullRamp?Math.max(20_000,fade*1000L+5_000):20_000);
+        stopPreview();
+        MediaPlayer candidate=new MediaPlayer();preview=candidate;
+        try{
+            candidate.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());candidate.setLooping(fullRamp);
+            SoundLibrary.setDataSource(candidate,this,file);
+            int fade=fullRamp?Store.p(this).getInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS):0;
+            candidate.setOnPreparedListener(p->{
+                if(destroying||preview!=p)return;
+                try{
+                    float level=fullRamp?Store.p(this).getInt("volume",80)/100f:Store.p(this).getBoolean("quietPreset",false)?.42f:.6f;
+                    p.setVolume(level,level);
+                    if(fullRamp&&fade>0){
+                        float[] times=new float[16],gains=new float[16];
+                        for(int point=0;point<16;point++){times[point]=point/15f;gains[point]=AlarmEnvelope.volume(1f,fade,Math.round(times[point]*fade*1000));}
+                        VolumeShaper.Configuration curve=new VolumeShaper.Configuration.Builder().setDuration(fade*1000L).setCurve(times,gains).setInterpolatorType(VolumeShaper.Configuration.INTERPOLATOR_TYPE_LINEAR).build();
+                        previewShaper=p.createVolumeShaper(curve);
+                    }
+                    p.start();if(previewShaper!=null)previewShaper.apply(VolumeShaper.Operation.PLAY);
+                }catch(RuntimeException error){tell("This sound could not play.");stopPreview();}
+            });
+            candidate.setOnCompletionListener(p->{if(preview==p)stopPreview();});
+            candidate.setOnErrorListener((p,w,e)->{if(preview==p){tell("This sound could not play.");stopPreview();}return true;});
+            candidate.prepareAsync();handler.postDelayed(this::stopPreview,fullRamp?Math.max(20_000,fade*1000L+5_000):20_000);
+        }catch(Exception error){stopPreview();throw error;}
     }
-    private void stopPreview(){handler.removeCallbacksAndMessages(null);if(previewShaper!=null){previewShaper.close();previewShaper=null;}if(preview!=null){preview.release();preview=null;}if(web!=null)web.evaluateJavascript("window.previewStopped&&window.previewStopped()",null);}
+    private void stopPreview(){
+        handler.removeCallbacksAndMessages(null);
+        if(previewShaper!=null){try{previewShaper.close();}catch(RuntimeException ignored){}previewShaper=null;}
+        if(preview!=null){try{preview.release();}catch(RuntimeException ignored){}preview=null;}
+        if(!destroying&&web!=null)web.evaluateJavascript("window.previewStopped&&window.previewStopped()",null);
+    }
 }

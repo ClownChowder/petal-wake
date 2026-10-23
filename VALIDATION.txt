@@ -1,5 +1,13 @@
 DAYBREAK — VALIDATION
 
+UPDATE 0.1.25 — ALL-DAY CLARITY AND STABILITY
+- 39 unit tests passed. Calendar connection checks (27) cover all-day shifts without assumed start times, clear no-alarm warnings, source-specific start-time controls for two calendars, and preserved calendar import controls.
+- 14 Android 15 lifecycle checks passed: 12 repeated audio previews released native media resources, and activity teardown released its WebView, receiver, and preview.
+- 28 Android 15 smoke checks passed, including alarm delivery, full-minute audio rise, two-second dismiss hold, and snooze firing again. Six reliability checks passed for evening notices and missing optional audio.
+- Android lint completed with no errors. Static analysis still reports nonblocking warnings, including launcher icon-shape and accessibility guidance.
+- The v0.1.25 APK uses package app.daybreak, version code 26, and the same SHA-256 signing certificate as v0.1.24: 386f097ea7de3749f0b0cc87e433d0f8a8a70cebb1848d7e7cb4bd5f60cff2b4. It installed and launched in the emulator.
+- A physical phone was not connected for this build; confirm the updated alarm screen and system settings on the phone after installing.
+
 Android debug APK built successfully with Gradle 8.11.1 / AGP 8.10.1 / JDK 17 / SDK 35.
 14 calendar unit tests passed, covering spring and fall daylight-saving transitions, recurrence, moved/canceled instances, exclusions/additions, folded text, duplicate sequence priority, all-day events, filtering, lead-time validation, UTF-8 BOM and empty calendars.
 12 Android 15 emulator smoke checks passed, including native MIDI and WAV playback, shift scheduling/replacement/skipping, a native alarm firing while the screen was off, dismissal, snooze persistence through refresh, and the snoozed alarm firing again.
