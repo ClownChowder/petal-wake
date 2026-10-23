@@ -9,15 +9,15 @@ public final class Store {
     public static SharedPreferences p(Context c){return c.getSharedPreferences("daybreak",Context.MODE_PRIVATE);}
     public static JSONArray array(Context c,String key){
         String saved=p(c).getString(key,"[]");
-        if("extraCalendars".equals(key)){
+        if("extraCalendars".equals(key)||"customSounds".equals(key)){
             String plain=PrivateStorage.open(saved);
             try{JSONArray result=new JSONArray(plain);if(!PrivateStorage.encrypted(saved))put(c,key,result);return result;}
-            catch(JSONException e){throw new IllegalStateException("Saved calendar connections could not be read. Existing alarms were kept.",e);}
+            catch(JSONException e){throw new IllegalStateException("Saved private settings could not be read. Existing alarms were kept.",e);}
         }
         try{return new JSONArray(saved);}catch(Exception e){return new JSONArray();}
     }
     public static JSONObject object(Context c,String key){try{return new JSONObject(p(c).getString(key,"{}"));}catch(Exception e){return new JSONObject();}}
-    public static void put(Context c,String key,Object value){String saved=value.toString();if("extraCalendars".equals(key))saved=PrivateStorage.seal(saved);if(!p(c).edit().putString(key,saved).commit())throw new IllegalStateException("Could not save calendar settings.");}
+    public static void put(Context c,String key,Object value){String saved=value.toString();if("extraCalendars".equals(key)||"customSounds".equals(key))saved=PrivateStorage.seal(saved);if(!p(c).edit().putString(key,saved).commit())throw new IllegalStateException("Could not save private settings.");}
     public static String url(Context c){
         SharedPreferences prefs=p(c);String secure=prefs.getString("secureUrl","");
         if(!secure.isEmpty())return PrivateStorage.open(secure);

@@ -26,7 +26,7 @@ public final class EveningCheck {
         Intent intent=new Intent(c,MainActivity.class).putExtra("page","calendar").addFlags(Intent.FLAG_ACTIVITY_NEW_TASK|Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent open=PendingIntent.getActivity(c,202,intent,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
         Notification notice=new Notification.Builder(c,CHANNEL).setSmallIcon(R.drawable.ic_alarm_notification).setColor(Appearance.current(c).accent).setContentTitle(scheduled?"Tomorrow's work alarm":"Check tomorrow's work alarm").setContentText(text).setStyle(new Notification.BigTextStyle().bigText(text)).setContentIntent(open).setAutoCancel(true).setVisibility(Notification.VISIBILITY_PRIVATE).build();
-        try{nm.notify(NOTICE,notice);p.edit().putInt("eveningSentDay",today).commit();}catch(SecurityException ignored){}
+        try{createChannel(c);nm.notify(NOTICE,notice);p.edit().putInt("eveningSentDay",today).commit();}catch(SecurityException ignored){}
     }
     private EveningCheck(){}
 }

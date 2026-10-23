@@ -40,7 +40,7 @@ public class LifecycleCleanupTest extends Instrumentation {
     private void awaitPlaying()throws Exception{
         long until=System.currentTimeMillis()+8000;
         while(System.currentTimeMillis()<until){MediaPlayer player=(MediaPlayer)field("preview");if(player!=null&&player.isPlaying())return;Thread.sleep(100);}
-        throw new Exception("Preview did not begin.");
+        throw new Exception("Preview did not begin; selected="+SoundLibrary.current(activity)+", playable="+SoundLibrary.playable(activity)+", player="+(field("preview")!=null)+", error="+Store.p(activity).getString("error",""));
     }
     @Override public void onStart(){Bundle result=new Bundle();try{
         Context context=getTargetContext();

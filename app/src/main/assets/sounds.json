@@ -19,7 +19,8 @@
       "loudnessLUFS": -28.04,
       "truePeakDbTP": -15.64,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_02.m4a",
@@ -41,7 +42,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -15.2,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_03.m4a",
@@ -63,7 +65,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -16.06,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_04.m4a",
@@ -85,7 +88,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -14.94,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_05.m4a",
@@ -107,7 +111,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -15.35,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_06.m4a",
@@ -129,7 +134,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -15.96,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_07.m4a",
@@ -151,7 +157,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -15.26,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_08.m4a",
@@ -173,7 +180,8 @@
       "loudnessLUFS": -28.01,
       "truePeakDbTP": -14.76,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_09.m4a",
@@ -195,7 +203,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -15.19,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_10.m4a",
@@ -217,7 +226,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -16.19,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_11.m4a",
@@ -239,7 +249,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -15.98,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_12.m4a",
@@ -261,7 +272,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -16.52,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_13.m4a",
@@ -283,7 +295,8 @@
       "loudnessLUFS": -28.01,
       "truePeakDbTP": -15.09,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_14.m4a",
@@ -305,7 +318,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -14.1,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_15.m4a",
@@ -327,7 +341,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -13.43,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_16.m4a",
@@ -349,7 +364,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -15.54,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_17.m4a",
@@ -371,7 +387,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -14.11,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_18.m4a",
@@ -393,7 +410,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -14.35,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_19.m4a",
@@ -415,7 +433,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -15.75,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_20.m4a",
@@ -437,7 +456,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -15.17,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_21.m4a",
@@ -459,7 +479,8 @@
       "loudnessLUFS": -30.85,
       "truePeakDbTP": -11.99,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_22.m4a",
@@ -481,7 +502,8 @@
       "loudnessLUFS": -28.01,
       "truePeakDbTP": -16.78,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_23.m4a",
@@ -503,7 +525,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -14.72,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_24.m4a",
@@ -525,7 +548,8 @@
       "loudnessLUFS": -28.01,
       "truePeakDbTP": -16.42,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_25.m4a",
@@ -547,7 +571,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -15.31,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_26.m4a",
@@ -569,7 +594,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -15.88,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_27.m4a",
@@ -591,7 +617,8 @@
       "loudnessLUFS": -28.04,
       "truePeakDbTP": -13.42,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_28.m4a",
@@ -613,7 +640,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -14.62,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_29.m4a",
@@ -635,7 +663,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -13.86,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_30.m4a",
@@ -657,7 +686,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -13.89,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_31.m4a",
@@ -679,7 +709,8 @@
       "loudnessLUFS": -28.04,
       "truePeakDbTP": -13.39,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "orchestra_32.m4a",
@@ -701,7 +732,8 @@
       "loudnessLUFS": -28.05,
       "truePeakDbTP": -12.83,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "tone_01.wav",
@@ -710,7 +742,8 @@
     "category": "Standard",
     "duration": 1,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Standard tones"
   },
   {
     "file": "tone_02.wav",
@@ -719,7 +752,8 @@
     "category": "Standard",
     "duration": 1,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Standard tones"
   },
   {
     "file": "tone_03.wav",
@@ -728,7 +762,8 @@
     "category": "Standard",
     "duration": 3,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Bells & chimes"
   },
   {
     "file": "tone_04.wav",
@@ -737,7 +772,8 @@
     "category": "Standard",
     "duration": 3,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Bells & chimes"
   },
   {
     "file": "tone_05.wav",
@@ -746,7 +782,8 @@
     "category": "Standard",
     "duration": 2,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Acoustic"
   },
   {
     "file": "tone_06.wav",
@@ -755,7 +792,8 @@
     "category": "Standard",
     "duration": 4,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Acoustic"
   },
   {
     "file": "tone_07.wav",
@@ -764,7 +802,8 @@
     "category": "Standard",
     "duration": 4,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Bells & chimes"
   },
   {
     "file": "tone_08.wav",
@@ -773,7 +812,8 @@
     "category": "Standard",
     "duration": 2,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Standard tones"
   },
   {
     "file": "tone_09.wav",
@@ -782,7 +822,8 @@
     "category": "Standard",
     "duration": 4,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Bells & chimes"
   },
   {
     "file": "tone_10.wav",
@@ -791,7 +832,8 @@
     "category": "Standard",
     "duration": 2,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Standard tones"
   },
   {
     "file": "tone_11.wav",
@@ -800,7 +842,8 @@
     "category": "Standard",
     "duration": 5,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Bells & chimes"
   },
   {
     "file": "tone_12.wav",
@@ -809,7 +852,8 @@
     "category": "Standard",
     "duration": 2,
     "license": "CC0-1.0",
-    "arrangement": "Original synthesized alarm tone"
+    "arrangement": "Original synthesized alarm tone",
+    "genre": "Standard tones"
   },
   {
     "file": "gentle_01.m4a",
@@ -838,7 +882,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -15.67,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "gentle_02.m4a",
@@ -867,7 +912,8 @@
       "loudnessLUFS": -28.06,
       "truePeakDbTP": -16.41,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "gentle_03.m4a",
@@ -896,7 +942,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -16.48,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "gentle_04.m4a",
@@ -925,7 +972,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -16.36,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "gentle_05.m4a",
@@ -954,7 +1002,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -16.4,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "gentle_06.m4a",
@@ -983,7 +1032,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -14.9,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "gentle_07.m4a",
@@ -1012,7 +1062,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -16.16,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "gentle_08.m4a",
@@ -1041,7 +1092,8 @@
       "loudnessLUFS": -28.03,
       "truePeakDbTP": -13.27,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Orchestral"
   },
   {
     "file": "gentle_09.m4a",
@@ -1070,7 +1122,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -14.4,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Piano"
   },
   {
     "file": "gentle_10.m4a",
@@ -1099,7 +1152,8 @@
       "loudnessLUFS": -28.0,
       "truePeakDbTP": -14.51,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Piano"
   },
   {
     "file": "gentle_11.m4a",
@@ -1128,7 +1182,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -14.79,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Piano"
   },
   {
     "file": "gentle_12.m4a",
@@ -1157,7 +1212,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -15.6,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Piano"
   },
   {
     "file": "gentle_13.m4a",
@@ -1186,7 +1242,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -15.33,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Piano"
   },
   {
     "file": "gentle_14.m4a",
@@ -1215,7 +1272,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -14.56,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Piano"
   },
   {
     "file": "gentle_15.m4a",
@@ -1244,7 +1302,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -15.53,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Piano"
   },
   {
     "file": "gentle_16.m4a",
@@ -1273,7 +1332,8 @@
       "loudnessLUFS": -28.02,
       "truePeakDbTP": -16.19,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Piano"
   },
   {
     "file": "nature_01.m4a",
@@ -1302,7 +1362,8 @@
       "loudnessLUFS": -31.14,
       "truePeakDbTP": -14.06,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Ocean"
   },
   {
     "file": "nature_02.m4a",
@@ -1329,7 +1390,8 @@
       "loudnessLUFS": -30.16,
       "truePeakDbTP": -14.26,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Ocean"
   },
   {
     "file": "nature_03.m4a",
@@ -1364,7 +1426,8 @@
       "loudnessLUFS": -29.08,
       "truePeakDbTP": -16.24,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Ocean"
   },
   {
     "file": "nature_04.m4a",
@@ -1391,7 +1454,8 @@
       "loudnessLUFS": -29.07,
       "truePeakDbTP": -16.45,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Rain"
   },
   {
     "file": "nature_05.m4a",
@@ -1418,7 +1482,8 @@
       "loudnessLUFS": -31.78,
       "truePeakDbTP": -14.0,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Thunder"
   },
   {
     "file": "nature_06.m4a",
@@ -1447,6 +1512,7 @@
       "loudnessLUFS": -29.03,
       "truePeakDbTP": -16.4,
       "loopCrossfadeSeconds": 2
-    }
+    },
+    "genre": "Thunder"
   }
 ]

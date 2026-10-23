@@ -1,6 +1,19 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.26
+PETAL WAKE — ANDROID ALARM APP 0.1.28
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.28 — SNOOZE AND SETTINGS IMPORT RELIABILITY
+- Snooze responds even while a calendar refresh is busy, and repeated taps schedule just one snooze.
+- Settings import rejects out-of-range numbers instead of accepting a wrapped value.
+- The app ID and signing certificate remain unchanged for in-place Obtainium updates. Review the next wake time and Android alarm permissions after updating.
+
+VERSION 0.1.27 — WAKE RELIABILITY & PERSONAL AUDIO
+- Alarm delivery now confirms playback and schedules one backup delivery if the foreground audio service fails to start. A missing selected recording falls back to a bundled sound, then the system alarm tone.
+- The alarm keeps ringing if its screen is left or the task is moved away, and the notification can reopen it. A two-second hold or accessible long-click dismisses it; a short tap does not silently stop it. Choose a maximum ring duration of 15, 30, or 60 minutes.
+- Sounds can be filtered by genre. Import personal audio into app-private offline storage, or link to a file through Android's document picker. Imported audio is recommended for dependable alarms; a missing linked file safely falls back. Personal-file names and links are not included in settings exports.
+- Optional orchestra-pack downloading asks before making a GitHub connection and explains that GitHub can see the downloader's network address.
+- Tomorrow's alarm preview recreates its Android notification channel before posting, so a fresh app-data state does not mark an unseen notice as sent.
+- The release retains the existing app ID and signing certificate for in-place Obtainium updates. Review your next wake time and phone permissions after updating.
 
 VERSION 0.1.26 — PETAL KEY THEME CONTRAST
 - The 16 curated Petal Key family palettes were already included. Appearance now names the actual selection count instead of the retired 40-theme count.

@@ -6,12 +6,18 @@ import android.media.*;
 import android.os.*;
 import org.json.*;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class AlarmService extends Service {
     public static final String CHANNEL="wake_alarms";
     private MediaPlayer player;private Vibrator vibrator;private PowerManager.WakeLock lock;
     private VolumeShaper volumeShaper;private float targetVolume=1f;private int fadeSeconds;private long playbackBegan;
     private static volatile AlarmService active;
+    private final AtomicBoolean snoozePending=new AtomicBoolean();
+    private final AtomicBoolean snoozeCancelled=new AtomicBoolean();
+    // Accessed only by the alarm-control executor, including the queued cancellation.
+    private final ArrayList<String> pendingSnoozeIds=new ArrayList<>();
     private final Handler handler=new Handler(Looper.getMainLooper());
     private JSONObject current; private AudioManager audio;private AudioFocusRequest focus;private boolean fallbackActive;private volatile boolean destroyed;
     @Override public void onCreate(){super.onCreate();active=this;}
@@ -29,13 +35,15 @@ public class AlarmService extends Service {
     @Override public int onStartCommand(Intent i,int flags,int id){
         String action=i==null?"":i.getAction();
         if("SNOOZE".equals(action)) {
-            DaybreakApp.IO.execute(()->{
+            if(!snoozePending.compareAndSet(false,true))return START_STICKY;
+            DaybreakApp.ALARM_IO.execute(()->{
                 try {
+                    if(destroyed||snoozeCancelled.get())return;
                     if(!Scheduler.allowed(this))throw new IllegalStateException("Alarm permission is off. Allow Alarms & reminders before snoozing.");
                     JSONObject batch=Store.object(this,"ringing");
-                    for(java.util.Iterator<String> it=batch.keys();it.hasNext();)Scheduler.snooze(this,batch.getJSONObject(it.next()));
-                    if(!destroyed)handler.post(()->{if(!destroyed)finish("snoozed");});
-                } catch(Exception e){Store.error(this,"Snooze failed. Allow Alarms & reminders in Android settings.");if(!destroyed)handler.post(()->{if(!destroyed)android.widget.Toast.makeText(this,"Snooze failed. The alarm will keep ringing.",android.widget.Toast.LENGTH_LONG).show();});}
+                    for(java.util.Iterator<String> it=batch.keys();it.hasNext()&&!snoozeCancelled.get();)pendingSnoozeIds.add(Scheduler.snooze(this,batch.getJSONObject(it.next())));
+                    if(!destroyed&&!snoozeCancelled.get())handler.post(()->{if(!destroyed&&!snoozeCancelled.get())finish("snoozed");});
+                } catch(Exception e){snoozePending.set(false);Store.error(this,"Snooze failed. Allow Alarms & reminders in Android settings.");if(!destroyed)handler.post(()->{if(!destroyed)android.widget.Toast.makeText(this,"Snooze failed. The alarm will keep ringing.",android.widget.Toast.LENGTH_LONG).show();});}
             });
             return START_STICKY;
         }
@@ -51,8 +59,9 @@ public class AlarmService extends Service {
             Store.put(this,"current",current);
             Notification n=alarmNotification();
             if(Build.VERSION.SDK_INT>=29)startForeground(1,n,ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK);else startForeground(1,n);
-            if(lock==null){lock=((PowerManager)getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"daybreak:ring");lock.acquire(30*60_000L);}
+            if(lock==null){lock=((PowerManager)getSystemService(POWER_SERVICE)).newWakeLock(PowerManager.PARTIAL_WAKE_LOCK,"daybreak:ring");lock.acquire((ringMinutes()+1L)*60_000L);}
             if(player==null)play();
+            JSONObject playing=Store.object(this,"ringing");for(java.util.Iterator<String> ids=playing.keys();ids.hasNext();)try{Scheduler.acknowledge(this,ids.next());}catch(Exception ignored){}
             ((DaybreakApp)getApplication()).changed();
             return START_STICKY;
         }catch(Exception e){Store.error(this,"Alarm playback failed. Check the phone’s alarm volume.");finish("playback failed");return START_NOT_STICKY;}
@@ -74,25 +83,42 @@ public class AlarmService extends Service {
         audio=(AudioManager)getSystemService(AUDIO_SERVICE);
         AudioAttributes attributes=new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build();
         focus=new AudioFocusRequest.Builder(AudioManager.AUDIOFOCUS_GAIN_TRANSIENT).setAudioAttributes(attributes).setOnAudioFocusChangeListener(change->{}).build();audio.requestAudioFocus(focus);
-        player=new MediaPlayer();player.setAudioAttributes(attributes);player.setWakeMode(this,PowerManager.PARTIAL_WAKE_LOCK);player.setLooping(true);
         String sound=SoundLibrary.playable(this);
-        try{SoundLibrary.setDataSource(player,this,sound);}
-        catch(Exception e){player.setDataSource(this,android.media.RingtoneManager.getDefaultUri(android.media.RingtoneManager.TYPE_ALARM));}
-        player.prepare();
-        targetVolume=Math.max(0f,Math.min(1f,Store.p(this).getInt("volume",80)/100f));fadeSeconds=Store.p(this).getInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS);
+        try{player=preparedPlayer(attributes,sound,false);}
+        catch(Exception selectedFailure){
+            try{player=preparedPlayer(attributes,"tone_12.wav",false);}
+            catch(Exception bundledFailure){player=preparedPlayer(attributes,null,true);}
+            fallbackActive=true;AlarmHistory.record(this,"audio fallback",current);
+            Store.error(this,"Selected sound could not play. The standard backup alert is sounding.");
+        }
+        targetVolume=fallbackActive?1f:Math.max(0f,Math.min(1f,Store.p(this).getInt("volume",80)/100f));
+        fadeSeconds=fallbackActive?0:Store.p(this).getInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS);
         player.setVolume(targetVolume,targetVolume);
         if(fadeSeconds>0){
             float[] times=new float[16],gains=new float[16];
             for(int point=0;point<times.length;point++){times[point]=point/(float)(times.length-1);gains[point]=AlarmEnvelope.volume(1f,fadeSeconds,Math.round(times[point]*fadeSeconds*1000));}
             VolumeShaper.Configuration curve=new VolumeShaper.Configuration.Builder().setDuration(fadeSeconds*1000L).setCurve(times,gains).setInterpolatorType(VolumeShaper.Configuration.INTERPOLATOR_TYPE_LINEAR).build();
-            volumeShaper=player.createVolumeShaper(curve);
+            try{volumeShaper=player.createVolumeShaper(curve);}catch(RuntimeException unavailable){volumeShaper=null;Store.error(this,"Volume rise is unavailable. The alarm is playing at the selected level.");}
         }
         playbackBegan=SystemClock.elapsedRealtime();player.start();if(volumeShaper!=null)volumeShaper.apply(VolumeShaper.Operation.PLAY);
         if(Store.p(this).getBoolean("vibrate",true)){vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);vibrator.vibrate(VibrationEffect.createWaveform(new long[]{650,200,650,600},new int[]{255,0,255,0},0),attributes);}
         int fallbackMinutes=Store.p(this).getInt("fallbackMinutes",0);
         if(fallbackMinutes>=1&&fallbackMinutes<=20)handler.postDelayed(this::startFallback,fallbackMinutes*60_000L);
         // Keep the ringing service finite if a phone is left unattended.
-        handler.postDelayed(this::finish,30*60_000L);
+        handler.postDelayed(this::finish,ringMinutes()*60_000L);
+    }
+    private int ringMinutes(){int selected=Store.p(this).getInt("maxRingMinutes",30);return selected==15||selected==60?selected:30;}
+    private MediaPlayer preparedPlayer(AudioAttributes attributes,String sound,boolean systemSound)throws Exception {
+        MediaPlayer candidate=new MediaPlayer();
+        try{
+            candidate.setAudioAttributes(attributes);candidate.setWakeMode(this,PowerManager.PARTIAL_WAKE_LOCK);candidate.setLooping(true);
+            if(systemSound){
+                android.net.Uri uri=android.media.RingtoneManager.getDefaultUri(android.media.RingtoneManager.TYPE_ALARM);
+                if(uri==null)throw new FileNotFoundException("No system alarm sound is available.");
+                candidate.setDataSource(this,uri);
+            }else SoundLibrary.setDataSource(candidate,this,sound);
+            candidate.prepare();return candidate;
+        }catch(Exception error){candidate.release();throw error;}
     }
     private void startFallback(){
         if(fallbackActive||current==null||player==null)return;
@@ -109,6 +135,17 @@ public class AlarmService extends Service {
     private void finish(){finish("timed out");}
     private void finish(String event){
         if(destroyed)return;
+        if(!"snoozed".equals(event)&&snoozePending.get()){
+            snoozeCancelled.set(true);
+            // This runs after the in-flight snooze task; dismissal wins even if it
+            // happened while that task was inside Scheduler.snooze/Sync.run.
+            DaybreakApp.ALARM_IO.execute(()->{
+                try{Scheduler.cancelSnoozes(this,pendingSnoozeIds);}
+                catch(Exception e){Store.error(this,"Could not cancel an interrupted snooze. Check upcoming alarms.");}
+                finally{pendingSnoozeIds.clear();}
+            });
+        }
+        snoozePending.set(false);
         handler.removeCallbacksAndMessages(null);
         if(!"snoozed".equals(event)){
             JSONObject batch=Store.object(this,"ringing");

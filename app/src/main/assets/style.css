@@ -45,3 +45,7 @@ nav{background:var(--nav);gap:6px}nav button[aria-current=page]{background:var(-
 .theme-swatches{display:flex;width:72px;height:10px;overflow:hidden;border:1px solid var(--input-line);border-radius:99px}.theme-swatches span{flex:1}
 .theme-option[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--lavender)}
 @media(max-width:360px){.hero{padding:18px}.hero-top{gap:6px}.hero-top .badge{white-space:normal;text-align:center}}
+.sound-filter{display:flex;align-items:center;gap:12px;margin:0 0 16px}.sound-filter label{margin:0!important;white-space:nowrap;color:var(--muted)}.sound-filter select{flex:1;min-width:0}.tabs{grid-template-columns:repeat(5,minmax(0,1fr))}.personal-music{margin-top:22px}.personal-music label{margin-top:16px}.sound-row .remove-sound{display:block;margin-top:4px;font-size:12px}.sound-row.unavailable{opacity:.72}.sound-row .genre-tag{display:inline-block;margin-right:5px;color:var(--lavender)}
+.music-guide{border-top:1px solid var(--line);margin-top:18px;padding-top:8px}.music-guide summary{cursor:pointer;font-size:14px;font-weight:500;min-height:44px;padding:12px 0}.music-guide ol{margin:2px 0 10px;padding-left:22px;font-size:13px;line-height:1.6}.music-guide li{margin:8px 0}.music-guide p{margin:8px 0 0}
+@media(max-width:400px){.tabs{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.sound-row .personal-genre-edit{min-height:38px;width:auto;max-width:100%;font-size:12px;padding:6px 9px;margin-top:7px}.sound-row .row-main{overflow-wrap:anywhere}

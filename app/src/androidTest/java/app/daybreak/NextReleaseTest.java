@@ -31,6 +31,9 @@ public class NextReleaseTest extends Instrumentation {
         check(privateUrl.equals(Store.url(c))&&!Store.p(c).contains("url")&&!Store.p(c).getString("secureUrl","").contains("secret.example"),"Settings restore preserves and encrypts the private calendar link already on the phone");
         backup.getJSONObject("settings").put("volume",999);boolean rejected=false;try{SettingsTransfer.importJson(c,backup.toString());}catch(IllegalArgumentException expected){rejected=true;}
         check(rejected&&Store.p(c).getInt("volume",0)==65,"Invalid settings are rejected before saved preferences change");
+        backup.getJSONObject("settings").put("volume",4_294_967_361L);rejected=false;
+        try{SettingsTransfer.importJson(c,backup.toString());}catch(IllegalArgumentException expected){rejected=true;}
+        check(rejected&&Store.p(c).getInt("volume",0)==65,"Oversized integers cannot wrap into valid settings");
         for(int i=0;i<120;i++)AlarmHistory.record(c,"rang",new JSONObject().put("kind","manual").put("title","Private title"));
         check(AlarmHistory.entries(c).length()==100&&!AlarmHistory.entries(c).toString().contains("Private title"),"History is bounded and excludes event titles");
         result.putString("summary",checks+" next-release checks passed");finish(Activity.RESULT_OK,result);

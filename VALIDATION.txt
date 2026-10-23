@@ -1,5 +1,19 @@
 DAYBREAK — VALIDATION
 
+UPDATE 0.1.28 — SNOOZE CONTROL AND IMPORT BOUNDS
+- A v0.1.27 baseline on an isolated Android 15 emulator reproduced a dismissal/Snooze race: a newly scheduled snooze remained after I’m up. The v0.1.28 candidate passed the same controlled interleaving with no snooze left. The prior v0.1.27 baseline also reproduced delayed/duplicate snoozes when calendar work occupied the shared executor and an imported oversized integer wrapping into a valid volume.
+- Snooze now uses a dedicated serial alarm-control executor, repeated taps are combined, and dismissal queues cancellation of any in-flight snooze. Settings import requires exact integer conversion.
+- A fresh host run executed 39 JVM unit tests, lintDebug (0 errors, 65 warnings), lintVitalRelease, assembleDebug, assembleRelease and assembleDebugAndroidTest. The release build is unsigned; the distributed APK is the same-signer signed debug build.
+- Package app.daybreak upgraded on an isolated emulator from v0.1.27/versionCode 28 to v0.1.28/versionCode 29. The candidate APK SHA-256 is f2de80fe07e7721f6ce5ec973257695cc3403a977dcb42e849a0b2b03601e13a; signer SHA-256 remains 386f097ea7de3749f0b0cc87e433d0f8a8a70cebb1848d7e7cb4bd5f60cff2b4. Packaged permissions match v0.1.27.
+- Exact distributable APK emulator suites: SnoozeResponsivenessTest, SnoozeDismissRaceTest, NextReleaseTest, SecurityUpdateTest, DeliveryRecoveryTest, LifecycleCleanupTest, ReliabilityTest, and NativeSmokeTest. See the release QA record for per-suite outcomes and any blocker. The native smoke suite includes full-minute gain and snoozed redelivery.
+- No physical-device install, Proton account test, lower-powered-device latency, battery/thermal, long-duration memory, or live assistive-technology qualification was performed for this release. Review the next wake time and Android permissions after updating.
+
+UPDATE 0.1.27 — WAKE RELIABILITY AND PERSONAL AUDIO
+- The global privacy-first review found a reproducible optional evening-notice failure after clearing app data: Android rejected the notification because its channel was absent, while the app marked the notice sent. The existing six-check reliability regression failed before the channel fix and passed after it.
+- The final version-code-28 APK passed 39 fresh JVM unit tests, Android lint with zero errors and 65 warnings, and all 16 selected Android 15 emulator suites. These include 28 real alarm smoke checks, 27 calendar connection checks, 14 lifecycle checks, 16 Android-authentication checks, 31 appearance checks, and 22 custom-theme checks. The suite used synthetic data only; no personal phone or calendar was changed.
+- The APK installed over the saved v0.1.26 APK on the disposable emulator. Package ID and signing certificate match v0.1.26, while version code increases from 27 to 28. Candidate APK SHA-256: 2e4137853058975268ad0533a15a6ca531af729625cb80e04d86f4e5c01c6cde.
+- Packaged permissions are unchanged from v0.1.26. The public-source input scan found no high-confidence credentials; the local SDK configuration and signing key remain outside the archive. Physical-device performance, battery, long-duration memory, and live assistive-technology qualification remain open.
+
 UPDATE 0.1.26 — SHARED THEME CONTRAST
 - Compared Wake's bundled palettes with Petal Key's approved family palette file: all 16 names and core colors match.
 - The main accent and its automatically selected text color have a contrast ratio of at least 5.15:1 across all 16 built-in themes.

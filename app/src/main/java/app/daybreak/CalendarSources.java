@@ -32,7 +32,12 @@ public final class CalendarSources {
         CalendarReader.read(body,System.currentTimeMillis()-Sync.DAY,System.currentTimeMillis()+60*Sync.DAY);
         String id=UUID.randomUUID().toString();data(c,id,body);
         JSONObject entry=new JSONObject().put("id",id).put("name",cleanName(name)).put("url",normalized).put("lastSync",System.currentTimeMillis()).put("lead",Store.p(c).getInt("lead",90)).put("filter","").put("allDayEnabled",Store.p(c).getBoolean("allDayEnabled",false)).put("allDayMinutes",Store.p(c).getInt("allDayMinutes",480)).put("error","");
-        list.put(entry);Store.put(c,KEY,list);Sync.run(c,false);
+        list.put(entry);
+        try{Store.put(c,KEY,list);}catch(RuntimeException error){
+            if(!file(c,id).delete())error.addSuppressed(new IOException("Could not remove the unused calendar cache."));
+            throw error;
+        }
+        Sync.run(c,false);
     }
     public static String cleanName(String name){String value=name==null?"":name.trim();return value.isEmpty()?"Work calendar":value.substring(0,Math.min(60,value.length()));}
     public static void update(Context c,String id,String name,String filter,int lead,boolean allDayEnabled,int allDayMinutes)throws Exception{
@@ -44,8 +49,9 @@ public final class CalendarSources {
     public static void remove(Context c,String id)throws Exception{
         JSONArray old=extras(c),next=new JSONArray();boolean found=false;
         for(int i=0;i<old.length();i++){JSONObject entry=old.getJSONObject(i);if(id.equals(entry.optString("id")))found=true;else next.put(entry);}
-        if(!found)throw new IOException("Calendar was not found.");Store.put(c,KEY,next);file(c,id).delete();Sync.run(c,false);
+        if(!found)throw new IOException("Calendar was not found.");deleteCache(c,id);Store.put(c,KEY,next);Sync.run(c,false);
     }
-    public static void clear(Context c){JSONArray list=extras(c);for(int i=0;i<list.length();i++){JSONObject entry=list.optJSONObject(i);if(entry!=null)try{file(c,entry.optString("id")).delete();}catch(Exception ignored){}}Store.put(c,KEY,new JSONArray());}
+    public static void clear(Context c)throws IOException{JSONArray list=extras(c);for(int i=0;i<list.length();i++){JSONObject entry=list.optJSONObject(i);if(entry!=null)deleteCache(c,entry.optString("id"));}Store.put(c,KEY,new JSONArray());}
+    private static void deleteCache(Context c,String id)throws IOException{File cache=file(c,id);if(cache.exists()&&!cache.delete())throw new IOException("Could not remove the saved calendar data. Try again before disconnecting.");}
     private CalendarSources(){}
 }

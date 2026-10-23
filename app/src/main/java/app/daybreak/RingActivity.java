@@ -47,8 +47,12 @@ public class RingActivity extends Activity {
         SpannableString snoozeLabel=snoozeLabel(time,title,minutes);
         snooze=button(snoozeLabel,"SNOOZE",Appearance.current(this).surface,Appearance.current(this).text);snooze.setContentDescription("Snooze for "+minutes+" minutes. "+time+". "+title);
         SpannableString initialAwakeLabel=new SpannableString("I’m up\n\nStart my day\n\nHold 2 seconds to dismiss");size(initialAwakeLabel,"I’m up",44);size(initialAwakeLabel,"Start my day",18);size(initialAwakeLabel,"Hold 2 seconds to dismiss",15);awakeLabel=initialAwakeLabel;
-        awake=button(awakeLabel,"",Appearance.current(this).action,Appearance.current(this).onAction);awake.setContentDescription("I’m up. Press and hold for two seconds to dismiss the alarm. Release early to cancel.");
-        awake.setOnClickListener(v->{});
+        awake=button(awakeLabel,"",Appearance.current(this).action,Appearance.current(this).onAction);awake.setContentDescription("I’m up. Press and hold for two seconds to dismiss the alarm. Accessibility users can use the Dismiss alarm long-click action.");
+        awake.setOnClickListener(v->Toast.makeText(this,"Hold for two seconds to dismiss.",Toast.LENGTH_SHORT).show());
+        awake.setOnLongClickListener(v->{dismissHoldBegan=SystemClock.elapsedRealtime()-DISMISS_HOLD_MS;completeDismissHold();return true;});
+        awake.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+            @Override public void onInitializeAccessibilityNodeInfo(View host,android.view.accessibility.AccessibilityNodeInfo info){super.onInitializeAccessibilityNodeInfo(host,info);info.addAction(new android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction(android.view.accessibility.AccessibilityNodeInfo.ACTION_LONG_CLICK,"Dismiss alarm"));}
+        });
         awake.setOnTouchListener((v,event)->{
             switch(event.getActionMasked()){
                 case MotionEvent.ACTION_DOWN:
@@ -56,7 +60,7 @@ public class RingActivity extends Activity {
                 case MotionEvent.ACTION_MOVE:
                     if(event.getX()<0||event.getY()<0||event.getX()>awake.getWidth()||event.getY()>awake.getHeight())cancelDismissHold();return true;
                 case MotionEvent.ACTION_UP:
-                    if(dismissHoldBegan>0&&SystemClock.elapsedRealtime()-dismissHoldBegan>=DISMISS_HOLD_MS)completeDismissHold();else cancelDismissHold();return true;
+                    if(dismissHoldBegan>0&&SystemClock.elapsedRealtime()-dismissHoldBegan>=DISMISS_HOLD_MS)completeDismissHold();else{cancelDismissHold();awake.performClick();}return true;
                 case MotionEvent.ACTION_CANCEL:
                     cancelDismissHold();return true;
                 default:return true;
@@ -95,7 +99,12 @@ public class RingActivity extends Activity {
         Button button=new Button(this);button.setText(label);button.setTextSize(18);button.setTypeface(Typeface.create("sans-serif",Typeface.NORMAL));button.setAllCaps(false);button.setTextColor(text);button.setGravity(Gravity.CENTER);button.setPadding(dp(24),dp(16),dp(24),dp(16));button.setMinHeight(0);button.setMinimumHeight(0);button.setStateListAnimator(null);button.setElevation(0);
         GradientDrawable color=new GradientDrawable();color.setColor(background);button.setBackground(new RippleDrawable(ColorStateList.valueOf((Appearance.current(this).accent&0x00ffffff)|0x33000000),color,null));button.setOnClickListener(v->act(action));return button;
     }
-    private void act(String action){startService(new Intent(this,AlarmService.class).setAction(action));finish();}
+    private void act(String action){
+        try{startService(new Intent(this,AlarmService.class).setAction(action));}
+        catch(RuntimeException failure){Toast.makeText(this,"Alarm action failed. The alarm is still active.",Toast.LENGTH_LONG).show();}
+        // Only AlarmService's RING_DONE broadcast closes this screen. Leaving the app,
+        // locking the display, or a failed snooze must never be treated as an alarm action.
+    }
     @Override public void onBackPressed(){}
     @Override protected void onDestroy(){ui.removeCallbacksAndMessages(null);if(receiverRegistered){unregisterReceiver(done);receiverRegistered=false;}super.onDestroy();}
 }

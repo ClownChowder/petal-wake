@@ -7,6 +7,8 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 public class DaybreakApp extends Application {
     public static final ExecutorService IO=Executors.newSingleThreadExecutor();
+    // Alarm controls must not wait behind calendar network requests on IO.
+    public static final ExecutorService ALARM_IO=Executors.newSingleThreadExecutor();
     public static final String CHANGED="app.daybreak.CHANGED";
     public static final String INTERNAL_PERMISSION="app.daybreak.permission.INTERNAL_BROADCAST";
     private final AtomicBoolean refreshPending=new AtomicBoolean();

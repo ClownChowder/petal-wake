@@ -1,8 +1,8 @@
 # Petal Wake
 
-Petal Wake is an Android alarm app that schedules work wake-ups from shared iCalendar feeds and offers gentle recorded music and nature sounds. This repository contains the source for version **0.1.26** (Android version code 27).
+Petal Wake is an Android alarm app that schedules work wake-ups from shared iCalendar feeds and offers gentle recorded music and nature sounds. This source tree is version **0.1.28** (Android version code 29).
 
-The latest APK is the [v0.1.26 release](https://github.com/ClownChowder/petal-wake/releases/tag/v0.1.26), with checksums and a matching `petal-wake-source.zip` archive. The compatible optional orchestra pack remains available from the [v0.1.23 release](https://github.com/ClownChowder/petal-wake/releases/tag/v0.1.23).
+The latest APK is the [v0.1.28 release](https://github.com/ClownChowder/petal-wake/releases/tag/v0.1.28), with checksums and source matching that APK. The compatible optional orchestra pack remains available from the [v0.1.23 release](https://github.com/ClownChowder/petal-wake/releases/tag/v0.1.23).
 
 See [README.txt](README.txt) for setup, calendar sharing, features, practical limits, and testing notes. See [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt) and [CREDITS.txt](CREDITS.txt) for audio and upstream attribution.
 

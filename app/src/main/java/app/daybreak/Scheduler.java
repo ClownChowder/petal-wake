@@ -6,9 +6,14 @@ import org.json.*;
 import java.util.*;
 
 public final class Scheduler {
+    private static final long DELIVERY_WATCHDOG_MS=45_000L;
     public static boolean allowed(Context c){return android.os.Build.VERSION.SDK_INT<31 || ((AlarmManager)c.getSystemService(Context.ALARM_SERVICE)).canScheduleExactAlarms();}
     private static PendingIntent operation(Context c,String id,int flags){
         Intent i=new Intent(c,AlarmReceiver.class).setAction("app.daybreak.RING").setData(Uri.parse("daybreak://alarm/"+Uri.encode(id))).putExtra("id",id);
+        return PendingIntent.getBroadcast(c,0,i,flags|PendingIntent.FLAG_IMMUTABLE);
+    }
+    private static PendingIntent watchdog(Context c,String id,int flags){
+        Intent i=new Intent(c,RecoveryReceiver.class).setAction("app.daybreak.RECOVER").setData(Uri.parse("daybreak://recover/"+Uri.encode(id))).putExtra("id",id);
         return PendingIntent.getBroadcast(c,0,i,flags|PendingIntent.FLAG_IMMUTABLE);
     }
     public static void cancel(Context c,String id){
@@ -47,14 +52,61 @@ public final class Scheduler {
     public static synchronized JSONObject claim(Context c,String id)throws Exception {
         JSONObject all=Store.object(c,"scheduled");JSONObject alarm=all.optJSONObject(id);if(alarm==null)return null;
         long now=System.currentTimeMillis();if(alarm.optLong("at")>now+3000)return null;
+        JSONObject inFlight=Store.object(c,"inFlight");inFlight.put(id,alarm);Store.put(c,"inFlight",inFlight);
+        try{((AlarmManager)c.getSystemService(Context.ALARM_SERVICE)).setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP,now+DELIVERY_WATCHDOG_MS,watchdog(c,id,PendingIntent.FLAG_UPDATE_CURRENT));}
+        catch(RuntimeException failure){inFlight.remove(id);Store.put(c,"inFlight",inFlight);throw failure;}
         all.remove(id);Store.put(c,"scheduled",all);
         if(alarm.optString("kind").equals("shift")){JSONObject skipped=Store.object(c,"skipped");skipped.put(id,true);Store.put(c,"skipped",skipped);}
         for(String key:new String[]{"manual","snoozes"}){JSONObject set=Store.object(c,key);set.remove(id);Store.put(c,key,set);}
         return alarm;
     }
-    public static synchronized void snooze(Context c,JSONObject alarm)throws Exception {
+    public static synchronized void acknowledge(Context c,String id)throws Exception {
+        JSONObject pending=Store.object(c,"inFlight");if(!pending.has(id))return;
+        pending.remove(id);Store.put(c,"inFlight",pending);
+        PendingIntent alarm=watchdog(c,id,PendingIntent.FLAG_NO_CREATE);if(alarm!=null){((AlarmManager)c.getSystemService(Context.ALARM_SERVICE)).cancel(alarm);alarm.cancel();}
+    }
+    public static synchronized void retryFailedDelivery(Context c,String id){
+        if(id==null)return;
+        JSONObject pending=Store.object(c,"inFlight"),original=pending.optJSONObject(id);if(original==null)return;
+        try{
+            PendingIntent check=watchdog(c,id,PendingIntent.FLAG_NO_CREATE);if(check!=null){((AlarmManager)c.getSystemService(Context.ALARM_SERVICE)).cancel(check);check.cancel();}
+            pending.remove(id);Store.put(c,"inFlight",pending);
+            if(original.optInt("retryCount",0)>=1||!allowed(c)){failureNotice(c);return;}
+            String nextId="retry:"+UUID.randomUUID();long at=System.currentTimeMillis()+30_000L;
+            JSONObject retry=new JSONObject(original.toString()).put("id",nextId).put("at",at).put("kind","manual").put("retryCount",1);
+            JSONObject manual=Store.object(c,"manual");manual.put(nextId,retry);Store.put(c,"manual",manual);
+            JSONObject scheduled=Store.object(c,"scheduled");scheduled.put(nextId,retry);Store.put(c,"scheduled",scheduled);
+            Intent open=new Intent(c,MainActivity.class).setData(Uri.parse("daybreak://show/"+Uri.encode(nextId)));
+            PendingIntent display=PendingIntent.getActivity(c,0,open,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
+            ((AlarmManager)c.getSystemService(Context.ALARM_SERVICE)).setAlarmClock(new AlarmManager.AlarmClockInfo(at,display),operation(c,nextId,PendingIntent.FLAG_UPDATE_CURRENT));
+            AlarmHistory.record(c,"delivery retry",retry);
+        }catch(Exception failure){failureNotice(c);}
+    }
+    public static synchronized void recoverOutstanding(Context c){
+        JSONObject pending=Store.object(c,"inFlight");long now=System.currentTimeMillis();
+        for(Iterator<String> keys=pending.keys();keys.hasNext();){String id=keys.next();JSONObject alarm=pending.optJSONObject(id);if(alarm!=null&&now-alarm.optLong("at")<10*60_000L)retryFailedDelivery(c,id);else{try{acknowledge(c,id);}catch(Exception ignored){}failureNotice(c);}}
+    }
+    static void failureNotice(Context c){
+        Store.error(c,"An alarm could not start. Check Petal Wake and Android alarm permissions.");
+        try{
+            NotificationManager manager=c.getSystemService(NotificationManager.class);
+            PendingIntent open=PendingIntent.getActivity(c,204,new Intent(c,MainActivity.class),PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
+            manager.notify(204,new Notification.Builder(c,"alarm_readiness").setSmallIcon(R.drawable.ic_alarm_notification).setContentTitle("Petal Wake alarm needs attention")
+                .setContentText("An alarm could not start. Open Petal Wake to check it.").setContentIntent(open).setAutoCancel(true).setVisibility(Notification.VISIBILITY_PRIVATE).build());
+        }catch(RuntimeException ignored){}
+    }
+    public static synchronized String snooze(Context c,JSONObject alarm)throws Exception {
         String id="snooze:"+UUID.randomUUID();long at=System.currentTimeMillis()+Store.p(c).getInt("snooze",9)*60_000L;
         JSONObject a=new JSONObject(alarm.toString()).put("id",id).put("at",at).put("kind","snooze");
         JSONObject set=Store.object(c,"snoozes");set.put(id,a);Store.put(c,"snoozes",set);AlarmHistory.record(c,"snoozed",alarm);Sync.run(c,false);
+        return id;
+    }
+    public static synchronized void cancelSnoozes(Context c,java.util.List<String> ids)throws Exception {
+        if(ids.isEmpty())return;
+        JSONObject set=Store.object(c,"snoozes");
+        for(String id:ids)set.remove(id);
+        Store.put(c,"snoozes",set);
+        for(String id:ids)cancel(c,id);
+        Sync.run(c,false);
     }
 }

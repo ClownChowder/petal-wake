@@ -4,13 +4,14 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import org.json.JSONArray;
 import org.json.JSONObject;
+import java.math.BigDecimal;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
 /** Portable preferences only. Calendar URLs, events, alarms, and history never leave the app. */
 public final class SettingsTransfer {
-    private static final String[] INTS={"lead","snooze","volume","fade","allDayMinutes","earlyBefore","earlyLead","lateAfter","lateLead","eveningMinutes","fallbackMinutes"};
+    private static final String[] INTS={"lead","snooze","volume","fade","allDayMinutes","earlyBefore","earlyLead","lateAfter","lateLead","eveningMinutes","fallbackMinutes","maxRingMinutes"};
     private static final String[] BOOLEANS={"vibrate","allDayEnabled","shiftRulesEnabled","eveningCheck","syncAlerts","quietPreset","privateLockScreen"};
     private static final String[] STRINGS={"appearance","iconDesign","sound","filter"};
 
@@ -47,8 +48,7 @@ public final class SettingsTransfer {
             }
         }
         for(String key:INTS)if(settings.has(key)){
-            Object value=settings.get(key);if(!(value instanceof Number))throw new IllegalArgumentException("Invalid "+key+" setting.");
-            int n=((Number)value).intValue();
+            int n=exactInt(settings.get(key),key);
             if(!validInt(key,n))throw new IllegalArgumentException("Invalid "+key+" setting.");
         }
         for(String key:BOOLEANS)if(settings.has(key)&&!(settings.get(key) instanceof Boolean))throw new IllegalArgumentException("Invalid "+key+" setting.");
@@ -62,19 +62,25 @@ public final class SettingsTransfer {
             for(int i=0;i<themes.length();i++)if(themes.getJSONObject(i).getString("id").equals(id))known=true;
             if(!known)throw new IllegalArgumentException("Invalid color theme.");
         }
-        int early=settings.optInt("earlyBefore",Store.p(c).getInt("earlyBefore",600));
-        int late=settings.optInt("lateAfter",Store.p(c).getInt("lateAfter",720));
+        int early=settings.has("earlyBefore")?exactInt(settings.get("earlyBefore"),"earlyBefore"):Store.p(c).getInt("earlyBefore",600);
+        int late=settings.has("lateAfter")?exactInt(settings.get("lateAfter"),"lateAfter"):Store.p(c).getInt("lateAfter",720);
         if(late<=early)throw new IllegalArgumentException("Later shift time must follow early shift time.");
         SharedPreferences.Editor editor=Store.p(c).edit();
-        for(String key:INTS)if(settings.has(key))editor.putInt(key,settings.getInt(key));
+        for(String key:INTS)if(settings.has(key))editor.putInt(key,exactInt(settings.get(key),key));
         for(String key:BOOLEANS)if(settings.has(key)&&!"quietPreset".equals(key))editor.putBoolean(key,settings.getBoolean(key));
-        int volume=settings.optInt("volume",Store.p(c).getInt("volume",80));
-        int fade=settings.optInt("fade",Store.p(c).getInt("fade",60));
+        int volume=settings.has("volume")?exactInt(settings.get("volume"),"volume"):Store.p(c).getInt("volume",80);
+        int fade=settings.has("fade")?exactInt(settings.get("fade"),"fade"):Store.p(c).getInt("fade",60);
         editor.putBoolean("quietPreset",settings.optBoolean("quietPreset",false)&&volume==PlaybackPresets.QUIET_VOLUME&&fade==PlaybackPresets.QUIET_FADE).remove("previousPlayback");
         for(String key:STRINGS)if(settings.has(key))editor.putString(key,settings.getString(key));
         if(rawThemes!=null)editor.putString("customThemes",themes.toString());
         if(!editor.commit())throw new IllegalStateException("Could not save settings.");
         Appearance.syncLauncher(c);Sync.run(c,false);
+    }
+
+    private static int exactInt(Object value,String key){
+        if(!(value instanceof Number))throw new IllegalArgumentException("Invalid "+key+" setting.");
+        try{return new BigDecimal(value.toString()).intValueExact();}
+        catch(NumberFormatException|ArithmeticException invalid){throw new IllegalArgumentException("Invalid "+key+" setting.",invalid);}
     }
 
     private static boolean validInt(String key,int n){
@@ -84,6 +90,7 @@ public final class SettingsTransfer {
             case "volume":return n>=10&&n<=100;
             case "fade":return n==0||n==5||n==15||n==30||n==60||n==120;
             case "fallbackMinutes":return n==0||n==5||n==10||n==15;
+            case "maxRingMinutes":return n==15||n==30||n==60;
             default:return n>=0&&n<=1439;
         }
     }
