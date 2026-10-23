@@ -1,5 +1,12 @@
 DAYBREAK — VALIDATION
 
+UPDATE 0.1.26 — SHARED THEME CONTRAST
+- Compared Wake's bundled palettes with Petal Key's approved family palette file: all 16 names and core colors match.
+- The main accent and its automatically selected text color have a contrast ratio of at least 5.15:1 across all 16 built-in themes.
+- 21 Quiet Focus emulator checks passed, including 320px and 393px layout and tap targets. 31 appearance checks passed across all 96 theme/icon combinations, including native alarm and notification recoloring.
+- The rose home screen and navy and ocean Appearance screens were reviewed visually. The active theme and launcher icon remain paired.
+- The v0.1.26 APK uses version code 27 and the same signing certificate as v0.1.25. It installed over the previous build and launched on the emulator. APK SHA-256: 8f89c68800e8690576279ee4766ebead5e4c1726653b20131951f1ce66578339.
+
 UPDATE 0.1.25 — ALL-DAY CLARITY AND STABILITY
 - 39 unit tests passed. Calendar connection checks (27) cover all-day shifts without assumed start times, clear no-alarm warnings, source-specific start-time controls for two calendars, and preserved calendar import controls.
 - 14 Android 15 lifecycle checks passed: 12 repeated audio previews released native media resources, and activity teardown released its WebView, receiver, and preview.

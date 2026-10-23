@@ -1,6 +1,11 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.25
+PETAL WAKE — ANDROID ALARM APP 0.1.26
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.26 — PETAL KEY THEME CONTRAST
+- The 16 curated Petal Key family palettes were already included. Appearance now names the actual selection count instead of the retired 40-theme count.
+- The next-alarm card uses each palette's main color and a high-contrast text color. Navigation, section accents, panels, and sound selection have stronger visual hierarchy while preserving the selected theme and launcher icon.
+- Theme choices now show their background and two accent colors so they are easier to compare. Custom themes use the same updated layout.
 
 VERSION 0.1.25 — ALL-DAY CLARITY & STABILITY
 - Home and Calendar now flag every all-day work block with no alarm. The Set start time action opens the correct calendar, leaves the time blank, and requires the actual shift start time before saving. The import control remains available when the setup checklist is complete.

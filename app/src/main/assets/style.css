@@ -29,3 +29,19 @@ button:disabled,input:disabled,select:disabled{opacity:1;color:var(--muted);back
 @media(prefers-contrast:more){button,input,select,.panel{border-width:2px!important}.fine{color:var(--ink)!important}}
 @media(max-width:360px){.alarm-time{font-size:clamp(44px,17vw,66px)}.calendar-source{flex-wrap:wrap}.calendar-source-actions{max-width:none;width:100%;flex-direction:row;justify-content:space-between}}
 .all-day-alert{background:var(--error-bg);color:var(--error-text);border:1px solid var(--error-text);border-radius:18px;padding:20px;margin:16px 0}.all-day-alert strong{display:block;font-size:16px;line-height:1.35}.all-day-alert p{color:var(--error-text);margin:8px 0 14px;font-size:14px}.all-day-alert .full{margin-top:8px}.alarm-row.needs-time{background:var(--error-bg);border-radius:14px;padding:12px;margin:8px 0}.needs-time-label{color:var(--error-text);font-size:13px}.alarm-row.needs-time .wake{font-size:13px;white-space:normal;text-align:right;color:var(--error-text)}.set-start-action{font-weight:700;color:var(--error-text);text-decoration:underline}.all-day-rule-help{background:var(--error-bg);color:var(--error-text);border-radius:12px;padding:12px 14px;font-size:13px}
+
+/* Let the shared Petal Key palette define the visual hierarchy, not just button text. */
+header{border-bottom:1px solid var(--line);padding-bottom:16px}
+.eyebrow{color:var(--lavender);font-weight:700}
+.hero{background:var(--action);color:var(--on-action);border:1px solid var(--action);border-radius:22px;padding:22px;margin-bottom:28px}
+.hero-top,.hero .alarm-time small,.hero .hero-date,.hero .hero-detail,.hero .hero-work small,.hero .confidence-link,.hero .confidence-link strong,.hero .confidence-link small{color:var(--on-action)}
+.hero-top{font-weight:600}.hero-top .badge{background:var(--paper);color:var(--ink);border-radius:999px;padding:5px 11px;font-weight:700}
+.alarm-time{font-weight:650}.hero-work,.hero .confidence-link{border-color:var(--on-action)}
+.hero-button{background:var(--paper);color:var(--ink);border-color:var(--paper);font-weight:700}.hero-button:hover{background:var(--paper);filter:brightness(1.05)}
+.section-head h2{display:flex;align-items:center;gap:10px;font-weight:700}.section-head h2::before{content:"";display:block;width:4px;height:20px;border-radius:4px;background:var(--action);flex-shrink:0}
+.panel{border:1px solid var(--input-line)}.proton-panel{border-left:5px solid var(--action)}
+.sound-teaser{background:var(--card);border:1px solid var(--input-line);border-left:5px solid var(--mint);border-radius:16px;padding:16px;margin-top:24px}
+nav{background:var(--nav);gap:6px}nav button[aria-current=page]{background:var(--action);color:var(--on-action);border-radius:12px;font-weight:700}
+.theme-swatches{display:flex;width:72px;height:10px;overflow:hidden;border:1px solid var(--input-line);border-radius:99px}.theme-swatches span{flex:1}
+.theme-option[aria-pressed=true]{box-shadow:inset 0 0 0 1px var(--lavender)}
+@media(max-width:360px){.hero{padding:18px}.hero-top{gap:6px}.hero-top .badge{white-space:normal;text-align:center}}

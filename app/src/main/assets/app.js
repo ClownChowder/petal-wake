@@ -9,7 +9,7 @@ let currentTheme='rose',currentIcon='petal';
 let customThemes=[];
 function iconPath(theme,icon){const custom=[...appearanceCatalog.themes,...customThemes].find(t=>t.id===theme);return custom?customIconUrl(custom,icon):`icons/${theme}_${icon}.svg`;}
 function renderAppearanceOptions(){
- $('themeOptions').innerHTML=appearanceCatalog.themes.map(theme=>`<button type="button" class="theme-option" id="profile${theme.id==='navy'?'Navy':theme.id==='rose'?'Rose':theme.id}" data-profile="${theme.id}" aria-pressed="false"><img src="${iconPath(theme.id,currentIcon)}" alt=""><strong>${esc(theme.name)}</strong><small>${theme.dark?'Night palette':'Day palette'}</small><span class="profile-check" aria-hidden="true">✓</span></button>`).join('');
+ $('themeOptions').innerHTML=appearanceCatalog.themes.map(theme=>`<button type="button" class="theme-option" id="profile${theme.id==='navy'?'Navy':theme.id==='rose'?'Rose':theme.id}" data-profile="${theme.id}" aria-pressed="false"><img src="${iconPath(theme.id,currentIcon)}" alt=""><strong>${esc(theme.name)}</strong><span class="theme-swatches" aria-hidden="true"><span style="background:${theme.background}"></span><span style="background:${theme.primary}"></span><span style="background:${theme.secondary}"></span></span><small>${theme.dark?'Night palette':'Day palette'}</small><span class="profile-check" aria-hidden="true">✓</span></button>`).join('');
  $('iconOptions').innerHTML=appearanceCatalog.icons.map(icon=>`<button type="button" class="icon-option" data-icon="${icon.id}" aria-pressed="false"><img src="${iconPath(currentTheme,icon.id)}" alt=""><strong>${esc(icon.name)}</strong><span class="profile-check" aria-hidden="true">✓</span></button>`).join('');
 }
 function applyAppearance(profile,design){
