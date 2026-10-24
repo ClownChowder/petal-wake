@@ -23,10 +23,10 @@ public final class AudioFallbackTest extends Instrumentation {
             Store.p(c).edit().putString("sound",id).putInt("fallbackMinutes",0).putBoolean("vibrate",false).commit();AlarmHistory.clear(c);
             JSONObject alarm=new JSONObject().put("id","qa-audio-fallback").put("title","Audio fallback test").put("kind","manual").put("at",System.currentTimeMillis());
             c.startForegroundService(new Intent(c,AlarmService.class).setAction("RING").putExtra("alarm",alarm.toString()));
-            long until=System.currentTimeMillis()+10_000L;boolean switched=false;
-            while(System.currentTimeMillis()<until){JSONArray history=AlarmHistory.entries(c);for(int i=0;i<history.length();i++)if("audio fallback".equals(history.optJSONObject(i).optString("event")))switched=true;if(switched&&AlarmService.playbackPercent()==100)break;Thread.sleep(100);}
-            if(!switched||AlarmService.playbackPercent()!=100)throw new Exception("Bundled tone did not take over when personal audio failed.");
-            result.putString("summary","Corrupt personal audio fell back to bundled tone at full app playback level");finish(Activity.RESULT_OK,result);
+            long until=System.currentTimeMillis()+10_000L;boolean switched=false;android.media.AudioManager audio=c.getSystemService(android.media.AudioManager.class);int selectedStep=audio.getStreamVolume(android.media.AudioManager.STREAM_ALARM);
+            while(System.currentTimeMillis()<until){JSONArray history=AlarmHistory.entries(c);for(int i=0;i<history.length();i++)if("audio fallback".equals(history.optJSONObject(i).optString("event")))switched=true;if(switched&&AlarmService.playbackPercent()>=0)break;Thread.sleep(100);}
+            if(!switched||audio.getStreamVolume(android.media.AudioManager.STREAM_ALARM)!=selectedStep)throw new Exception("Bundled tone did not take over at the selected phone alarm level.");
+            result.putString("summary","Corrupt personal audio fell back to bundled tone at the selected phone alarm volume");finish(Activity.RESULT_OK,result);
         }catch(Throwable error){result.putString("error",error.toString());finish(Activity.RESULT_CANCELED,result);}
         finally{
             c.startService(new Intent(c,AlarmService.class).setAction("STOP"));

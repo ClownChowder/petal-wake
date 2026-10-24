@@ -12,7 +12,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class AlarmService extends Service {
     public static final String CHANNEL="wake_alarms";
     private MediaPlayer player;private Vibrator vibrator;private PowerManager.WakeLock lock;
-    private VolumeShaper volumeShaper;private float targetVolume=1f;private int fadeSeconds;private long playbackBegan;
+    private int rampTargetStep=-1,rampLastStep=-1,rampStartPercent=AlarmVolumeRamp.DEFAULT_START_PERCENT,fadeSeconds;private long playbackBegan;
     private static volatile AlarmService active;
     private final AtomicBoolean snoozePending=new AtomicBoolean();
     private final AtomicBoolean snoozeCancelled=new AtomicBoolean();
@@ -21,10 +21,9 @@ public class AlarmService extends Service {
     private final Handler handler=new Handler(Looper.getMainLooper());
     private JSONObject current; private AudioManager audio;private AudioFocusRequest focus;private boolean fallbackActive;private volatile boolean destroyed;
     @Override public void onCreate(){super.onCreate();active=this;}
-    private float fadeGain(){try{return volumeShaper==null?1f:volumeShaper.getVolume();}catch(IllegalStateException e){return -1f;}}
-    public static int playbackPercent(){AlarmService service=active;if(service==null||service.player==null)return -1;float gain=service.fadeGain();return gain<0?-1:Math.round(100f*service.targetVolume*(float)Math.sqrt(gain));}
+    public static int playbackPercent(){AlarmService service=active;if(service==null||service.player==null||service.audio==null)return -1;int maximum=service.audio.getStreamMaxVolume(AudioManager.STREAM_ALARM);return maximum<=0?-1:Math.round(100f*service.audio.getStreamVolume(AudioManager.STREAM_ALARM)/maximum);}
     @Override protected void dump(FileDescriptor fd,PrintWriter writer,String[] args){
-        writer.println("Petal Wake playback");writer.println("elapsedMs="+(playbackBegan==0?0:SystemClock.elapsedRealtime()-playbackBegan));writer.println("fadeSeconds="+fadeSeconds);writer.println("targetVolume="+targetVolume);writer.println("nativeFadeGain="+fadeGain());writer.println("displayedPercent="+playbackPercent());writer.println("nativeVolumeShaper="+(volumeShaper!=null));
+        writer.println("Petal Wake alarm volume");writer.println("elapsedMs="+(playbackBegan==0?0:SystemClock.elapsedRealtime()-playbackBegan));writer.println("riseSeconds="+fadeSeconds);writer.println("targetAlarmStep="+rampTargetStep);writer.println("currentAlarmStep="+(audio==null?-1:audio.getStreamVolume(AudioManager.STREAM_ALARM)));writer.println("displayedPercent="+playbackPercent());
     }
     public static void createChannel(Context c){
         NotificationChannel ch=new NotificationChannel(CHANNEL,"Wake-up alarms",NotificationManager.IMPORTANCE_HIGH);
@@ -91,16 +90,19 @@ public class AlarmService extends Service {
             fallbackActive=true;AlarmHistory.record(this,"audio fallback",current);
             Store.error(this,"Selected sound could not play. The standard backup alert is sounding.");
         }
-        targetVolume=fallbackActive?1f:Math.max(0f,Math.min(1f,Store.p(this).getInt("volume",100)/100f));
         fadeSeconds=fallbackActive?0:Store.p(this).getInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS);
-        player.setVolume(targetVolume,targetVolume);
-        if(fadeSeconds>0){
-            float[] times=new float[16],gains=new float[16];
-            for(int point=0;point<times.length;point++){times[point]=point/(float)(times.length-1);gains[point]=AlarmEnvelope.volume(1f,fadeSeconds,Math.round(times[point]*fadeSeconds*1000));}
-            VolumeShaper.Configuration curve=new VolumeShaper.Configuration.Builder().setDuration(fadeSeconds*1000L).setCurve(times,gains).setInterpolatorType(VolumeShaper.Configuration.INTERPOLATOR_TYPE_LINEAR).build();
-            try{volumeShaper=player.createVolumeShaper(curve);}catch(RuntimeException unavailable){volumeShaper=null;Store.error(this,"Volume rise is unavailable. The alarm is playing at the selected level.");}
+        player.setVolume(1f,1f);
+        rampTargetStep=audio.getStreamVolume(AudioManager.STREAM_ALARM);
+        int minimum=Build.VERSION.SDK_INT>=28?audio.getStreamMinVolume(AudioManager.STREAM_ALARM):0;
+        rampStartPercent=Store.p(this).getInt("riseStartPercent",AlarmVolumeRamp.DEFAULT_START_PERCENT);
+        if(fadeSeconds>0&&rampTargetStep>minimum){
+            int first=AlarmVolumeRamp.step(rampTargetStep,minimum,audio.getStreamMaxVolume(AudioManager.STREAM_ALARM),rampStartPercent,fadeSeconds,0);
+            if(first<rampTargetStep&&Store.p(this).edit().putInt("alarmRampRestoreStep",rampTargetStep).commit()){
+                try{audio.setStreamVolume(AudioManager.STREAM_ALARM,first,0);rampLastStep=audio.getStreamVolume(AudioManager.STREAM_ALARM);if(rampLastStep!=first)restoreAlarmVolume();}
+                catch(RuntimeException unavailable){restoreAlarmVolume();Store.error(this,"Phone alarm volume could not rise automatically. The alarm is playing at the saved level.");}
+            }
         }
-        playbackBegan=SystemClock.elapsedRealtime();player.start();if(volumeShaper!=null)volumeShaper.apply(VolumeShaper.Operation.PLAY);
+        playbackBegan=SystemClock.elapsedRealtime();player.start();if(rampLastStep>=0)handler.postDelayed(rampTick,1000);
         if(Store.p(this).getBoolean("vibrate",true)){vibrator=(Vibrator)getSystemService(VIBRATOR_SERVICE);vibrator.vibrate(VibrationEffect.createWaveform(new long[]{650,200,650,600},new int[]{255,0,255,0},0),attributes);}
         int fallbackMinutes=Store.p(this).getInt("fallbackMinutes",0);
         if(fallbackMinutes>=1&&fallbackMinutes<=20)handler.postDelayed(this::startFallback,fallbackMinutes*60_000L);
@@ -108,6 +110,9 @@ public class AlarmService extends Service {
         handler.postDelayed(this::finish,ringMinutes()*60_000L);
     }
     private int ringMinutes(){int selected=Store.p(this).getInt("maxRingMinutes",30);return selected==15||selected==60?selected:30;}
+    private final Runnable rampTick=new Runnable(){@Override public void run(){if(audio==null||rampLastStep<0||destroyed)return;int actual=audio.getStreamVolume(AudioManager.STREAM_ALARM);if(actual!=rampLastStep){rampLastStep=-1;Store.p(AlarmService.this).edit().remove("alarmRampRestoreStep").commit();return;}long elapsed=SystemClock.elapsedRealtime()-playbackBegan;int minimum=Build.VERSION.SDK_INT>=28?audio.getStreamMinVolume(AudioManager.STREAM_ALARM):0;int next=AlarmVolumeRamp.step(rampTargetStep,minimum,audio.getStreamMaxVolume(AudioManager.STREAM_ALARM),rampStartPercent,fadeSeconds,elapsed);try{if(next!=actual)audio.setStreamVolume(AudioManager.STREAM_ALARM,next,0);rampLastStep=audio.getStreamVolume(AudioManager.STREAM_ALARM);if(rampLastStep!=next){restoreAlarmVolume();return;}}catch(RuntimeException error){restoreAlarmVolume();Store.error(AlarmService.this,"Phone alarm volume rise stopped. Check the alarm level.");return;}if(elapsed>=fadeSeconds*1000L)restoreAlarmVolume();else handler.postDelayed(this,1000);}};
+    private void restoreAlarmVolume(){if(rampLastStep<0)return;boolean restored=true;if(audio!=null&&audio.getStreamVolume(AudioManager.STREAM_ALARM)==rampLastStep){try{audio.setStreamVolume(AudioManager.STREAM_ALARM,rampTargetStep,0);restored=audio.getStreamVolume(AudioManager.STREAM_ALARM)==rampTargetStep;}catch(RuntimeException error){restored=false;}if(!restored)Store.error(this,"Could not restore phone alarm volume. Check Android sound settings.");}rampLastStep=-1;if(restored)Store.p(this).edit().remove("alarmRampRestoreStep").commit();}
+    public static void recoverAlarmVolume(Context c){int target=Store.p(c).getInt("alarmRampRestoreStep",-1);if(target<0)return;try{AudioManager audio=(AudioManager)c.getSystemService(AUDIO_SERVICE);int desired=Math.min(target,audio.getStreamMaxVolume(AudioManager.STREAM_ALARM));audio.setStreamVolume(AudioManager.STREAM_ALARM,desired,0);if(audio.getStreamVolume(AudioManager.STREAM_ALARM)==desired)Store.p(c).edit().remove("alarmRampRestoreStep").commit();else Store.error(c,"Could not restore phone alarm volume after restart. Check Android sound settings.");}catch(RuntimeException error){Store.error(c,"Could not restore phone alarm volume after restart. Check Android sound settings.");}}
     private MediaPlayer preparedPlayer(AudioAttributes attributes,String sound,boolean systemSound)throws Exception {
         MediaPlayer candidate=new MediaPlayer();
         try{
@@ -126,7 +131,7 @@ public class AlarmService extends Service {
         try{
             backup.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_ALARM).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
             backup.setLooping(true);SoundLibrary.setDataSource(backup,this,"tone_12.wav");backup.prepare();backup.setVolume(1f,1f);backup.start();
-            if(volumeShaper!=null)volumeShaper.close();player.release();player=backup;volumeShaper=null;targetVolume=1f;fadeSeconds=0;fallbackActive=true;playbackBegan=SystemClock.elapsedRealtime();
+            restoreAlarmVolume();player.release();player=backup;fadeSeconds=0;fallbackActive=true;playbackBegan=SystemClock.elapsedRealtime();
             AlarmHistory.record(this,"backup alert",current);
             try{getSystemService(NotificationManager.class).notify(1,alarmNotification());}catch(SecurityException ignored){}
             ((DaybreakApp)getApplication()).changed();
@@ -147,6 +152,7 @@ public class AlarmService extends Service {
         }
         snoozePending.set(false);
         handler.removeCallbacksAndMessages(null);
+        restoreAlarmVolume();
         if(!"snoozed".equals(event)){
             JSONObject batch=Store.object(this,"ringing");
             if(batch.length()==0&&current!=null)AlarmHistory.record(this,event,current);
@@ -159,7 +165,7 @@ public class AlarmService extends Service {
     }
     @Override public void onDestroy(){
         destroyed=true;handler.removeCallbacksAndMessages(null);if(active==this)active=null;
-        if(volumeShaper!=null){try{volumeShaper.close();}catch(RuntimeException ignored){}volumeShaper=null;}
+        restoreAlarmVolume();
         if(player!=null){try{player.release();}catch(RuntimeException ignored){}player=null;}
         if(vibrator!=null){try{vibrator.cancel();}catch(RuntimeException ignored){}vibrator=null;}
         if(lock!=null){try{if(lock.isHeld())lock.release();}catch(RuntimeException ignored){}lock=null;}

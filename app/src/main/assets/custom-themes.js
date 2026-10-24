@@ -1,5 +1,10 @@
 'use strict';
 let editingCustomId='';
+let themeEditorBaseline='',themeEditorSaving=false;
+function themeEditorValues(){return JSON.stringify([$('customThemeName').value,...colorParts.map(part=>$('hex'+part).value)]);}
+function themeEditorDirty(){return themeEditorSaving||themeEditorValues()!==themeEditorBaseline;}
+function themeEditorChanged(){$('themeUnsavedBar').hidden=!themeEditorDirty();}
+function promptThemeSave(){$('themeUnsavedBar').hidden=false;toast(themeEditorSaving?'Wait for the theme to save.':'Save your theme before leaving.');$('themeUnsavedBar').scrollIntoView({block:'nearest',behavior:'smooth'});}
 const colorParts=['Background','Primary','Secondary','Text'];
 function colorHex(value){if(!/^#[0-9a-f]{6}$/i.test(value))throw new Error('Use a six-digit color, such as #D89AAA.');return value.toUpperCase();}
 function colorMix(a,b,f){return '#'+[1,3,5].map(i=>Math.round(parseInt(a.slice(i,i+2),16)*(1-f)+parseInt(b.slice(i,i+2),16)*f).toString(16).padStart(2,'0')).join('').toUpperCase();}
@@ -31,7 +36,7 @@ function openThemeEditor(id=''){
  const selected=[...appearanceCatalog.themes,...customThemes].find(t=>t.id===(id||currentTheme))||appearanceCatalog.themes[1];editingCustomId=id;
  const values=selected.tokens?[selected.background,selected.primary,selected.secondary,selected.preferredText]:[selected.background,selected.action,selected.icon.secondary,selected.text];
  $('customThemeName').value=id?selected.name:'My theme';colorParts.forEach((part,n)=>{$('color'+part).value=values[n];$('hex'+part).value=values[n].toUpperCase();});
- $('editorHeading').textContent=id?'Edit theme':'Create theme';$('saveCustomTheme').textContent=id?'Save changes & use':'Save & use theme';page('themeEditor');updateThemePreview();
+ $('editorHeading').textContent=id?'Edit theme':'Create theme';$('saveCustomTheme').textContent=id?'Save changes & use':'Save & use theme';themeEditorSaving=false;themeEditorBaseline=themeEditorValues();$('themeUnsavedBar').hidden=true;page('themeEditor');updateThemePreview();
 }
 function draftTheme(){return {...customColorMath(...colorParts.map(part=>$('hex'+part).value)),name:$('customThemeName').value.trim()||'My theme'};}
 function updateThemePreview(){
@@ -43,8 +48,9 @@ function updateThemePreview(){
 }
 function setupCustomThemes(){
  $('newCustomTheme').onclick=()=>openThemeEditor();$('editorBack').onclick=$('cancelCustomTheme').onclick=()=>page('appearance');
- colorParts.forEach(part=>{$('color'+part).oninput=()=>{$('hex'+part).value=$('color'+part).value.toUpperCase();updateThemePreview();};$('hex'+part).oninput=()=>{if(/^#[0-9a-f]{6}$/i.test($('hex'+part).value))$('color'+part).value=$('hex'+part).value;updateThemePreview();};});$('customThemeName').oninput=updateThemePreview;
- $('customThemeForm').onsubmit=event=>{event.preventDefault();try{const theme=draftTheme();if(!$('customThemeName').value.trim())return;send('saveCustomTheme',{theme:{id:editingCustomId,name:$('customThemeName').value.trim(),background:theme.background,primary:theme.primary,secondary:theme.secondary,preferredText:theme.preferredText}});}catch(e){toast(e.message);}};
+ colorParts.forEach(part=>{$('color'+part).oninput=()=>{$('hex'+part).value=$('color'+part).value.toUpperCase();updateThemePreview();themeEditorChanged();};$('hex'+part).oninput=()=>{if(/^#[0-9a-f]{6}$/i.test($('hex'+part).value))$('color'+part).value=$('hex'+part).value;updateThemePreview();themeEditorChanged();};});$('customThemeName').oninput=()=>{updateThemePreview();themeEditorChanged();};
+ $('customThemeForm').onsubmit=event=>{event.preventDefault();if(themeEditorSaving)return;try{const theme=draftTheme();if(!$('customThemeName').value.trim())return;themeEditorSaving=true;themeEditorChanged();send('saveCustomTheme',{theme:{id:editingCustomId,name:$('customThemeName').value.trim(),background:theme.background,primary:theme.primary,secondary:theme.secondary,preferredText:theme.preferredText}});}catch(e){themeEditorSaving=false;toast(e.message);}};
  $('customThemeList').onclick=event=>{const use=event.target.closest('[data-custom-use]'),edit=event.target.closest('[data-custom-edit]'),remove=event.target.closest('[data-custom-delete]');if(use)send('appearance',{profile:use.dataset.customUse});if(edit)openThemeEditor(edit.dataset.customEdit);if(remove){const id=remove.dataset.customDelete,theme=customThemes.find(t=>t.id===id);confirmAction('Remove custom theme?',`Remove “${theme.name}”? If it is selected, Rose Porcelain will be selected instead.`,()=>send('deleteCustomTheme',{id}));$('yesConfirm').textContent='Remove';}};
- window.customThemeSaved=()=>page('appearance');
+ window.customThemeSaved=()=>{themeEditorSaving=false;themeEditorBaseline=themeEditorValues();themeEditorChanged();page('appearance');};
+ window.customThemeSaveFailed=()=>{themeEditorSaving=false;themeEditorChanged();};
 }

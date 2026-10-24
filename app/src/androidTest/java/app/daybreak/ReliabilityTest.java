@@ -3,6 +3,7 @@ package app.daybreak;
 import android.app.*;
 import android.content.Context;
 import android.os.Bundle;
+import org.json.JSONObject;
 import java.time.*;
 import java.time.format.DateTimeFormatter;
 import java.util.concurrent.TimeUnit;
@@ -29,6 +30,15 @@ public class ReliabilityTest extends Instrumentation {
         Store.p(context).edit().putBoolean("eveningCheck",false).commit();EveningCheck.update(context);check(awaitNotice(202,false),"Disabling the evening check removes its notice");
         Store.p(context).edit().putString("sound","orchestra_29.m4a").commit();check(SoundLibrary.DEFAULT.equals(SoundLibrary.playable(context)),"A missing optional sound falls back to bundled gentle audio");
         check(SoundLibrary.current(context).equals("orchestra_29.m4a"),"Optional sound choice is remembered for later pack download");
+        try{
+            Store.p(context).edit().putBoolean("enabled",false).commit();Store.cache(context,"");Store.put(context,"manual",new JSONObject().put("manual:readiness",new JSONObject().put("at",System.currentTimeMillis()+3_600_000L)));
+            check(Readiness.hasRelevantAlarms(context),"A future personal alarm remains in readiness scope with work alarms off");
+            Store.put(context,"manual",new JSONObject());Readiness.update(context);
+            check(!Readiness.hasRelevantAlarms(context)&&Readiness.issue(context).isEmpty()&&!notice(203),"Removing the last personal alarm clears readiness scope and its warning");
+        }finally{Store.put(context,"manual",new JSONObject());Readiness.update(context);}
+        android.media.AudioManager audio=context.getSystemService(android.media.AudioManager.class);int original=audio.getStreamVolume(android.media.AudioManager.STREAM_ALARM),maximum=audio.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM),minimum=audio.getStreamMinVolume(android.media.AudioManager.STREAM_ALARM);
+        try{Store.p(context).edit().putInt("alarmRampRestoreStep",maximum).commit();audio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,minimum,0);AlarmService.recoverAlarmVolume(context);check(audio.getStreamVolume(android.media.AudioManager.STREAM_ALARM)==maximum&&!Store.p(context).contains("alarmRampRestoreStep"),"Restart recovery restores the selected system alarm volume after an interrupted rise");}
+        finally{audio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,original,0);Store.p(context).edit().remove("alarmRampRestoreStep").commit();}
         result.putString("summary",checks+" reliability checks passed");finish(Activity.RESULT_OK,result);
     }catch(Throwable error){result.putString("error",error.toString());finish(Activity.RESULT_CANCELED,result);}}
 }

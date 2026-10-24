@@ -1,6 +1,13 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.30
+PETAL WAKE — ANDROID ALARM APP 0.1.31
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.31 — EDITOR SAVES, READINESS AND PHONE ALARM VOLUME
+- Calendar-rule and custom-theme editors show unsaved changes and keep them onscreen when you tap Back, Close, Cancel, or another page. Calendar rules close only after Android confirms the save; a failed save keeps the edits ready to correct and retry.
+- Alarm-readiness checks now include upcoming personal alarms when work alarms are off. A phone setting that prevents a personal alarm can trigger the same generic warning without revealing the alarm title.
+- Wake-up Settings now have one Phone alarm volume slider that changes Android’s actual alarm stream and shows its measured step. Gradual alarm rise has a separate duration and a selectable starting percentage of the phone’s full alarm-volume range (10–100%). If the start would exceed the selected end level, it starts at the end level. The real 15-second test uses the same alarm audio path as scheduled alarms. A completed or interrupted rise returns the phone alarm stream to its selected level; a volume-key change during ringing takes precedence.
+- The old app playback gain and Quiet wake-up preset are retired from the visible Settings screen. Existing app gain settings migrate to full so the phone alarm slider is the audible level control. Android’s alarm stream is global: other alarm apps share the selected level and any rise while Petal Wake rings.
+- This is a local candidate; no v0.1.31 GitHub release has been published. The app ID and signer remain unchanged.
 
 VERSION 0.1.30 — CLEAR SELECTIONS AND FULL-VOLUME START
 - Alarms begin immediately at 100% app playback by default. This update applies that starting setting once to existing installs; you can lower it afterward or opt into Quiet wake-up again.

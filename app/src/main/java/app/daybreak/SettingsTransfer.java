@@ -11,7 +11,7 @@ import java.util.Set;
 
 /** Portable preferences only. Calendar URLs, events, alarms, and history never leave the app. */
 public final class SettingsTransfer {
-    private static final String[] INTS={"lead","snooze","volume","fade","allDayMinutes","earlyBefore","earlyLead","lateAfter","lateLead","eveningMinutes","fallbackMinutes","maxRingMinutes"};
+    private static final String[] INTS={"lead","snooze","volume","fade","riseStartPercent","allDayMinutes","earlyBefore","earlyLead","lateAfter","lateLead","eveningMinutes","fallbackMinutes","maxRingMinutes"};
     private static final String[] BOOLEANS={"vibrate","allDayEnabled","shiftRulesEnabled","eveningCheck","syncAlerts","quietPreset","privateLockScreen"};
     private static final String[] STRINGS={"appearance","iconDesign","sound","filter"};
 
@@ -66,11 +66,9 @@ public final class SettingsTransfer {
         int late=settings.has("lateAfter")?exactInt(settings.get("lateAfter"),"lateAfter"):Store.p(c).getInt("lateAfter",720);
         if(late<=early)throw new IllegalArgumentException("Later shift time must follow early shift time.");
         SharedPreferences.Editor editor=Store.p(c).edit();
-        for(String key:INTS)if(settings.has(key))editor.putInt(key,exactInt(settings.get(key),key));
+        for(String key:INTS)if(settings.has(key)){int value=exactInt(settings.get(key),key);if(!"volume".equals(key))editor.putInt(key,value);}
         for(String key:BOOLEANS)if(settings.has(key)&&!"quietPreset".equals(key))editor.putBoolean(key,settings.getBoolean(key));
-        int volume=settings.has("volume")?exactInt(settings.get("volume"),"volume"):Store.p(c).getInt("volume",100);
-        int fade=settings.has("fade")?exactInt(settings.get("fade"),"fade"):Store.p(c).getInt("fade",60);
-        editor.putBoolean("quietPreset",settings.optBoolean("quietPreset",false)&&volume==PlaybackPresets.QUIET_VOLUME&&fade==PlaybackPresets.QUIET_FADE).remove("previousPlayback");
+        editor.putInt("volume",100).putBoolean("quietPreset",false).remove("previousPlayback");
         for(String key:STRINGS)if(settings.has(key))editor.putString(key,settings.getString(key));
         if(rawThemes!=null)editor.putString("customThemes",themes.toString());
         if(!editor.commit())throw new IllegalStateException("Could not save settings.");
@@ -89,6 +87,7 @@ public final class SettingsTransfer {
             case "snooze":return n>=1&&n<=60;
             case "volume":return n>=10&&n<=100;
             case "fade":return n==0||n==5||n==15||n==30||n==60||n==120;
+            case "riseStartPercent":return n>=10&&n<=100;
             case "fallbackMinutes":return n==0||n==5||n==10||n==15;
             case "maxRingMinutes":return n==15||n==30||n==60;
             default:return n>=0&&n<=1439;

@@ -61,6 +61,11 @@ public class CalendarConnectionTest extends Instrumentation {
         check("true".equals(js("!$('allDayAlert').hidden&&$('allDayAlert').textContent.includes('no wake-up alarm')&&$('calendarShiftList').textContent.includes('No alarm scheduled')")),"All-day warning and row say no alarm is scheduled");capture("calendar-all-day-fix");
         js("document.querySelector('#calendarShiftList [data-set-all-day]').click()");
         check("true".equals(js("$('calendarRuleDialog').open&&$('calendarRuleId').value==='primary'&&$('calendarRuleTime').required&&$('calendarRuleTime').value===''")),"Set start time opens the correct calendar with no assumed time");
+        check("true".equals(js("$('calendarRuleTime').value='09:00';$('calendarRuleTime').dispatchEvent(new Event('input',{bubbles:true}));$('calendarRuleDialog').querySelector('.closeDialog').click();$('calendarRuleDialog').open&&!$('calendarRuleUnsaved').hidden")),"Close control keeps unsaved calendar rules open");
+        check("true".equals(js("handleAndroidBack();$('calendarRuleDialog').open")),"Android Back keeps unsaved calendar rules open");
+        js("$('calendarRuleId').value='missing-calendar';$('calendarRuleForm').requestSubmit()");await(()->"true".equals(js("!busy&&$('calendarRuleDialog').open&&calendarRuleDirty()")));
+        check("true".equals(js("$('calendarRuleDialog').open&&!$('calendarRuleUnsaved').hidden")),"Failed calendar save retains editable rules");
+        js("$('calendarRuleId').value='primary'");
         js("$('calendarRuleTime').value='09:00';$('calendarRuleForm').requestSubmit()");await(()->Store.p(context).getBoolean("allDayEnabled",false));
         js("send('enable',{value:true})");await(()->Store.object(context,"scheduled").length()==1);
         JSONObject alarm=Store.array(context,"shifts").getJSONObject(0);java.util.Calendar when=java.util.Calendar.getInstance();when.setTimeInMillis(alarm.getLong("start"));

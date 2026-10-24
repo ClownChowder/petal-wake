@@ -46,7 +46,7 @@ public class NativeSmokeTest extends Instrumentation {
             js("document.getElementById('standardTab').click();document.querySelector('.play-button').click()");
             await(()->{MediaPlayer p=(MediaPlayer)field.get(activity);return p!=null&&p.isPlaying();},10);
             check("12".equals(js("document.querySelectorAll('.sound-row').length")),"12 standard tones displayed and WAV playback works");
-            js("document.getElementById('classicalTab').click()");check("48".equals(js("document.querySelectorAll('.sound-row').length")),"48 music choices displayed in All music");
+            js("document.getElementById('classicalTab').click();document.getElementById('genreFilter').value='';document.getElementById('soundSearch').value='';renderSounds()");check("true".equals(js("catalog.filter(a=>a.category==='Classical').length===48&&document.querySelectorAll('.sound-row').length>=48")),"48 bundled music choices displayed in All music alongside any imported tracks");
             MediaPlayer beforePiano=(MediaPlayer)field.get(activity);js("document.getElementById('gentleTab').click();document.querySelectorAll('.play-button')[8].click()");
             await(()->{MediaPlayer p=(MediaPlayer)field.get(activity);return p!=null&&p!=beforePiano&&p.isPlaying();},10);check(true,"New gentle solo-piano AAC plays on Android");
             js("document.getElementById('natureTab').click()");check("6".equals(js("document.querySelectorAll('.sound-row').length")),"6 nature sounds displayed");
@@ -66,13 +66,14 @@ public class NativeSmokeTest extends Instrumentation {
             check(!Store.object(c,"scheduled").has(old)&&Store.object(c,"scheduled").length()==1,"Moving shift cancels original alarm and schedules replacement");
             String id=Store.object(c,"scheduled").keys().next();io(()->{try{Scheduler.skip(c,id);}catch(Exception e){throw new RuntimeException(e);}});check(Store.object(c,"scheduled").length()==0,"Skipping shift removes scheduled alarm");
             io(()->{try{Store.cache(c,"");Store.p(c).edit().remove("source").putBoolean("enabled",false).commit();Sync.run(c,false);}catch(Exception e){throw new RuntimeException(e);}});
-            check(Store.p(c).getInt("volume",0)==100&&Store.p(c).getInt("fade",-1)==0,"Alarm is configured for immediate full app playback by default");
-            js("send('test')");await(()->Store.object(c,"current").length()>0,22);await(()->AlarmService.playbackPercent()==100,5);
-            Field immediateField=AlarmService.class.getDeclaredField("active");immediateField.setAccessible(true);AlarmService immediate=(AlarmService)immediateField.get(null);Field immediateShaper=AlarmService.class.getDeclaredField("volumeShaper");immediateShaper.setAccessible(true);check(immediate!=null&&immediateShaper.get(immediate)==null,"Live alarm starts at 100% app playback with no volume shaper");
+            android.media.AudioManager phoneAudio=c.getSystemService(android.media.AudioManager.class);int originalPhoneLevel=phoneAudio.getStreamVolume(android.media.AudioManager.STREAM_ALARM),targetPhoneLevel=phoneAudio.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM),minimumPhoneLevel=phoneAudio.getStreamMinVolume(android.media.AudioManager.STREAM_ALARM);phoneAudio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,targetPhoneLevel,0);
+            check(Store.p(c).getInt("volume",0)==100&&Store.p(c).getInt("fade",-1)==0,"Alarm is configured for immediate full phone alarm volume by default");
+            js("send('test')");await(()->Store.object(c,"current").length()>0,45);await(()->AlarmService.playbackPercent()==100,5);
+            Field immediateField=AlarmService.class.getDeclaredField("active");immediateField.setAccessible(true);AlarmService immediate=(AlarmService)immediateField.get(null);check(immediate!=null&&phoneAudio.getStreamVolume(android.media.AudioManager.STREAM_ALARM)==targetPhoneLevel,"Live alarm starts at the selected system alarm volume without a rise");
             c.startService(new Intent(c,AlarmService.class).setAction("STOP"));await(()->Store.object(c,"current").length()==0,5);
-            Store.p(c).edit().putInt("fade",60).commit(); // Explicitly exercise the optional gradual rise below.
+            Store.p(c).edit().putInt("fade",60).putInt("riseStartPercent",30).commit(); // Exercise the real system-volume rise below.
             js("send('test')");report("LOCK_SCREEN_TEST: 15-second alarm scheduled");
-            await(()->Store.object(c,"current").length()>0,22);
+            await(()->Store.object(c,"current").length()>0,45);
             check(Store.object(c,"current").optString("title").equals("Petal Wake sound check"),"Alarm fires through native AlarmManager");
             check(Store.object(c,"ringing").length()==1,"Alarm audio service stays active");
             Activity ring=startActivitySync(new Intent(c,RingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));Thread.sleep(400);capture("ringing");
@@ -83,16 +84,16 @@ public class NativeSmokeTest extends Instrumentation {
             check(Store.object(c,"current").length()>0,"Notification I’m up opens the hold screen without directly stopping the alarm");
             runOnMainSync(()->{android.view.ViewGroup root=(android.view.ViewGroup)((android.view.ViewGroup)ring.findViewById(android.R.id.content)).getChildAt(0);android.widget.Button upper=findButton(root,"Snooze"),lower=findButton(root,"I’m up");if(upper==null||lower==null||upper.getWidth()!=root.getWidth()||lower.getWidth()!=root.getWidth()||Math.abs(upper.getHeight()+lower.getHeight()-root.getHeight())>1)throw new AssertionError("Alarm buttons must fill the screen");});check(true,"Snooze and I’m up fill the full alarm screen width and height");
             Field activeField=AlarmService.class.getDeclaredField("active");activeField.setAccessible(true);AlarmService service=(AlarmService)activeField.get(null);
-            Field shaperField=AlarmService.class.getDeclaredField("volumeShaper");shaperField.setAccessible(true);android.media.VolumeShaper shaper=(android.media.VolumeShaper)shaperField.get(service);
             Field beganField=AlarmService.class.getDeclaredField("playbackBegan");beganField.setAccessible(true);long began=(Long)beganField.get(service);
-            check(shaper!=null&&shaper.getVolume()>=.15f&&shaper.getVolume()<.20f,"Native audio fade starts near squared 40% gain");report("NATIVE_FADE_START: "+shaper.getVolume());
-            await(()->SystemClock.elapsedRealtime()-began>=30000,35);float middle=shaper.getVolume();report("NATIVE_FADE_30_SECONDS: "+middle);check(middle>.46f&&middle<.53f,"Native audio fade rises at its 30-second midpoint");capture("ringing-midpoint");
-            await(()->SystemClock.elapsedRealtime()-began>=61000,35);report("NATIVE_FADE_61_SECONDS: "+shaper.getVolume());check(shaper.getVolume()>=.999f,"Native audio fade reaches full gain after one minute");capture("ringing-full-volume");
+            int firstStep=AlarmVolumeRamp.step(targetPhoneLevel,minimumPhoneLevel,phoneAudio.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM),30,60,0);check(phoneAudio.getStreamVolume(android.media.AudioManager.STREAM_ALARM)==firstStep,"Real system alarm volume starts near the selected 30% step");report("SYSTEM_ALARM_RISE_START: "+firstStep);
+            await(()->SystemClock.elapsedRealtime()-began>=30000,35);int middle=phoneAudio.getStreamVolume(android.media.AudioManager.STREAM_ALARM);report("SYSTEM_ALARM_RISE_30_SECONDS: "+middle);check(middle>firstStep&&middle<targetPhoneLevel,"Real system alarm volume rises by the 30-second midpoint");capture("ringing-midpoint");
+            await(()->SystemClock.elapsedRealtime()-began>=61000,35);report("SYSTEM_ALARM_RISE_61_SECONDS: "+phoneAudio.getStreamVolume(android.media.AudioManager.STREAM_ALARM));check(phoneAudio.getStreamVolume(android.media.AudioManager.STREAM_ALARM)==targetPhoneLevel,"Real system alarm volume reaches the selected maximum after one minute");capture("ringing-full-volume");
             android.widget.Button dismiss=findButton(ring.findViewById(android.R.id.content),"I’m up");check(dismiss!=null,"I’m up control is present");
             long earlyDown=touchDown(dismiss);Thread.sleep(600);runOnMainSync(()->checkButtonProgress(dismiss));touchUp(dismiss,earlyDown);Thread.sleep(300);
             check(Store.object(c,"current").length()>0,"Releasing I’m up early cancels dismissal");
             long holdDown=touchDown(dismiss);Thread.sleep(2200);touchUp(dismiss,holdDown);
             await(()->Store.object(c,"current").length()==0,5);check(true,"Holding full-screen I’m up for two seconds stops ringing");
+            phoneAudio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,originalPhoneLevel,0);
             io(()->{try{JSONObject a=new JSONObject().put("id","qa-snooze").put("title","Snooze test").put("kind","manual").put("at",System.currentTimeMillis()+3000);JSONObject all=new JSONObject().put("qa-snooze",a);Store.p(c).edit().putInt("snooze",1).commit();Store.put(c,"manual",all);Sync.run(c,false);}catch(Exception e){throw new RuntimeException(e);}});
             await(()->Store.object(c,"current").length()>0,10);Activity snoozeScreen=startActivitySync(new Intent(c,RingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             runOnMainSync(()->{android.widget.Button snooze=findButton(snoozeScreen.findViewById(android.R.id.content),"Snooze");if(snooze!=null)snooze.performClick();});await(()->Store.object(c,"snoozes").length()==1&&Store.object(c,"current").length()==0,8);

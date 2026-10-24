@@ -27,13 +27,13 @@ public class NextReleaseTest extends Instrumentation {
         check(!exported.contains("secret.example")&&!exported.contains("private-calendar-key")&&!exported.contains("Sensitive work title")&&!exported.contains("manual"),"Settings file excludes calendar URLs, event titles, alarms, and history");
         JSONObject backup=new JSONObject(exported);backup.getJSONObject("settings").put("volume",65).put("fallbackMinutes",10);
         SettingsTransfer.importJson(c,backup.toString());
-        check(Store.p(c).getInt("volume",0)==65&&Store.p(c).getInt("fallbackMinutes",0)==10,"Playback and backup-alert settings restore");
+        check(Store.p(c).getInt("volume",0)==100&&Store.p(c).getInt("fallbackMinutes",0)==10,"Legacy playback gain normalizes to full while backup-alert settings restore");
         check(privateUrl.equals(Store.url(c))&&!Store.p(c).contains("url")&&!Store.p(c).getString("secureUrl","").contains("secret.example"),"Settings restore preserves and encrypts the private calendar link already on the phone");
         backup.getJSONObject("settings").put("volume",999);boolean rejected=false;try{SettingsTransfer.importJson(c,backup.toString());}catch(IllegalArgumentException expected){rejected=true;}
-        check(rejected&&Store.p(c).getInt("volume",0)==65,"Invalid settings are rejected before saved preferences change");
+        check(rejected&&Store.p(c).getInt("volume",0)==100,"Invalid settings are rejected before saved preferences change");
         backup.getJSONObject("settings").put("volume",4_294_967_361L);rejected=false;
         try{SettingsTransfer.importJson(c,backup.toString());}catch(IllegalArgumentException expected){rejected=true;}
-        check(rejected&&Store.p(c).getInt("volume",0)==65,"Oversized integers cannot wrap into valid settings");
+        check(rejected&&Store.p(c).getInt("volume",0)==100,"Oversized integers cannot wrap into valid settings");
         for(int i=0;i<120;i++)AlarmHistory.record(c,"rang",new JSONObject().put("kind","manual").put("title","Private title"));
         check(AlarmHistory.entries(c).length()==100&&!AlarmHistory.entries(c).toString().contains("Private title"),"History is bounded and excludes event titles");
         result.putString("summary",checks+" next-release checks passed");finish(Activity.RESULT_OK,result);

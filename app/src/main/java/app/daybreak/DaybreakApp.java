@@ -12,11 +12,12 @@ public class DaybreakApp extends Application {
     public static final String CHANGED="app.daybreak.CHANGED";
     public static final String INTERNAL_PERMISSION="app.daybreak.permission.INTERNAL_BROADCAST";
     private final AtomicBoolean refreshPending=new AtomicBoolean();
-    @Override public void onCreate(){super.onCreate();Appearance.syncLauncher(this);SoundLibrary.migrate(this);upgradePlayback();AlarmService.createChannel(this);CalendarConfidence.createChannel(this);EveningCheck.createChannel(this);Readiness.createChannel(this);ShiftChanges.createChannel(this);SyncJob.install(this);}
+    @Override public void onCreate(){super.onCreate();Appearance.syncLauncher(this);SoundLibrary.migrate(this);upgradePlayback();AlarmService.recoverAlarmVolume(this);AlarmService.createChannel(this);CalendarConfidence.createChannel(this);EveningCheck.createChannel(this);Readiness.createChannel(this);ShiftChanges.createChannel(this);SyncJob.install(this);}
     private void upgradePlayback(){
         var preferences=Store.p(this);
         int revision=preferences.getInt("playbackRevision",0);
         if(revision<2){var edit=preferences.edit().putInt("volume",100).putInt("fade",0).putBoolean("quietPreset",false).putInt("playbackRevision",2);if(revision<1)edit.putBoolean("vibrate",true);edit.commit();}
+        if(revision<3)preferences.edit().putInt("volume",100).putBoolean("quietPreset",false).remove("previousPlayback").putInt("playbackRevision",3).commit();
     }
     public void refresh(boolean fetch){
         if(!refreshPending.compareAndSet(false,true))return;
