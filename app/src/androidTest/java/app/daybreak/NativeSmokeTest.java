@@ -31,7 +31,7 @@ public class NativeSmokeTest extends Instrumentation {
         Bundle result=new Bundle();
         try {
             Context c=getTargetContext();
-            Store.p(c).edit().putString("sound","classical_05.mid").commit();
+            Store.p(c).edit().putString("sound","classical_05.mid").putInt("volume",100).putInt("fade",0).commit();
             activity=startActivitySync(new Intent(c,MainActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             runOnMainSync(()->web=findWeb(activity.findViewById(android.R.id.content)));
             await(()->"66".equals(js("window.SOUNDS&&window.SOUNDS.length")),15);
@@ -66,6 +66,11 @@ public class NativeSmokeTest extends Instrumentation {
             check(!Store.object(c,"scheduled").has(old)&&Store.object(c,"scheduled").length()==1,"Moving shift cancels original alarm and schedules replacement");
             String id=Store.object(c,"scheduled").keys().next();io(()->{try{Scheduler.skip(c,id);}catch(Exception e){throw new RuntimeException(e);}});check(Store.object(c,"scheduled").length()==0,"Skipping shift removes scheduled alarm");
             io(()->{try{Store.cache(c,"");Store.p(c).edit().remove("source").putBoolean("enabled",false).commit();Sync.run(c,false);}catch(Exception e){throw new RuntimeException(e);}});
+            check(Store.p(c).getInt("volume",0)==100&&Store.p(c).getInt("fade",-1)==0,"Alarm is configured for immediate full app playback by default");
+            js("send('test')");await(()->Store.object(c,"current").length()>0,22);await(()->AlarmService.playbackPercent()==100,5);
+            Field immediateField=AlarmService.class.getDeclaredField("active");immediateField.setAccessible(true);AlarmService immediate=(AlarmService)immediateField.get(null);Field immediateShaper=AlarmService.class.getDeclaredField("volumeShaper");immediateShaper.setAccessible(true);check(immediate!=null&&immediateShaper.get(immediate)==null,"Live alarm starts at 100% app playback with no volume shaper");
+            c.startService(new Intent(c,AlarmService.class).setAction("STOP"));await(()->Store.object(c,"current").length()==0,5);
+            Store.p(c).edit().putInt("fade",60).commit(); // Explicitly exercise the optional gradual rise below.
             js("send('test')");report("LOCK_SCREEN_TEST: 15-second alarm scheduled");
             await(()->Store.object(c,"current").length()>0,22);
             check(Store.object(c,"current").optString("title").equals("Petal Wake sound check"),"Alarm fires through native AlarmManager");

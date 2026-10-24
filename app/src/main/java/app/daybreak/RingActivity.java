@@ -91,7 +91,7 @@ public class RingActivity extends Activity {
         button.setBackground(new RippleDrawable(ColorStateList.valueOf((Appearance.current(this).accent&0x00ffffff)|0x33000000),color,null));
     }
     private SpannableString snoozeLabel(String time,String title,int minutes){
-        int percent=AlarmService.playbackPercent();String volume=percent<0?"Gradual volume rise":"Volume · "+percent+"%";
+        int percent=AlarmService.playbackPercent();String volume=percent<0?"Gradual app volume rise":"App playback · "+percent+"%";
         SpannableString label=new SpannableString("Petal Wake\n\n"+time+"\n"+title+"\n\nSnooze\n"+minutes+" minutes\n"+volume);size(label,"Petal Wake",14);size(label,time,56);size(label,title,18);size(label,"Snooze",38);size(label,minutes+" minutes",16);size(label,volume,13);return label;
     }
     private void size(SpannableString label,String part,int sp){int start=label.toString().indexOf(part);if(start>=0)label.setSpan(new AbsoluteSizeSpan(sp,true),start,start+part.length(),Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);}

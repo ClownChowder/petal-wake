@@ -2,7 +2,7 @@ package app.daybreak;
 
 /** Start clearly audible, then rise smoothly to the selected playback level. */
 public final class AlarmEnvelope {
-    public static final int DEFAULT_FADE_SECONDS=60;
+    public static final int DEFAULT_FADE_SECONDS=0;
     public static float volume(float target,int fadeSeconds,long elapsedMillis){
         float ceiling=Math.max(0f,Math.min(1f,target));
         if(fadeSeconds<=0)return ceiling;

@@ -1,6 +1,12 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.29
+PETAL WAKE — ANDROID ALARM APP 0.1.30
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.30 — CLEAR SELECTIONS AND FULL-VOLUME START
+- Alarms begin immediately at 100% app playback by default. This update applies that starting setting once to existing installs; you can lower it afterward or opt into Quiet wake-up again.
+- Settings shows the exact Android alarm-volume step alongside the app playback percentage, provides an Adjust phone alarm volume shortcut and a real 15-second test, and explains each step for choosing a lower level. Recordings can vary in loudness even at the same setting.
+- Selected sections, sound categories, recordings, themes, and icon designs have stronger outlines and checkmarks. Unsaved alarm preferences stay on the Settings page when you tap another page, section, or Android Back. The save warning clears only after Android confirms the save.
+- The app ID and signing certificate are unchanged for in-place Obtainium updates. Review the next wake time and Android alarm volume after updating.
 
 VERSION 0.1.29 — QUIET FOCUS UI REFINEMENT
 - Clearer next-alarm, work-alarm, personal-alarm, and sound-selection surfaces across all 16 built-in themes and saved custom themes.
@@ -86,7 +92,7 @@ SCHEDULE & CONTROLS
 - Optional case-insensitive event-title filter, such as "Work" or "Shift".
 - Timed recurring events, exception dates, moved/canceled occurrences and timezones are supported. All-day entries are shown with Start time needed. In Settings, enable Set a time for all-day work shifts and choose the shift start time before creating their alarms.
 - Skip an individual shift, restore it, or pause all work alarms. Personal alarms and existing snoozes operate independently.
-- Snooze: 1–60 minutes. Gradual volume: off or 5/15/30/60/120 seconds. Uses a loudness-oriented 40% start (squared gain curve), then rises to the selected playback level; one minute is the default. Vibration uses maximum-amplitude repeating pulses and can be switched off. This upgrade enables vibration, sets playback to 100%, and sets the rise to one minute once; later preference changes are respected.
+- Snooze: 1–60 minutes. Gradual volume: off or 5/15/30/60/120 seconds. When a gradual rise is chosen, it starts at a loudness-oriented 40% (squared gain curve) and reaches the selected app playback level over the chosen time. The default is 100% app playback immediately, with no rise. Vibration uses maximum-amplitude repeating pulses and can be switched off. This update resets playback to the new default once; later preference changes are respected.
 - Up to 128 future work alarms are scheduled across the next 60 days. The list displays the next 128 shifts; the home screen shows the first 12. Background refresh extends the window. Up to 32 personal alarms can be added.
 - Alarms ring for up to 30 minutes if unattended. Simultaneous alarms share one ringing screen; snooze applies to the alarms currently ringing.
 - The app uses Android's native AlarmManager and a foreground audio service. It does not need an open browser to ring.

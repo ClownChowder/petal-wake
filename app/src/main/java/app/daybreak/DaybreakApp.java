@@ -15,7 +15,8 @@ public class DaybreakApp extends Application {
     @Override public void onCreate(){super.onCreate();Appearance.syncLauncher(this);SoundLibrary.migrate(this);upgradePlayback();AlarmService.createChannel(this);CalendarConfidence.createChannel(this);EveningCheck.createChannel(this);Readiness.createChannel(this);ShiftChanges.createChannel(this);SyncJob.install(this);}
     private void upgradePlayback(){
         var preferences=Store.p(this);
-        if(preferences.getInt("playbackRevision",0)<1)preferences.edit().putInt("volume",100).putInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS).putBoolean("vibrate",true).putInt("playbackRevision",1).commit();
+        int revision=preferences.getInt("playbackRevision",0);
+        if(revision<2){var edit=preferences.edit().putInt("volume",100).putInt("fade",0).putBoolean("quietPreset",false).putInt("playbackRevision",2);if(revision<1)edit.putBoolean("vibrate",true);edit.commit();}
     }
     public void refresh(boolean fetch){
         if(!refreshPending.compareAndSet(false,true))return;

@@ -2,7 +2,7 @@ plugins { id 'com.android.application' }
 android {
     namespace 'app.daybreak'
     compileSdk 35
-    defaultConfig { applicationId 'app.daybreak'; minSdk 26; targetSdk 35; versionCode 30; versionName '0.1.29'; testInstrumentationRunner 'app.daybreak.NativeSmokeTest' }
+    defaultConfig { applicationId 'app.daybreak'; minSdk 26; targetSdk 35; versionCode 31; versionName '0.1.30'; testInstrumentationRunner 'app.daybreak.NativeSmokeTest' }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
     buildTypes { release { minifyEnabled false } }
     androidResources { noCompress += ['m4a', 'wav'] }

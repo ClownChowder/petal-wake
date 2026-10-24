@@ -91,7 +91,7 @@ public class AlarmService extends Service {
             fallbackActive=true;AlarmHistory.record(this,"audio fallback",current);
             Store.error(this,"Selected sound could not play. The standard backup alert is sounding.");
         }
-        targetVolume=fallbackActive?1f:Math.max(0f,Math.min(1f,Store.p(this).getInt("volume",80)/100f));
+        targetVolume=fallbackActive?1f:Math.max(0f,Math.min(1f,Store.p(this).getInt("volume",100)/100f));
         fadeSeconds=fallbackActive?0:Store.p(this).getInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS);
         player.setVolume(targetVolume,targetVolume);
         if(fadeSeconds>0){

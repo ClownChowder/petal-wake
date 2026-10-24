@@ -120,3 +120,15 @@ dialog{border-color:var(--input-line);box-shadow:0 20px 70px #0006}
 @media(max-width:360px){.hero{padding:20px}.alarm-section{padding:16px}.hero-title{font-size:25px}}
 @media(max-width:520px){.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}.tabs button{white-space:normal;padding:8px 6px}}
 @media(prefers-contrast:more){.hero,.alarm-section,.panel,.sound-teaser,#soundList{border:2px solid var(--input-line)}nav button[aria-current=page]{outline:2px solid var(--action)}}
+
+/* Clear selection and save state on every palette. */
+.settings-menu button[aria-pressed=true],.tabs button[aria-selected=true],.select-sound[aria-pressed=true]{outline:2px solid var(--action);outline-offset:2px;box-shadow:0 0 0 2px var(--paper),0 0 0 4px var(--action)}
+.theme-option[aria-pressed=true],.icon-option[aria-pressed=true]{outline:2px solid var(--action);outline-offset:2px}
+.sound-row:has(.select-sound[aria-pressed=true]){background:var(--control);border-radius:12px;padding-inline:10px}
+.unsaved-bar{position:sticky;top:64px;z-index:19;display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;background:var(--action);color:var(--on-action);border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 6px 24px #0003}
+.unsaved-bar strong{font-size:14px}.unsaved-bar span{font-size:12px;line-height:1.3;grid-column:1}.unsaved-bar button{grid-column:2;grid-row:1/3;background:var(--paper);color:var(--ink);border:2px solid var(--on-action);min-height:44px;padding:8px 12px}
+.volume-readout{background:var(--control);color:var(--ink);font-weight:700;border-radius:12px;padding:12px;margin:12px 0 4px!important}
+.volume-readout.volume-warning{border-left:4px solid var(--action)}.volume-readout.volume-muted{background:var(--error-bg);color:var(--error-text)}
+#volumeValue{color:var(--ink);background:var(--control);padding:3px 9px;border-radius:8px;white-space:nowrap}
+.settings-menu button[aria-pressed=true]::before,.tabs button[aria-selected=true]::before{content:'✓ ';font-weight:900}
+.volume-steps{padding-left:22px;font-size:13px;line-height:1.6;color:var(--ink);margin:12px 0 22px}.volume-steps li{margin:8px 0}

@@ -68,7 +68,7 @@ public final class SettingsTransfer {
         SharedPreferences.Editor editor=Store.p(c).edit();
         for(String key:INTS)if(settings.has(key))editor.putInt(key,exactInt(settings.get(key),key));
         for(String key:BOOLEANS)if(settings.has(key)&&!"quietPreset".equals(key))editor.putBoolean(key,settings.getBoolean(key));
-        int volume=settings.has("volume")?exactInt(settings.get("volume"),"volume"):Store.p(c).getInt("volume",80);
+        int volume=settings.has("volume")?exactInt(settings.get("volume"),"volume"):Store.p(c).getInt("volume",100);
         int fade=settings.has("fade")?exactInt(settings.get("fade"),"fade"):Store.p(c).getInt("fade",60);
         editor.putBoolean("quietPreset",settings.optBoolean("quietPreset",false)&&volume==PlaybackPresets.QUIET_VOLUME&&fade==PlaybackPresets.QUIET_FADE).remove("previousPlayback");
         for(String key:STRINGS)if(settings.has(key))editor.putString(key,settings.getString(key));
