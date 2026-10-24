@@ -7,13 +7,16 @@ public final class ThemeColors {
     public final Map<String,String> tokens=new LinkedHashMap<>();
     public ThemeColors(String background,String primary,String secondary,String preferredText){
         this.background=hex(background);this.primary=hex(primary);this.secondary=hex(secondary);this.preferredText=hex(preferredText);
-        text=readable(this.preferredText,this.background);surface=surface(this.background,text,.07);control=surface(surface,text,.07);
+        text=readable(this.preferredText,this.background);
+        boolean dark=luminance(this.background)<.179;
+        surface=mix(this.background,dark?"#000000":"#FFFFFF",dark?.12:.42);
+        control=surface(surface,text,.07);
         actionText=best(this.primary);link=readableBoth(this.primary,this.background,control,text);secondaryLink=readableBoth(this.secondary,this.background,control,text);
         String muted=readableBoth(mix(text,this.background,.22),this.background,control,text);
         tokens.put("paper",this.background);tokens.put("ink",text);tokens.put("muted",muted);tokens.put("lavender",link);tokens.put("mint",secondaryLink);tokens.put("card",surface);tokens.put("control",control);
         tokens.put("line",mix(this.background,text,.25));tokens.put("placeholder",muted);tokens.put("outline",muted);tokens.put("horizon",mix(surface,this.secondary,.12));tokens.put("track",mix(this.background,text,.25));tokens.put("secondary",mix(surface,this.secondary,.06));tokens.put("input-line",muted);tokens.put("input",mix(this.background,surface,.4));
         tokens.put("action",this.primary);tokens.put("on-action",actionText);tokens.put("nav",this.background+"F5");tokens.put("glass",this.background+"33");tokens.put("glass-card",this.background+"8C");tokens.put("empty",surface+"55");tokens.put("overlay","#14121A99");
-        boolean dark=luminance(this.background)<.179;tokens.put("error-bg",dark?"#51343C":"#FBE1DD");tokens.put("error-text",dark?"#FFD0C7":"#7B332C");
+        tokens.put("error-bg",dark?"#51343C":"#FBE1DD");tokens.put("error-text",dark?"#FFD0C7":"#7B332C");
     }
     public static String hex(String value){if(value==null||!value.matches("#[0-9a-fA-F]{6}"))throw new IllegalArgumentException("Choose a valid six-digit hex color.");return value.toUpperCase(Locale.ROOT);}
     private static int rgb(String value,int channel){return Integer.parseInt(value.substring(1+channel*2,3+channel*2),16);}

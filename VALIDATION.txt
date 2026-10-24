@@ -1,5 +1,12 @@
 DAYBREAK — VALIDATION
 
+UPDATE 0.1.29 — QUIET FOCUS UI REFINEMENT
+- The v0.1.29 APK is app.daybreak/versionCode 30, SHA-256 a0c3825509d18839f64a8f834cfcb18e1c40f0c1996e2c8d984b47bac9bdbefa. It installed over v0.1.28 on an isolated Android 15 emulator. Its signing certificate remains 386f097ea7de3749f0b0cc87e433d0f8a8a70cebb1848d7e7cb4bd5f60cff2b4; packaged permissions match v0.1.28.
+- A fresh host build executed 40 JVM unit tests with zero failures/skips, lintDebug with zero errors and 65 warnings, lintVitalRelease, and debug/release/test APK builds. The release variant is unsigned; the distributable is the same-signer signed debug variant.
+- The exact distributable APK passed 31 appearance checks (96 theme/icon combinations), 22 custom-theme checks, 21 Quiet Focus checks (including 320 px and 412 px layout/touch targets), and 28 native smoke checks (including full-minute volume rise, alarm controls, and snoozed delivery).
+- Source publication inputs were checked for credential patterns, personal local paths, and symlinks; no flags were found. The source includes credits and notices. This is a targeted scan, not a complete privacy proof.
+- No physical-phone install, real Proton account test, lower-powered-device performance, battery/thermal, long-duration memory, or live assistive-technology qualification was performed. Review the next wake time and Android permissions after updating.
+
 UPDATE 0.1.28 — SNOOZE CONTROL AND IMPORT BOUNDS
 - A v0.1.27 baseline on an isolated Android 15 emulator reproduced a dismissal/Snooze race: a newly scheduled snooze remained after I’m up. The v0.1.28 candidate passed the same controlled interleaving with no snooze left. The prior v0.1.27 baseline also reproduced delayed/duplicate snoozes when calendar work occupied the shared executor and an imported oversized integer wrapping into a valid volume.
 - Snooze now uses a dedicated serial alarm-control executor, repeated taps are combined, and dismissal queues cancellation of any in-flight snooze. Settings import requires exact integer conversion.

@@ -1,6 +1,12 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.28
+PETAL WAKE — ANDROID ALARM APP 0.1.29
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.29 — QUIET FOCUS UI REFINEMENT
+- Clearer next-alarm, work-alarm, personal-alarm, and sound-selection surfaces across all 16 built-in themes and saved custom themes.
+- Stronger visual separation for both light and dark palettes while keeping the app icon and native alarm palette aligned with the selected theme.
+- Sound categories remain visible on narrow phones; navigation and control spacing are more consistent.
+- No new permissions, account features, or telemetry. Review the next wake time and Android alarm permissions after updating.
 
 VERSION 0.1.28 — SNOOZE AND SETTINGS IMPORT RELIABILITY
 - Snooze responds even while a calendar refresh is busy, and repeated taps schedule just one snooze.

@@ -49,3 +49,74 @@ nav{background:var(--nav);gap:6px}nav button[aria-current=page]{background:var(-
 .music-guide{border-top:1px solid var(--line);margin-top:18px;padding-top:8px}.music-guide summary{cursor:pointer;font-size:14px;font-weight:500;min-height:44px;padding:12px 0}.music-guide ol{margin:2px 0 10px;padding-left:22px;font-size:13px;line-height:1.6}.music-guide li{margin:8px 0}.music-guide p{margin:8px 0 0}
 @media(max-width:400px){.tabs{grid-template-columns:repeat(3,minmax(0,1fr))}}
 .sound-row .personal-genre-edit{min-height:38px;width:auto;max-width:100%;font-size:12px;padding:6px 9px;margin-top:7px}.sound-row .row-main{overflow-wrap:anywhere}
+
+/* Quiet Focus refinement: a consistent surface and type system for every palette. */
+body{letter-spacing:.005em}
+header{padding-top:16px;padding-bottom:14px;background:var(--paper)}
+.brand{font-size:17px;font-weight:750;letter-spacing:-.045em}
+.brand-icon,.brand-icon img{width:30px;height:30px}
+main{padding-top:22px;padding-bottom:128px}
+h1{font-size:30px;font-weight:750;letter-spacing:-.045em;line-height:1.15;margin:4px 0 8px}
+h2{font-size:16px;font-weight:700;letter-spacing:-.02em}
+.subtitle{font-size:14px;line-height:1.5;margin-bottom:25px}
+.eyebrow{font-size:11px;letter-spacing:.12em;font-weight:750}
+#dateLabel{margin-bottom:14px;font-size:12px;font-weight:650}
+.hero{position:relative;overflow:hidden;background:var(--card);color:var(--ink);border:1px solid var(--input-line);border-radius:24px;padding:24px;margin-bottom:18px;box-shadow:0 12px 30px #00000012}
+.hero::before{content:"";position:absolute;top:0;left:0;right:0;height:4px;background:var(--action)}
+.hero-top,.hero .alarm-time small,.hero .hero-date,.hero .hero-detail,.hero .hero-work small,.hero .confidence-link,.hero .confidence-link small{color:var(--muted)}
+.hero .confidence-link strong{color:var(--ink)}
+.hero-top{font-size:12px;font-weight:700;color:var(--lavender);letter-spacing:.025em}
+.hero-top .badge{background:var(--control);color:var(--ink);border:1px solid var(--line);padding:6px 11px;font-size:11px;font-weight:700}
+.hero-title{font-size:27px;font-weight:750;letter-spacing:-.04em;margin:24px 0 8px}
+.hero-detail{margin:0 0 22px;line-height:1.5}
+.alarm-time{font-size:clamp(58px,17vw,80px);font-weight:750;letter-spacing:-.07em;margin-top:10px}
+.hero-work,.hero .confidence-link{border-color:var(--line)}
+.hero-button{background:var(--action);color:var(--on-action);border:1px solid var(--action);font-size:14px;font-weight:750;min-height:52px;margin-top:16px}
+.hero-button:hover{background:var(--action);filter:brightness(1.07)}
+.alarm-section,.panel{background:var(--card);border:1px solid var(--line);border-radius:20px;box-shadow:0 5px 18px #0000000d}
+.alarm-section{padding:18px 20px;margin:0 0 14px}
+.alarm-section .section-head{margin:0 0 10px}
+.section-head h2::before{width:3px;height:18px;background:var(--lavender)}
+.section-head p{margin-top:2px}
+.lead-row{background:var(--control);border-radius:12px;padding:5px 9px 5px 12px;margin:12px 0 0;min-height:48px;line-height:1.35}
+.lead-row .text-button{font-weight:750;padding-inline:8px}
+#workAlarmProtection{margin:10px 1px 4px}
+.alarm-section .empty{border:0;padding:12px 2px 4px}
+.alarm-section .alarm-row:first-child{border-top:0}
+.alarm-section #viewAllShifts{width:100%;border-top:1px solid var(--line)}
+.alarm-row{padding:15px 0}
+.day-block{background:var(--control);border-radius:10px;padding:3px;min-width:44px}
+.day-block strong{font-weight:700}
+.row-main strong,.sound-row .row-main strong{font-weight:650}
+.wake{font-weight:700}
+.activity-panel{margin-top:0}
+.panel{padding:20px}
+.panel h2{font-weight:700}
+.proton-panel{border-left:1px solid var(--line);gap:16px}
+.proton-letter{background:var(--control);color:var(--lavender);border-radius:12px;width:44px;height:44px}
+.sound-teaser{border:1px solid var(--line);border-radius:20px;margin-top:0;padding:16px 18px;box-shadow:0 5px 18px #0000000d}
+.music-mark{display:grid;place-items:center;background:var(--control);color:var(--lavender);width:42px;height:42px;border-radius:12px;flex-shrink:0}
+.sound-teaser strong{font-weight:700}
+.primary,.secondary{font-weight:700;min-height:50px}
+.secondary{background:var(--control)}
+input:not([type=checkbox]):not([type=range]),select{border-radius:12px}
+.tabs{display:flex;grid-template-columns:none;overflow-x:auto;scrollbar-width:none;background:var(--card);border:1px solid var(--line);padding:4px;gap:3px;margin-bottom:16px}
+.tabs::-webkit-scrollbar{display:none}
+.tabs button{flex:0 0 auto;white-space:nowrap;padding:8px 14px;font-weight:600;min-height:48px}
+.tabs button.active{font-weight:750}
+.search-wrap{border-color:var(--input-line);min-height:48px}
+#soundList{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:0 16px;margin-bottom:18px}
+#soundList .sound-row:first-child{border-top:0}
+#soundList .sound-row:last-child{border-bottom:0}
+.play-button{background:var(--control);color:var(--lavender);border-color:var(--line)}
+.select-sound{font-weight:700}
+.settings-menu{gap:7px;margin-bottom:18px}
+.settings-menu button{background:var(--card);border-color:var(--line);border-radius:13px;min-height:48px;font-weight:650}
+.settings-menu button[aria-pressed=true]{font-weight:750;border-color:var(--action)}
+nav{background:var(--paper);border-top:1px solid var(--input-line);padding:8px 12px max(10px,env(safe-area-inset-bottom));gap:2px;box-shadow:0 -8px 24px #00000016}
+nav button{border-radius:12px;min-height:58px;font-size:11px;font-weight:600;gap:3px}
+nav button[aria-current=page]{background:var(--control);color:var(--ink);font-weight:750;box-shadow:inset 0 2px 0 var(--action)}
+dialog{border-color:var(--input-line);box-shadow:0 20px 70px #0006}
+@media(max-width:360px){.hero{padding:20px}.alarm-section{padding:16px}.hero-title{font-size:25px}}
+@media(max-width:520px){.tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));overflow:visible}.tabs button{white-space:normal;padding:8px 6px}}
+@media(prefers-contrast:more){.hero,.alarm-section,.panel,.sound-teaser,#soundList{border:2px solid var(--input-line)}nav button[aria-current=page]{outline:2px solid var(--action)}}
