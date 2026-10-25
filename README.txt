@@ -2,7 +2,7 @@ PETAL WAKE — ANDROID ALARM APP 0.1.36
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
 
-VERSION 0.1.36 — ACCESSIBLE ALARM DISMISSAL (LOCAL CANDIDATE)
+VERSION 0.1.36 — ACCESSIBLE ALARM DISMISSAL (PREVIEW)
 - TalkBack and Switch Access users can activate I’m up to open a clear confirmation. Keep ringing returns to the active alarm; Dismiss alarm stops it. The long-click accessibility action still works. Ordinary touch still requires a two-second hold, so a short tap cannot silently stop an alarm.
 - While an accessibility service is enabled, the alarm notification and full-screen control both say to choose I’m up to confirm dismissal.
 - No accessibility service is required for normal use. The confirmation appears only while an accessibility service is enabled. It does not request a new app permission or change phone accessibility settings.
