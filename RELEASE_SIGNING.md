@@ -1,6 +1,6 @@
 # Signing and update continuity
 
-Petal Wake v0.1.36 retains the signing certificate used by previous Obtainium APKs. Its release build is non-debuggable but uses that existing certificate to keep in-place updates working. Android verifies the application ID, version code, and signing certificate before installing an update. Run `tools/check-update-continuity.sh previous.apk candidate.apk` before distributing an APK; it checks the package, increasing version code, and unchanged certificate.
+Petal Wake v0.1.37 retains the signing certificate used by previous Obtainium APKs. Its release build is non-debuggable but uses that existing certificate to keep in-place updates working. Android verifies the application ID, version code, and signing certificate before installing an update. Run `tools/check-update-continuity.sh previous.apk candidate.apk` before distributing an APK; it checks the package, increasing version code, and unchanged certificate.
 
 The app supports Android 8 (API 26). Android's signing lineage support starts with Android 9 (API 28), so a new certificate cannot provide an in-place update for every supported device. The v1 update-continuity decision is to retain the existing certificate. The key was originally generated for debug builds; it is now treated as a long-lived update credential, stored access-restricted outside the source tree with a separately protected local recovery copy. An offline recovery copy is still needed before calling the signing setup complete. Do not rotate the key while the app promises seamless Android 8 updates.
 

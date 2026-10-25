@@ -41,13 +41,11 @@ public final class CustomSounds {
             if(!"link".equals(row.optString("mode")))return false;
             String target=row.optString("uri");
             for(android.content.UriPermission grant:c.getContentResolver().getPersistedUriPermissions())
-                if(grant.isReadPermission()&&target.equals(grant.getUri().toString())){
-                    try(android.os.ParcelFileDescriptor descriptor=c.getContentResolver().openFileDescriptor(Uri.parse(target),"r")){return descriptor!=null;}
-                    catch(Exception missing){return false;}
-                }
+                if(grant.isReadPermission()&&target.equals(grant.getUri().toString()))return true;
             return false;
         }catch(RuntimeException unavailable){return false;}
     }
+    public static boolean linked(Context c,String id){JSONObject row=find(c,id);return row!=null&&"link".equals(row.optString("mode"));}
     public static void setDataSource(MediaPlayer player,Context c,String id)throws Exception{
         JSONObject row=find(c,id);if(row==null)throw new java.io.FileNotFoundException("Custom sound was removed.");
         if("copy".equals(row.getString("mode")))player.setDataSource(file(c,id).getAbsolutePath());

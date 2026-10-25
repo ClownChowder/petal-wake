@@ -9,13 +9,9 @@ public class SyncJob extends JobService {
     }
     @Override public boolean onStartJob(JobParameters params){
         int run=++generation;
-        DaybreakApp.IO.execute(()->{
-            try{
-                if(run==generation){Sync.run(this,true);((DaybreakApp)getApplication()).changed();}
-            }catch(RuntimeException error){Store.error(this,"Calendar refresh failed. Saved alarms remain in place.");}
-            finally{if(run==generation)jobFinished(params,false);}
+        return CalendarRefresh.request(this,()->run==generation,()->{
+            if(run==generation){((DaybreakApp)getApplication()).changed();jobFinished(params,false);}
         });
-        return true;
     }
     @Override public boolean onStopJob(JobParameters params){++generation;return true;}
 }

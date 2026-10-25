@@ -1,6 +1,11 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.36
+PETAL WAKE — ANDROID ALARM APP 0.1.37
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.37 — STABILITY AND RESPONSIVE CALENDAR REFRESH (PREVIEW)
+- Slow linked personal audio no longer blocks the main screen, sound preview, or alarm controls. If a linked file cannot start within five seconds, the bundled backup tone sounds; a late file response cannot restart a dismissed alarm.
+- Automatic and manual calendar downloads wait on a separate network worker, so slow calendar servers do not block saving settings. Downloaded results are applied on the serialized alarm worker; a removed calendar cannot be restored by an older response. A failed download keeps saved offline shifts.
+- Optional music-pack downloads have a separate worker. The bundled music collection and privacy model are unchanged; streaming services were not added.
 
 VERSION 0.1.36 — ACCESSIBLE ALARM DISMISSAL (PREVIEW)
 - TalkBack and Switch Access users can activate I’m up to open a clear confirmation. Keep ringing returns to the active alarm; Dismiss alarm stops it. The long-click accessibility action still works. Ordinary touch still requires a two-second hold, so a short tap cannot silently stop an alarm.

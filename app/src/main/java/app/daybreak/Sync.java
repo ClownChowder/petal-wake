@@ -36,7 +36,7 @@ public final class Sync {
         validate(data);Store.cache(c,data);
         Store.setUrl(c,"");Store.p(c).edit().putString("source","Imported calendar file").putLong("lastSync",System.currentTimeMillis()).putString("error","").commit();CalendarConfidence.reset(c);run(c,false);
     }
-    private static void validate(String data){CalendarReader.read(data,System.currentTimeMillis()-DAY,System.currentTimeMillis()+60*DAY);}
+    static void validate(String data){CalendarReader.read(data,System.currentTimeMillis()-DAY,System.currentTimeMillis()+60*DAY);}
     public static void run(Context c,boolean fetch) {
         var p=Store.p(c);long now=System.currentTimeMillis();String error="";boolean downloaded=false;JSONArray previousShifts=Store.array(c,"shifts");
         String primaryUrl=Store.url(c);

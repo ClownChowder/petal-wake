@@ -18,12 +18,15 @@ import org.json.*;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class MainActivity extends Activity {
     static volatile boolean visible;
     private WorkAlarmAuthorization workAlarmAuthorization;
     private boolean pageReady,receiverRegistered,destroying;private String pendingPage,pendingSoundGenre="Other";private WebView web;private MediaPlayer preview;private VolumeShaper previewShaper;private android.widget.FrameLayout host;
     private final Handler handler=new Handler(Looper.getMainLooper());
+    private static final AtomicBoolean PREVIEW_BUSY=new AtomicBoolean();
+    private int previewToken;
     private WebViewAssetLoader assetLoader;
     private final BroadcastReceiver updates=new BroadcastReceiver(){public void onReceive(Context c,Intent i){state();}};
     @SuppressLint("UnspecifiedRegisterReceiverFlag") // Pre-33 receivers require the signature permission; 33+ also use NOT_EXPORTED.
@@ -82,7 +85,8 @@ public class MainActivity extends Activity {
     private void tell(String message){runOnUiThread(()->{if(destroying||isDestroyed()||web==null){Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();return;}web.evaluateJavascript("window.toast&&window.toast("+JSONObject.quote(message)+")",null);});}
     private interface Work {void run()throws Exception;}
     private void background(Work work,String message){background(work,message,null);}
-    private void background(Work work,String message,String successCallback){if(destroying||web==null)return;web.evaluateJavascript("window.setBusy(true)",null);DaybreakApp.IO.execute(()->{try{work.run();if(successCallback!=null)runOnUiThread(()->{if(!destroying&&!isDestroyed()&&web!=null)web.evaluateJavascript(successCallback,null);});if(message!=null)tell(message);}catch(Exception e){String error=Store.safeError(e.getMessage()==null?"That action could not be completed.":e.getMessage());Store.error(this,error);tell(error);}finally{runOnUiThread(()->{if(!destroying&&!isDestroyed()&&web!=null){web.evaluateJavascript("window.setBusy&&window.setBusy(false)",null);state();}});}});}
+    private void background(Work work,String message,String successCallback){background(work,message,successCallback,DaybreakApp.IO);}
+    private void background(Work work,String message,String successCallback,java.util.concurrent.ExecutorService executor){if(destroying||web==null)return;web.evaluateJavascript("window.setBusy(true)",null);executor.execute(()->{try{work.run();if(successCallback!=null)runOnUiThread(()->{if(!destroying&&!isDestroyed()&&web!=null)web.evaluateJavascript(successCallback,null);});if(message!=null)tell(message);}catch(Exception e){String error=Store.safeError(e.getMessage()==null?"That action could not be completed.":e.getMessage());Store.error(this,error);tell(error);}finally{runOnUiThread(()->{if(!destroying&&!isDestroyed()&&web!=null){web.evaluateJavascript("window.setBusy&&window.setBusy(false)",null);state();}});}});}
     private boolean notifyAllowed(){NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);NotificationChannel ch=nm.getNotificationChannel(AlarmService.CHANNEL);return (Build.VERSION.SDK_INT<33||checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)==PackageManager.PERMISSION_GRANTED)&&nm.areNotificationsEnabled()&&(ch==null||ch.getImportance()>=NotificationManager.IMPORTANCE_HIGH);}
     private boolean fullAllowed(){return Build.VERSION.SDK_INT<34||((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).canUseFullScreenIntent();}
     private void state(){
@@ -137,7 +141,7 @@ public class MainActivity extends Activity {
             case "removeCalendar":String removeId=q.getString("id");Runnable removeCalendar=()->background(()->CalendarSources.remove(this,removeId),"Calendar removed. Its work alarms were updated.");if(Store.p(this).getBoolean("enabled",false))workAlarmAuthorization.request("Remove work calendar?","This removes the calendar and its work alarms. Other calendars stay connected.",removeCalendar);else removeCalendar.run();break;
             case "clearFilter":background(()->{Store.p(this).edit().putString("filter","").commit();Sync.run(this,false);},"Title filter cleared.");break;
             case "copyCalendarCheck":JSONObject info=Store.object(this,"calendarInfo");StringBuilder check=new StringBuilder("Petal Wake calendar check\n");for(String key:new String[]{"events","timed","allDay","cancelled","missingStart","availability","upcomingTimed","upcomingAllDay","filtered","needsTime","windowDays"})check.append(key).append(": ").append(info.optInt(key)).append('\n');check.append("Title filter active: ").append(!Store.p(this).getString("filter","").trim().isEmpty());((android.content.ClipboardManager)getSystemService(CLIPBOARD_SERVICE)).setPrimaryClip(ClipData.newPlainText("Calendar check",check.toString()));tell("Calendar counts copied. This includes no calendar link, event titles, or event details.");break;
-            case "refresh":background(()->Sync.run(this,true),null);break;
+            case "refresh":if(!CalendarRefresh.request(this,()->true,()->runOnUiThread(()->{if(!destroying&&!isDestroyed()){state();tell("Calendar check finished. Review its status above.");}})))tell("A calendar check is already running.");else tell("Checking calendars in the background. You can keep using Petal Wake.");break;
             case "import":Intent choose=new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*");startActivityForResult(choose,10);break;
             case "exportSettings":Intent save=new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/json").putExtra(Intent.EXTRA_TITLE,"petal-wake-settings.json");startActivityForResult(save,20);break;
             case "importSettings":Intent restore=new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*");startActivityForResult(restore,21);break;
@@ -152,8 +156,8 @@ public class MainActivity extends Activity {
             case "enable":boolean enabled=q.getBoolean("value");if(enabled&&(!Scheduler.allowed(this)||!notifyAllowed())){tell("Open Settings in Petal Wake and allow alarms and notifications first.");state();break;}Runnable change=()->background(()->{Store.p(this).edit().putBoolean("enabled",enabled).commit();Sync.run(this,false);},null);if(!enabled&&Store.p(this).getBoolean("enabled",false))workAlarmAuthorization.request("Turn off work alarms?","Your work alarms will be paused. Your calendar and settings stay saved.",change);else change.run();break;
             case "settings":background(()->{int lead=q.getInt("lead"),snooze=q.getInt("snooze"),fade=q.getInt("fade"),riseStartPercent=q.getInt("riseStartPercent");if(lead<0||lead>1440||snooze<1||snooze>60||fade<0||fade>120||riseStartPercent<10||riseStartPercent>100)throw new Exception("Settings are outside the allowed range.");if(q.optBoolean("allDayEnabled",false)&&q.isNull("allDayMinutes"))throw new Exception("Choose a start time for all-day shifts.");int allDayMinutes=q.optInt("allDayMinutes",480),earlyBefore=q.optInt("earlyBefore",600),earlyLead=q.optInt("earlyLead",90),lateAfter=q.optInt("lateAfter",720),lateLead=q.optInt("lateLead",45),eveningMinutes=q.optInt("eveningMinutes",1140),fallbackMinutes=q.optInt("fallbackMinutes",0),maxRingMinutes=q.optInt("maxRingMinutes",30);if(allDayMinutes<0||allDayMinutes>1439||earlyBefore<0||earlyBefore>1439||lateAfter<=earlyBefore||lateAfter>1439||earlyLead<0||earlyLead>1440||lateLead<0||lateLead>1440||eveningMinutes<0||eveningMinutes>1439||!(fallbackMinutes==0||fallbackMinutes==5||fallbackMinutes==10||fallbackMinutes==15)||!(maxRingMinutes==15||maxRingMinutes==30||maxRingMinutes==60))throw new Exception("Choose valid shift rules and times.");Store.p(this).edit().putBoolean("allDayEnabled",q.optBoolean("allDayEnabled",false)).putInt("allDayMinutes",allDayMinutes).putInt("lead",lead).putInt("snooze",snooze).putInt("fade",fade).putInt("riseStartPercent",riseStartPercent).putBoolean("quietPreset",false).remove("previousPlayback").putBoolean("vibrate",q.getBoolean("vibrate")).putString("filter",q.getString("filter").trim()).putBoolean("shiftRulesEnabled",q.optBoolean("shiftRulesEnabled",false)).putInt("earlyBefore",earlyBefore).putInt("earlyLead",earlyLead).putInt("lateAfter",lateAfter).putInt("lateLead",lateLead).putBoolean("eveningCheck",q.optBoolean("eveningCheck",false)).putInt("eveningMinutes",eveningMinutes).putInt("fallbackMinutes",fallbackMinutes).putInt("maxRingMinutes",maxRingMinutes).commit();Sync.run(this,false);},"Preferences saved.","window.settingsSaved&&window.settingsSaved()");break;
             case "sound":String file=q.getString("file");if(!SoundLibrary.available(this,file))throw new Exception("Download the orchestra pack before choosing this sound.");Store.p(this).edit().putString("sound",file).commit();state();break;
-            case "downloadPack":background(()->SoundPacks.install(this),"Orchestra pack installed. Its recordings are ready offline.");break;
-            case "removePack":background(()->SoundPacks.remove(this),"Orchestra pack removed. Bundled sounds remain available.");break;
+            case "downloadPack":background(()->SoundPacks.install(this),"Orchestra pack installed. Its recordings are ready offline.",null,DaybreakApp.PACK_IO);break;
+            case "removePack":background(()->SoundPacks.remove(this),"Orchestra pack removed. Bundled sounds remain available.",null,DaybreakApp.PACK_IO);break;
             case "addCustomSound":String genre=q.optString("genre","Other");boolean knownGenre=false;for(String choice:CustomSounds.GENRES)if(choice.equals(genre))knownGenre=true;if(!knownGenre)throw new Exception("Choose a music genre.");pendingSoundGenre=genre;boolean link=q.optBoolean("link",false);Intent audioFiles=new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("audio/*").addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION|Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);audioFiles.putExtra(Intent.EXTRA_ALLOW_MULTIPLE,!link);startActivityForResult(audioFiles,link?31:30);break;
             case "removeCustomSound":background(()->CustomSounds.remove(this,q.getString("file")),"Personal sound removed.");break;
             case "customSoundGenre":background(()->CustomSounds.changeGenre(this,q.getString("file"),q.getString("genre")),"Genre updated.");break;
@@ -178,31 +182,55 @@ public class MainActivity extends Activity {
     private void preview(String file,boolean fullRamp,boolean allowFallback)throws Exception {
         if(!SoundLibrary.available(this,file))throw new Exception("Download the orchestra pack to preview this recording.");
         stopPreview();
+        int request=previewToken;
+        if(CustomSounds.linked(this,file)){
+            if(!PREVIEW_BUSY.compareAndSet(false,true)){previewFailed(file,fullRamp,allowFallback);return;}
+            DaybreakApp.PREVIEW_IO.execute(()->{
+                MediaPlayer ready=null;boolean prepared=false;
+                try{
+                    ready=new MediaPlayer();
+                    ready.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());
+                    ready.setLooping(fullRamp);SoundLibrary.setDataSource(ready,this,file);ready.prepare();prepared=true;
+                }catch(Exception ignored){}finally{PREVIEW_BUSY.set(false);}
+                MediaPlayer result=ready;
+                if(!prepared){if(result!=null)result.release();runOnUiThread(()->{if(!destroying&&request==previewToken)previewFailed(file,fullRamp,allowFallback);});return;}
+                runOnUiThread(()->{
+                    if(destroying||request!=previewToken){result.release();return;}
+                    preview=result;startPreparedPreview(result,file,fullRamp,allowFallback);
+                    handler.postDelayed(this::stopPreview,fullRamp?Math.max(20_000,Store.p(this).getInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS)*1000L+5_000):20_000);
+                });
+            });
+            handler.postDelayed(()->{if(!destroying&&request==previewToken&&preview==null)previewFailed(file,fullRamp,allowFallback);},5_000);
+            return;
+        }
         MediaPlayer candidate=new MediaPlayer();preview=candidate;
         try{
             candidate.setAudioAttributes(new AudioAttributes.Builder().setUsage(AudioAttributes.USAGE_MEDIA).setContentType(AudioAttributes.CONTENT_TYPE_MUSIC).build());candidate.setLooping(fullRamp);
             SoundLibrary.setDataSource(candidate,this,file);
             int fade=fullRamp?Store.p(this).getInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS):0;
-            candidate.setOnPreparedListener(p->{
-                if(destroying||preview!=p)return;
-                try{
-                    float level=fullRamp?Store.p(this).getInt("volume",80)/100f:Store.p(this).getBoolean("quietPreset",false)?.42f:.6f;
-                    p.setVolume(level,level);
-                    if(fullRamp&&fade>0){
-                        float[] times=new float[16],gains=new float[16];
-                        for(int point=0;point<16;point++){times[point]=point/15f;gains[point]=AlarmEnvelope.volume(1f,fade,Math.round(times[point]*fade*1000));}
-                        VolumeShaper.Configuration curve=new VolumeShaper.Configuration.Builder().setDuration(fade*1000L).setCurve(times,gains).setInterpolatorType(VolumeShaper.Configuration.INTERPOLATOR_TYPE_LINEAR).build();
-                        try{previewShaper=p.createVolumeShaper(curve);}catch(RuntimeException unavailable){previewShaper=null;tell("Volume rise is unavailable on this phone. Previewing at your selected level.");}
-                    }
-                    p.start();if(previewShaper!=null)previewShaper.apply(VolumeShaper.Operation.PLAY);
-                }catch(RuntimeException error){previewFailed(file,fullRamp,allowFallback);}
-            });
+            candidate.setOnPreparedListener(p->startPreparedPreview(p,file,fullRamp,allowFallback));
             candidate.setOnCompletionListener(p->{if(preview==p)stopPreview();});
             candidate.setOnErrorListener((p,w,e)->{if(preview==p)previewFailed(file,fullRamp,allowFallback);return true;});
             candidate.prepareAsync();handler.postDelayed(this::stopPreview,fullRamp?Math.max(20_000,fade*1000L+5_000):20_000);
         }catch(Exception error){stopPreview();if(allowFallback&&!"tone_12.wav".equals(file)){tell("That recording could not play. Previewing the standard backup tone instead.");preview("tone_12.wav",fullRamp,false);}else throw error;}
     }
+    private void startPreparedPreview(MediaPlayer p,String file,boolean fullRamp,boolean allowFallback){
+        if(destroying||preview!=p)return;
+        try{
+            int fade=fullRamp?Store.p(this).getInt("fade",AlarmEnvelope.DEFAULT_FADE_SECONDS):0;
+            float level=fullRamp?Store.p(this).getInt("volume",80)/100f:Store.p(this).getBoolean("quietPreset",false)?.42f:.6f;
+            p.setVolume(level,level);
+            if(fullRamp&&fade>0){
+                float[] times=new float[16],gains=new float[16];
+                for(int point=0;point<16;point++){times[point]=point/15f;gains[point]=AlarmEnvelope.volume(1f,fade,Math.round(times[point]*fade*1000));}
+                VolumeShaper.Configuration curve=new VolumeShaper.Configuration.Builder().setDuration(fade*1000L).setCurve(times,gains).setInterpolatorType(VolumeShaper.Configuration.INTERPOLATOR_TYPE_LINEAR).build();
+                try{previewShaper=p.createVolumeShaper(curve);}catch(RuntimeException unavailable){previewShaper=null;tell("Volume rise is unavailable on this phone. Previewing at your selected level.");}
+            }
+            p.start();if(previewShaper!=null)previewShaper.apply(VolumeShaper.Operation.PLAY);
+        }catch(RuntimeException error){previewFailed(file,fullRamp,allowFallback);}
+    }
     private void stopPreview(){
+        ++previewToken;
         handler.removeCallbacksAndMessages(null);
         if(previewShaper!=null){try{previewShaper.close();}catch(RuntimeException ignored){}previewShaper=null;}
         if(preview!=null){try{preview.release();}catch(RuntimeException ignored){}preview=null;}

@@ -14,15 +14,17 @@ import javax.crypto.spec.GCMParameterSpec;
 final class PrivateStorage {
     private static final String ALIAS="petal_wake_calendar_v1";
     private static final String PREFIX="pw1:";
+    private static volatile SecretKey cachedKey;
     static boolean encrypted(String value){return value!=null&&value.startsWith(PREFIX);}
     private static synchronized SecretKey key() throws Exception {
+        if(cachedKey!=null)return cachedKey;
         KeyStore store=KeyStore.getInstance("AndroidKeyStore");store.load(null);
-        if(store.containsAlias(ALIAS))return (SecretKey)store.getKey(ALIAS,null);
+        if(store.containsAlias(ALIAS)){cachedKey=(SecretKey)store.getKey(ALIAS,null);return cachedKey;}
         KeyGenerator generator=KeyGenerator.getInstance(KeyProperties.KEY_ALGORITHM_AES,"AndroidKeyStore");
         generator.init(new KeyGenParameterSpec.Builder(ALIAS,KeyProperties.PURPOSE_ENCRYPT|KeyProperties.PURPOSE_DECRYPT)
             .setBlockModes(KeyProperties.BLOCK_MODE_GCM).setEncryptionPaddings(KeyProperties.ENCRYPTION_PADDING_NONE)
             .setRandomizedEncryptionRequired(true).build());
-        return generator.generateKey();
+        cachedKey=generator.generateKey();return cachedKey;
     }
     static String seal(String value){
         try{
