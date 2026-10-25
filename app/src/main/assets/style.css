@@ -128,7 +128,15 @@ dialog{border-color:var(--input-line);box-shadow:0 20px 70px #0006}
 .unsaved-bar{position:sticky;top:64px;z-index:19;display:grid;grid-template-columns:1fr auto;gap:2px 12px;align-items:center;background:var(--action);color:var(--on-action);border-radius:14px;padding:12px 14px;margin-bottom:16px;box-shadow:0 6px 24px #0003}
 .unsaved-bar strong{font-size:14px}.unsaved-bar span{font-size:12px;line-height:1.3;grid-column:1}.unsaved-bar button{grid-column:2;grid-row:1/3;background:var(--paper);color:var(--ink);border:2px solid var(--on-action);min-height:44px;padding:8px 12px}
 .volume-readout{background:var(--control);color:var(--ink);font-weight:700;border-radius:12px;padding:12px;margin:12px 0 4px!important}
+.volume-number{display:flex;align-items:center;gap:10px;margin:10px 0 14px}.volume-number label{flex:1;margin:0;font-size:14px}.volume-number input{width:88px;min-height:48px;padding:8px 10px;text-align:right;font-variant-numeric:tabular-nums}.volume-number span{font-size:16px;font-weight:700}
 .volume-readout.volume-warning{border-left:4px solid var(--action)}.volume-readout.volume-muted{background:var(--error-bg);color:var(--error-text)}
 #volumeValue{color:var(--ink);background:var(--control);padding:3px 9px;border-radius:8px;white-space:nowrap}
 .settings-menu button[aria-pressed=true]::before,.tabs button[aria-selected=true]::before{content:'✓ ';font-weight:900}
 .volume-steps{padding-left:22px;font-size:13px;line-height:1.6;color:var(--ink);margin:12px 0 22px}.volume-steps li{margin:8px 0}
+.alarm-rise-guide{margin:18px 0 20px;padding:14px 16px;border-radius:14px;background:var(--control);color:var(--ink);line-height:1.5}
+.alarm-rise-meter{position:relative;height:12px;margin:26px 4px 34px;border-radius:999px;background:var(--control);border:1px solid var(--input-line)}
+.alarm-rise-meter-fill{height:100%;width:var(--end,100%);border-radius:inherit;background:linear-gradient(90deg,var(--mint),var(--action))}
+.alarm-rise-meter-start,.alarm-rise-meter-end{position:absolute;top:-5px;width:3px;height:22px;border-radius:3px;background:var(--ink);left:var(--start,30%);transform:translateX(-50%)}
+.alarm-rise-meter-end{left:var(--end,100%)}
+.alarm-rise-labels{display:flex;justify-content:space-between;gap:12px;margin-bottom:22px;font-size:13px;color:var(--ink)}
+.alarm-rise-labels>span:last-child{text-align:right}.alarm-rise-labels strong{display:block;margin-top:3px;font-size:19px;font-variant-numeric:tabular-nums;color:var(--ink)}

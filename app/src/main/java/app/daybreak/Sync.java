@@ -93,6 +93,8 @@ public final class Sync {
             }
             JSONObject manual=Store.object(c,"manual");
             for(Iterator<String> it=manual.keys();it.hasNext();) {String id=it.next();JSONObject a=manual.getJSONObject(id);if(a.optLong("at")>now)desired.put(id,a);}
+            JSONObject tests=Store.object(c,"testAlarms");
+            for(Iterator<String> it=tests.keys();it.hasNext();) {String id=it.next();JSONObject a=tests.getJSONObject(id);if(a.optLong("at")>now)desired.put(id,a);}
             // Snoozes are independent alarms: a calendar refresh must never remove one.
             JSONObject snoozes=Store.object(c,"snoozes");
             for(Iterator<String> it=snoozes.keys();it.hasNext();) {String id=it.next();JSONObject a=snoozes.getJSONObject(id);if(a.optLong("at")>now)desired.put(id,a);}

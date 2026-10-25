@@ -68,15 +68,17 @@ public class NativeSmokeTest extends Instrumentation {
             io(()->{try{Store.cache(c,"");Store.p(c).edit().remove("source").putBoolean("enabled",false).commit();Sync.run(c,false);}catch(Exception e){throw new RuntimeException(e);}});
             android.media.AudioManager phoneAudio=c.getSystemService(android.media.AudioManager.class);int originalPhoneLevel=phoneAudio.getStreamVolume(android.media.AudioManager.STREAM_ALARM),targetPhoneLevel=phoneAudio.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM),minimumPhoneLevel=phoneAudio.getStreamMinVolume(android.media.AudioManager.STREAM_ALARM);phoneAudio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,targetPhoneLevel,0);
             check(Store.p(c).getInt("volume",0)==100&&Store.p(c).getInt("fade",-1)==0,"Alarm is configured for immediate full phone alarm volume by default");
-            js("send('test')");await(()->Store.object(c,"current").length()>0,45);await(()->AlarmService.playbackPercent()==100,5);
+            js("send('test')");try{await(()->Store.object(c,"current").length()>0,45);}catch(Exception failed){throw new Exception("Test ring state: allowed="+Scheduler.allowed(c)+" tests="+Store.object(c,"testAlarms").length()+" scheduled="+Store.object(c,"scheduled").length()+" ui="+js("JSON.stringify({busy,toast:$('toast').textContent,testPending:st?.testPending})"),failed);}try{await(()->AlarmService.playbackPercent()==100,5);}catch(Exception failed){throw new Exception("Test playback: percent="+AlarmService.playbackPercent()+" phone="+phoneAudio.getStreamVolume(android.media.AudioManager.STREAM_ALARM)+" target="+targetPhoneLevel+" current="+Store.object(c,"current"),failed);}
             Field immediateField=AlarmService.class.getDeclaredField("active");immediateField.setAccessible(true);AlarmService immediate=(AlarmService)immediateField.get(null);check(immediate!=null&&phoneAudio.getStreamVolume(android.media.AudioManager.STREAM_ALARM)==targetPhoneLevel,"Live alarm starts at the selected system alarm volume without a rise");
             c.startService(new Intent(c,AlarmService.class).setAction("STOP"));await(()->Store.object(c,"current").length()==0,5);
             Store.p(c).edit().putInt("fade",60).putInt("riseStartPercent",30).commit(); // Exercise the real system-volume rise below.
-            js("send('test')");report("LOCK_SCREEN_TEST: 15-second alarm scheduled");
+            ActivityMonitor ringMonitor=addMonitor(RingActivity.class.getName(),null,false);
+            js("send('manual',{title:'Synthetic rise check',at:Date.now()+15000})");report("LOCK_SCREEN_TEST: 15-second manual alarm scheduled");
             await(()->Store.object(c,"current").length()>0,45);
-            check(Store.object(c,"current").optString("title").equals("Petal Wake sound check"),"Alarm fires through native AlarmManager");
+            check(Store.object(c,"current").optString("title").equals("Synthetic rise check"),"Alarm fires through native AlarmManager");
             check(Store.object(c,"ringing").length()==1,"Alarm audio service stays active");
-            Activity ring=startActivitySync(new Intent(c,RingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));Thread.sleep(400);capture("ringing");
+            Activity openedRing=waitForMonitorWithTimeout(ringMonitor,3000);
+            Activity ring=openedRing!=null?openedRing:startActivitySync(new Intent(c,RingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));Thread.sleep(400);capture("ringing");
             android.service.notification.StatusBarNotification activeAlarm=null;for(android.service.notification.StatusBarNotification notice:((NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE)).getActiveNotifications())if(notice.getId()==1)activeAlarm=notice;
             check(activeAlarm!=null&&activeAlarm.getNotification().actions!=null&&activeAlarm.getNotification().actions.length==2,"Alarm notification exposes Snooze and I’m up actions");
             check(activeAlarm.getNotification().visibility==Notification.VISIBILITY_PRIVATE&&activeAlarm.getNotification().publicVersion!=null,"Locked-screen alarm notification hides shift details by default");
@@ -93,9 +95,11 @@ public class NativeSmokeTest extends Instrumentation {
             check(Store.object(c,"current").length()>0,"Releasing I’m up early cancels dismissal");
             long holdDown=touchDown(dismiss);Thread.sleep(2200);touchUp(dismiss,holdDown);
             await(()->Store.object(c,"current").length()==0,5);check(true,"Holding full-screen I’m up for two seconds stops ringing");
+            Thread.sleep(400);MainActivity.visible=false; // The next synthetic alarm is opened explicitly by this harness.
             phoneAudio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,originalPhoneLevel,0);
+            ActivityMonitor snoozeMonitor=addMonitor(RingActivity.class.getName(),null,false);
             io(()->{try{JSONObject a=new JSONObject().put("id","qa-snooze").put("title","Snooze test").put("kind","manual").put("at",System.currentTimeMillis()+3000);JSONObject all=new JSONObject().put("qa-snooze",a);Store.p(c).edit().putInt("snooze",1).commit();Store.put(c,"manual",all);Sync.run(c,false);}catch(Exception e){throw new RuntimeException(e);}});
-            await(()->Store.object(c,"current").length()>0,10);Activity snoozeScreen=startActivitySync(new Intent(c,RingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
+            await(()->Store.object(c,"current").length()>0,10);Activity openedSnooze=waitForMonitorWithTimeout(snoozeMonitor,3000);final Activity snoozeScreen=openedSnooze!=null?openedSnooze:startActivitySync(new Intent(c,RingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
             runOnMainSync(()->{android.widget.Button snooze=findButton(snoozeScreen.findViewById(android.R.id.content),"Snooze");if(snooze!=null)snooze.performClick();});await(()->Store.object(c,"snoozes").length()==1&&Store.object(c,"current").length()==0,8);
             io(()->Sync.run(c,false));check(Store.object(c,"scheduled").length()==1,"Snooze survives calendar refresh");
             report("WAITING_FOR_SNOOZE: one minute");await(()->Store.object(c,"current").optString("title").equals("Snooze test"),70);check(true,"Snoozed alarm fires again");

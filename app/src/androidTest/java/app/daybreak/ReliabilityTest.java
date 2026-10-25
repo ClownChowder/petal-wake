@@ -37,8 +37,17 @@ public class ReliabilityTest extends Instrumentation {
             check(!Readiness.hasRelevantAlarms(context)&&Readiness.issue(context).isEmpty()&&!notice(203),"Removing the last personal alarm clears readiness scope and its warning");
         }finally{Store.put(context,"manual",new JSONObject());Readiness.update(context);}
         android.media.AudioManager audio=context.getSystemService(android.media.AudioManager.class);int original=audio.getStreamVolume(android.media.AudioManager.STREAM_ALARM),maximum=audio.getStreamMaxVolume(android.media.AudioManager.STREAM_ALARM),minimum=audio.getStreamMinVolume(android.media.AudioManager.STREAM_ALARM);
-        try{Store.p(context).edit().putInt("alarmRampRestoreStep",maximum).commit();audio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,minimum,0);AlarmService.recoverAlarmVolume(context);check(audio.getStreamVolume(android.media.AudioManager.STREAM_ALARM)==maximum&&!Store.p(context).contains("alarmRampRestoreStep"),"Restart recovery restores the selected system alarm volume after an interrupted rise");}
-        finally{audio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,original,0);Store.p(context).edit().remove("alarmRampRestoreStep").commit();}
+        try{
+            Store.p(context).edit().putInt("alarmRampRestoreStep",maximum).putInt("alarmRampPreviousStep",maximum).putInt("alarmRampLastStep",minimum).commit();
+            audio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,minimum,0);AlarmService.recoverAlarmVolume(context);
+            check(audio.getStreamVolume(android.media.AudioManager.STREAM_ALARM)==maximum&&!Store.p(context).contains("alarmRampRestoreStep"),"Interrupted rise restores the selected ending phone alarm volume");
+            if(maximum-minimum>=2){
+                Store.p(context).edit().putInt("alarmRampRestoreStep",maximum).putInt("alarmRampPreviousStep",maximum).putInt("alarmRampLastStep",minimum).commit();
+                audio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,minimum+1,0);AlarmService.recoverAlarmVolume(context);
+                check(audio.getStreamVolume(android.media.AudioManager.STREAM_ALARM)==minimum+1&&!Store.p(context).contains("alarmRampRestoreStep"),"Recovery preserves a manually chosen phone alarm level");
+            }
+        }
+        finally{audio.setStreamVolume(android.media.AudioManager.STREAM_ALARM,original,0);Store.p(context).edit().remove("alarmRampRestoreStep").remove("alarmRampPreviousStep").remove("alarmRampLastStep").commit();}
         result.putString("summary",checks+" reliability checks passed");finish(Activity.RESULT_OK,result);
     }catch(Throwable error){result.putString("error",error.toString());finish(Activity.RESULT_CANCELED,result);}}
 }

@@ -54,7 +54,7 @@ public class LifecycleCleanupTest extends Instrumentation {
             js("send('stopPreview')");
             check(field("preview")==null&&field("previewShaper")==null,"Preview "+(n+1)+" released native audio resources");
         }
-        js("send('previewWake')");awaitPlaying();
+        js("send('preview',{file:'gentle_01.m4a'})");awaitPlaying();
         runOnMainSync(activity::finish);
         until=System.currentTimeMillis()+8000;
         while(System.currentTimeMillis()<until&&!activity.isDestroyed())Thread.sleep(100);

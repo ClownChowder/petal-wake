@@ -11,15 +11,16 @@ import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.style.AbsoluteSizeSpan;
 import android.view.*;
+import android.view.accessibility.AccessibilityManager;
 import android.widget.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 public class RingActivity extends Activity {
-    private LinearLayout root;private Button snooze,awake;private boolean receiverRegistered;
+    private LinearLayout root;private Button snooze,awake;private AlertDialog accessibilityDismissDialog;private boolean receiverRegistered;
     private final Handler ui=new Handler(Looper.getMainLooper());
     private static final long DISMISS_HOLD_MS=2_000L;
     private long dismissHoldBegan;
-    private boolean dismissHoldFinished;
+    private boolean dismissHoldFinished,testAlarmScreen;
     private CharSequence awakeLabel;
     private final Runnable dismissHoldProgress=new Runnable(){public void run(){
         if(awake==null||dismissHoldFinished||dismissHoldBegan==0)return;
@@ -44,16 +45,24 @@ public class RingActivity extends Activity {
         int minutes=Store.p(this).getInt("snooze",9);
         String time=new SimpleDateFormat("h:mm a",Locale.getDefault()).format(new Date());
         String title=Store.object(this,"current").optString("title","Time to wake up");
+        boolean testOnly="test".equals(Store.object(this,"current").optString("kind"))&&Store.object(this,"ringing").length()==1;
+        testAlarmScreen=testOnly;
         SpannableString snoozeLabel=snoozeLabel(time,title,minutes);
         snooze=button(snoozeLabel,"SNOOZE",Appearance.current(this).surface,Appearance.current(this).text);snooze.setContentDescription("Snooze for "+minutes+" minutes. "+time+". "+title);
-        SpannableString initialAwakeLabel=new SpannableString("I’m up\n\nStart my day\n\nHold 2 seconds to dismiss");size(initialAwakeLabel,"I’m up",44);size(initialAwakeLabel,"Start my day",18);size(initialAwakeLabel,"Hold 2 seconds to dismiss",15);awakeLabel=initialAwakeLabel;
-        awake=button(awakeLabel,"",Appearance.current(this).action,Appearance.current(this).onAction);awake.setContentDescription("I’m up. Press and hold for two seconds to dismiss the alarm. Accessibility users can use the Dismiss alarm long-click action.");
-        awake.setOnClickListener(v->Toast.makeText(this,"Hold for two seconds to dismiss.",Toast.LENGTH_SHORT).show());
-        awake.setOnLongClickListener(v->{dismissHoldBegan=SystemClock.elapsedRealtime()-DISMISS_HOLD_MS;completeDismissHold();return true;});
-        awake.setAccessibilityDelegate(new View.AccessibilityDelegate(){
+        AccessibilityManager access=(AccessibilityManager)getSystemService(ACCESSIBILITY_SERVICE);
+        String dismissHint=access!=null&&access.isEnabled()?"Select to confirm dismissal":"Hold 2 seconds to dismiss";
+        SpannableString initialAwakeLabel=new SpannableString("I’m up\n\nStart my day\n\n"+dismissHint);size(initialAwakeLabel,"I’m up",44);size(initialAwakeLabel,"Start my day",18);size(initialAwakeLabel,dismissHint,15);awakeLabel=initialAwakeLabel;
+        awake=button(awakeLabel,"",Appearance.current(this).action,Appearance.current(this).onAction);awake.setContentDescription("I’m up. Hold for two seconds to dismiss. With TalkBack or Switch Access, activate to confirm dismissal.");
+        if(testOnly){awake.setText("Stop test alarm");awake.setContentDescription("Stop test alarm");awake.setOnClickListener(v->act("STOP_TEST"));}
+        if(!testOnly)awake.setOnClickListener(v->{
+            if(access!=null&&access.isEnabled())showAccessibleDismissConfirmation();
+            else Toast.makeText(this,"Hold for two seconds to dismiss.",Toast.LENGTH_SHORT).show();
+        });
+        if(!testOnly)awake.setOnLongClickListener(v->{dismissHoldBegan=SystemClock.elapsedRealtime()-DISMISS_HOLD_MS;completeDismissHold();return true;});
+        if(!testOnly)awake.setAccessibilityDelegate(new View.AccessibilityDelegate(){
             @Override public void onInitializeAccessibilityNodeInfo(View host,android.view.accessibility.AccessibilityNodeInfo info){super.onInitializeAccessibilityNodeInfo(host,info);info.addAction(new android.view.accessibility.AccessibilityNodeInfo.AccessibilityAction(android.view.accessibility.AccessibilityNodeInfo.ACTION_LONG_CLICK,"Dismiss alarm"));}
         });
-        awake.setOnTouchListener((v,event)->{
+        if(!testOnly)awake.setOnTouchListener((v,event)->{
             switch(event.getActionMasked()){
                 case MotionEvent.ACTION_DOWN:
                     dismissHoldBegan=SystemClock.elapsedRealtime();dismissHoldFinished=false;awake.setPressed(true);ui.removeCallbacks(dismissHoldProgress);ui.post(dismissHoldProgress);return true;
@@ -85,7 +94,23 @@ public class RingActivity extends Activity {
         else getWindow().getDecorView().setSystemUiVisibility((getWindow().getDecorView().getSystemUiVisibility()&~mask)|bars);
     }
     private void completeDismissHold(){if(dismissHoldBegan==0||dismissHoldFinished)return;dismissHoldFinished=true;ui.removeCallbacks(dismissHoldProgress);awake.setPressed(false);awake.setText(awakeLabel);act("STOP");}
-    private void cancelDismissHold(){ui.removeCallbacks(dismissHoldProgress);dismissHoldBegan=0;if(awake!=null){awake.setPressed(false);if(!dismissHoldFinished)awake.setText(awakeLabel);}}
+    private void showAccessibleDismissConfirmation(){
+        if(accessibilityDismissDialog!=null&&accessibilityDismissDialog.isShowing())return;
+        AlertDialog dialog=new AlertDialog.Builder(this)
+            .setTitle("Dismiss this alarm?")
+            .setMessage("Choose Dismiss alarm to stop it, or Keep ringing to return to the alarm.")
+            .setNegativeButton("Keep ringing",(d,which)->{})
+            .setPositiveButton("Dismiss alarm",(d,which)->act("STOP"))
+            .create();
+        accessibilityDismissDialog=dialog;
+        dialog.setCancelable(false);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.setOnDismissListener(d->{if(accessibilityDismissDialog==dialog)accessibilityDismissDialog=null;});
+        dialog.show();
+    }
+    boolean dismissConfirmationShowing(){return accessibilityDismissDialog!=null&&accessibilityDismissDialog.isShowing();}
+    AlertDialog dismissConfirmationDialog(){return accessibilityDismissDialog;}
+    private void cancelDismissHold(){ui.removeCallbacks(dismissHoldProgress);dismissHoldBegan=0;if(awake!=null){awake.setPressed(false);if(!dismissHoldFinished&&!testAlarmScreen)awake.setText(awakeLabel);}}
     private void tint(Button button,int background,int text){
         button.setTextColor(text);GradientDrawable color=new GradientDrawable();color.setColor(background);
         button.setBackground(new RippleDrawable(ColorStateList.valueOf((Appearance.current(this).accent&0x00ffffff)|0x33000000),color,null));
@@ -106,5 +131,7 @@ public class RingActivity extends Activity {
         // locking the display, or a failed snooze must never be treated as an alarm action.
     }
     @Override public void onBackPressed(){}
-    @Override protected void onDestroy(){ui.removeCallbacksAndMessages(null);if(receiverRegistered){unregisterReceiver(done);receiverRegistered=false;}super.onDestroy();}
+    @Override protected void onPause(){cancelDismissHold();super.onPause();}
+    @Override public void onWindowFocusChanged(boolean focused){super.onWindowFocusChanged(focused);if(!focused)cancelDismissHold();}
+    @Override protected void onDestroy(){ui.removeCallbacksAndMessages(null);if(accessibilityDismissDialog!=null)accessibilityDismissDialog.dismiss();if(receiverRegistered){unregisterReceiver(done);receiverRegistered=false;}super.onDestroy();}
 }

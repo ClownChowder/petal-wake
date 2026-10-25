@@ -1,8 +1,8 @@
 # Petal Wake
 
-Petal Wake is an Android alarm app that schedules work wake-ups from shared iCalendar feeds and offers gentle recorded music and nature sounds. This source tree is version **0.1.31** (Android version code 32).
+Petal Wake is an Android alarm app that schedules work wake-ups from shared iCalendar feeds and offers gentle recorded music and nature sounds. This source tree is version **0.1.36** (Android version code 37).
 
-The latest published APK is [v0.1.31](https://github.com/ClownChowder/petal-wake/releases/tag/v0.1.31), with checksums and source matching that APK. The compatible optional orchestra pack remains available from the [v0.1.23 release](https://github.com/ClownChowder/petal-wake/releases/tag/v0.1.23).
+Version 0.1.36 is a local candidate with an accessible alarm-dismissal confirmation. The latest published APK remains [v0.1.31](https://github.com/ClownChowder/petal-wake/releases/tag/v0.1.31). The compatible optional orchestra pack remains available from the [v0.1.23 release](https://github.com/ClownChowder/petal-wake/releases/tag/v0.1.23).
 
 See [README.txt](README.txt) for setup, calendar sharing, features, practical limits, and testing notes. See [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt) and [CREDITS.txt](CREDITS.txt) for audio and upstream attribution.
 
@@ -20,7 +20,7 @@ Obtainium detects published releases. Updating the app requires a new APK signed
 
 ## Build
 
-Install JDK 17 and the Android SDK for API 35, set up the SDK path through `ANDROID_HOME` or a local `local.properties`, and run `./gradlew assembleDebug`. These personal preview APKs use the same local Android debug signing certificate so they update existing installs. The signing key is not in this repository. A future public release should use a dedicated protected key after testing migration from the existing certificate. See [RELEASE_SIGNING.md](RELEASE_SIGNING.md). The included [VALIDATION.txt](VALIDATION.txt) records checks for this release. Use `tools/check-update-continuity.sh` to compare an APK against the previous version before distributing it.
+Install JDK 17 and the Android SDK for API 35, set up the SDK path through `ANDROID_HOME` or a local `local.properties`, and run `./gradlew assembleRelease`. The release variant is non-debuggable and uses the existing update certificate to preserve in-place Obtainium updates, including Android 8. The signing key is kept outside this repository. See [RELEASE_SIGNING.md](RELEASE_SIGNING.md). [VALIDATION.txt](VALIDATION.txt) records completed checks and limits. Use `tools/check-update-continuity.sh` to compare an APK against the previous version before distributing it.
 
 ## Credits
 

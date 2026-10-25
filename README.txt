@@ -1,6 +1,20 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.31
+PETAL WAKE — ANDROID ALARM APP 0.1.36
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.36 — ACCESSIBLE ALARM DISMISSAL (LOCAL CANDIDATE)
+- TalkBack and Switch Access users can activate I’m up to open a clear confirmation. Keep ringing returns to the active alarm; Dismiss alarm stops it. The long-click accessibility action still works. Ordinary touch still requires a two-second hold, so a short tap cannot silently stop an alarm.
+- While an accessibility service is enabled, the alarm notification and full-screen control both say to choose I’m up to confirm dismissal.
+- No accessibility service is required for normal use. The confirmation appears only while an accessibility service is enabled. It does not request a new app permission or change phone accessibility settings.
+
+VERSION 0.1.35 — TWO PHONE ALARM VOLUME CONTROLS (LOCAL CANDIDATE)
+- Wake-up Settings has separate Starting and Ending phone alarm volume sliders, plus percentage boxes for typing either value. The meter shows the effective Android alarm-volume levels. Gradual rise changes the actual phone alarm stream over the selected duration; with rise off, alarms start at the ending level.
+- The ending slider or percentage box changes the phone-wide alarm volume immediately. The starting slider or percentage box and rise duration are saved with Save now. Android rounds typed percentages to its available whole volume steps; the effective rounded values appear in the meter.
+- This candidate is undergoing v1 reliability, accessibility, device, and signing checks. It is not the published Obtainium update until release evidence is recorded.
+
+VERSION 0.1.32 — CLEAR MAXIMUM ALARM VOLUME
+- The Wake-up screen labels its Android alarm-volume slider as Maximum phone alarm volume and displays the actual phone step plus an approximate percentage. Move it left to limit how loud Petal Wake gets. With gradual rise off, the alarm starts at that level; with gradual rise on, it stops there. The setting changes the real Android alarm stream immediately and also affects other alarm apps. Android’s volume steps mean percentages are approximate.
+- The separate Rise starts at control remains available; if the chosen start would exceed the selected maximum, the alarm starts at the maximum. This version is a local candidate until it is verified and published.
 
 VERSION 0.1.31 — EDITOR SAVES, READINESS AND PHONE ALARM VOLUME
 - Calendar-rule and custom-theme editors show unsaved changes and keep them onscreen when you tap Back, Close, Cancel, or another page. Calendar rules close only after Android confirms the save; a failed save keeps the edits ready to correct and retry.
@@ -28,7 +42,7 @@ VERSION 0.1.28 — SNOOZE AND SETTINGS IMPORT RELIABILITY
 
 VERSION 0.1.27 — WAKE RELIABILITY & PERSONAL AUDIO
 - Alarm delivery now confirms playback and schedules one backup delivery if the foreground audio service fails to start. A missing selected recording falls back to a bundled sound, then the system alarm tone.
-- The alarm keeps ringing if its screen is left or the task is moved away, and the notification can reopen it. A two-second hold or accessible long-click dismisses it; a short tap does not silently stop it. Choose a maximum ring duration of 15, 30, or 60 minutes.
+- The alarm keeps ringing if its screen is left or the task is moved away, and the notification can reopen it. Ordinary touch requires a two-second hold to dismiss. With TalkBack or Switch Access enabled, activating I’m up opens a separate Dismiss alarm confirmation; Keep ringing cancels it. An accessible long-click also dismisses. Choose a maximum ring duration of 15, 30, or 60 minutes.
 - Sounds can be filtered by genre. Import personal audio into app-private offline storage, or link to a file through Android's document picker. Imported audio is recommended for dependable alarms; a missing linked file safely falls back. Personal-file names and links are not included in settings exports.
 - Optional orchestra-pack downloading asks before making a GitHub connection and explains that GitHub can see the downloader's network address.
 - Tomorrow's alarm preview recreates its Android notification channel before posting, so a fresh app-data state does not mark an unseen notice as sent.

@@ -13,6 +13,9 @@ public final class SnoozeDismissRaceTest extends Instrumentation {
     @Override public void onStart(){
         Context c=getTargetContext();Bundle result=new Bundle();
         try{
+            java.util.HashSet<String> scheduledBefore=new java.util.HashSet<>();
+            JSONObject priorSchedule=Store.object(c,"scheduled");
+            for(java.util.Iterator<String> ids=priorSchedule.keys();ids.hasNext();){String id=ids.next();if(id.startsWith("snooze:"))scheduledBefore.add(id);}
             Store.put(c,"ringing",new JSONObject());Store.put(c,"snoozes",new JSONObject());
             Store.p(c).edit().putInt("snooze",1).putBoolean("vibrate",false).putInt("fade",0).commit();
             JSONObject alarm=new JSONObject().put("id","qa-dismiss-race").put("kind","manual")
@@ -29,7 +32,7 @@ public final class SnoozeDismissRaceTest extends Instrumentation {
             Thread.sleep(1500);
             if(Store.object(c,"snoozes").length()!=0)throw new Exception("Dismissed alarm was snoozed");
             JSONObject scheduled=Store.object(c,"scheduled");
-            for(java.util.Iterator<String> ids=scheduled.keys();ids.hasNext();)if(ids.next().startsWith("snooze:"))throw new Exception("Dismissed alarm remained scheduled");
+            for(java.util.Iterator<String> ids=scheduled.keys();ids.hasNext();){String id=ids.next();if(id.startsWith("snooze:")&&!scheduledBefore.contains(id))throw new Exception("Dismissed alarm remained scheduled");}
             result.putString("summary","Dismissal cancelled snooze queued across Scheduler lock");finish(Activity.RESULT_OK,result);
         }catch(Throwable error){result.putString("error",error.toString());finish(Activity.RESULT_CANCELED,result);}
         finally{
