@@ -1,5 +1,7 @@
 package app.daybreak;
 
+import dev.fourwags.rouse.R;
+
 import android.app.Notification;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
@@ -10,7 +12,9 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 import java.text.DateFormat;
 import java.util.Date;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
+import java.util.Map;
 
 /** Reports changes that appeared in a successfully downloaded work calendar. */
 public final class ShiftChanges {
@@ -29,12 +33,24 @@ public final class ShiftChanges {
         for(int i=0;i<after.length();i++){JSONObject a=after.optJSONObject(i);if(a!=null&&a.optLong("at")>now&&!a.optBoolean("skipped"))updated.put(a.optString("id"),a);}
         JSONArray changes=new JSONArray();
         try{
+            // Providers may rewrite event IDs (or busy-interval end times) while
+            // leaving the actual wake-up alarm unchanged. Match wake times first.
+            for(String id:new ArrayList<>(old.keySet())){
+                JSONObject next=updated.get(id);
+                if(next!=null&&old.get(id).optLong("at")==next.optLong("at")){old.remove(id);updated.remove(id);}
+            }
+            for(String id:new ArrayList<>(old.keySet())){
+                long wake=old.get(id).optLong("at");
+                String match=null;
+                for(Map.Entry<String,JSONObject> next:updated.entrySet())if(next.getValue().optLong("at")==wake){match=next.getKey();break;}
+                if(match!=null){old.remove(id);updated.remove(match);}
+            }
             for(String id:old.keySet()){
                 JSONObject a=old.get(id),b=updated.get(id);
                 if(b==null)changes.put(new JSONObject().put("event","canceled").put("at",a.optLong("at")));
-                else if(a.optLong("at")!=b.optLong("at"))changes.put(new JSONObject().put("event","moved").put("at",a.optLong("at")).put("to",b.optLong("at")));
+                else{changes.put(new JSONObject().put("event","moved").put("at",a.optLong("at")).put("to",b.optLong("at")));updated.remove(id);}
             }
-            for(String id:updated.keySet())if(!old.containsKey(id))changes.put(new JSONObject().put("event","added").put("to",updated.get(id).optLong("at")));
+            for(String id:updated.keySet())changes.put(new JSONObject().put("event","added").put("to",updated.get(id).optLong("at")));
         }catch(Exception ignored){}
         return changes;
     }

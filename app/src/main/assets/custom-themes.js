@@ -23,17 +23,24 @@ function customColorMath(background,primary,secondary,preferredText){
  const tokens={paper:background,ink:text,muted,lavender:link,mint:secondaryLink,card:surface,control,line:colorMix(background,text,.25),placeholder:muted,outline:muted,horizon:colorMix(surface,secondary,.12),track:colorMix(background,text,.25),secondary:colorMix(surface,secondary,.06),'input-line':muted,input:colorMix(background,surface,.4),action:primary,'on-action':onAction,nav:background+'F5',glass:background+'33','glass-card':background+'8C',empty:surface+'55',overlay:'#14121A99','error-bg':dark?'#51343C':'#FBE1DD','error-text':dark?'#FFD0C7':'#7B332C'};
  return {custom:true,background,primary,secondary,preferredText,text,surface,action:primary,onAction,accent:link,dark,tokens};
 }
+function shibaColors(p){
+ const tokens={paper:p.background,ink:p.foreground,muted:p.muted,lavender:p.strong,mint:p.strong,card:p.surface,control:p.elevated,line:p.border,placeholder:p.muted,outline:p.border,horizon:p.elevated,track:p.track,secondary:p.elevated,'input-line':p.border,input:p.surface,action:p.strong,'on-action':p.dark?p.background:p.surface,nav:p.background+'F5',glass:p.background+'33','glass-card':p.background+'8C',empty:p.surface+'55',overlay:'#14121A99','error-bg':p.surface,'error-text':p.error,warning:p.warning,success:p.success};
+ return {text:p.foreground,surface:p.surface,action:p.strong,onAction:p.dark?p.background:p.surface,accent:p.strong,dark:p.dark,tokens};
+}
 function customIconSvg(theme,shape){
  const colors={background:theme.background,primary:theme.primary,secondary:theme.secondary,text:theme.text,surface:theme.surface,soft:colorMix(theme.text,theme.primary,.22),onAction:theme.onAction};
  return window.ICON_TEMPLATES[shape].replace(/\{\{(\w+)\}\}/g,(_,key)=>colors[key]);
 }
-function customIconUrl(theme,shape){return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(customIconSvg(theme,shape));}
+function customIconUrl(theme,shape){
+ if(/^rouse_[abc]$/.test(shape))return `icons/fourwags_${shape}.svg`;
+ return 'data:image/svg+xml;charset=utf-8,'+encodeURIComponent(customIconSvg(theme,shape));
+}
 function renderCustomThemes(){
  $('customThemesEmpty').hidden=customThemes.length>0;
  $('customThemeList').innerHTML=customThemes.map(theme=>`<div class="custom-theme-row" aria-current="${theme.id===currentTheme}"><img src="${customIconUrl(theme,currentIcon)}" alt=""><strong class="custom-name">${esc(theme.name)}${theme.id===currentTheme?' · Selected':''}</strong><div class="custom-actions"><button type="button" class="text-button" data-custom-use="${theme.id}">${theme.id===currentTheme?'Selected':'Use theme'}</button><button type="button" class="text-button" data-custom-edit="${theme.id}">Edit</button><button type="button" class="text-button" data-custom-delete="${theme.id}">Remove</button></div></div>`).join('');
 }
 function openThemeEditor(id=''){
- const selected=[...appearanceCatalog.themes,...customThemes].find(t=>t.id===(id||currentTheme))||appearanceCatalog.themes[1];editingCustomId=id;
+ const selected=[...appearanceCatalog.themes,...customThemes].find(t=>t.id===(id||currentTheme))||appearanceCatalog.themes.find(t=>t.id==='shiba_black_tan');editingCustomId=id;
  const values=selected.tokens?[selected.background,selected.primary,selected.secondary,selected.preferredText]:[selected.background,selected.action,selected.icon.secondary,selected.text];
  $('customThemeName').value=id?selected.name:'My theme';colorParts.forEach((part,n)=>{$('color'+part).value=values[n];$('hex'+part).value=values[n].toUpperCase();});
  $('editorHeading').textContent=id?'Edit theme':'Create theme';$('saveCustomTheme').textContent=id?'Save changes & use':'Save & use theme';themeEditorSaving=false;themeEditorBaseline=themeEditorValues();$('themeUnsavedBar').hidden=true;page('themeEditor');updateThemePreview();

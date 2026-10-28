@@ -1,6 +1,18 @@
-PETAL WAKE — ANDROID ALARM APP 0.1.37
+ROUSE — ANDROID ALARM APP 0.1.40
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.40 — SCHEDULE RAIL (PREVIEW)
+- A persistent, theme-aware side rail provides Alarms, Calendar, Sounds, and Settings navigation. The next scheduled wake-up is prominent on the home screen, with the upcoming work-shift list directly below it.
+- The existing Starting and Ending phone alarm-volume sliders and numeric entry remain available. Android's available volume steps determine the effective percentages.
+- The app ID and signing identity remain unchanged for in-place updates. The version code increases to 41. Review the next wake time and Android alarm volume after updating.
+
+VERSION 0.1.39 — QUIETER CALENDAR REFRESHES (PREVIEW)
+- An ordinary refresh keeps an existing Android alarm registration when its ID and wake time are unchanged. Recovery after reboot, app replacement, time or time-zone changes, and exact-alarm permission recovery still rearms alarms.
+- Shift-change notices compare wake times when a calendar provider rewrites an event ID. A rewritten ID may still cause Android to register a replacement alarm, but no in-app shift-change notice is shown if the wake time stayed the same.
+
+VERSION 0.1.38 — ROUSE APPEARANCE (PREVIEW)
+- Rouse styling, Shiba color themes, and three selectable Rouse launcher designs. The application ID remains app.daybreak so existing installations update in place.
 
 VERSION 0.1.37 — STABILITY AND RESPONSIVE CALENDAR REFRESH (PREVIEW)
 - Slow linked personal audio no longer blocks the main screen, sound preview, or alarm controls. If a linked file cannot start within five seconds, the bundled backup tone sounds; a late file response cannot restart a dismissed alarm.

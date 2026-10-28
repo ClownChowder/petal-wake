@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" data-profile="rose"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; connect-src 'none';"><title>Petal Wake</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="themes.css"><script src="ui-icons.js" defer></script><script src="sounds.js" defer></script><script src="appearance.js" defer></script><script src="icon-templates.js" defer></script><script src="custom-themes.js" defer></script><script src="app.js" defer></script></head><body>
-<div class="shell"><header><div class="brand"><span class="brand-icon" aria-hidden="true"><img id="brandMark" src="brand-rose.svg" alt=""></span> Petal Wake</div><button class="icon-button" id="refreshTop" aria-label="Refresh calendar"><span data-ui-icon="refresh"></span></button></header>
+<html lang="en" data-profile="shiba_black_tan"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover"><meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; font-src 'self'; img-src 'self' data:; connect-src 'none';"><title>Rouse</title><link rel="stylesheet" href="style.css"><link rel="stylesheet" href="themes.css"><script src="ui-icons.js" defer></script><script src="sounds.js" defer></script><script src="appearance.js" defer></script><script src="icon-templates.js" defer></script><script src="custom-themes.js" defer></script><script src="app.js" defer></script></head><body>
+<div class="shell"><nav class="rail-nav" aria-label="Main navigation"><span class="rail-mark" aria-hidden="true"><img id="brandMark" src="brand-rose.svg" alt=""></span><button type="button" data-page="today" aria-current="page" aria-label="Alarms"><span data-ui-icon="alarm" aria-hidden="true"></span><span class="rail-nav-label">Alarms</span></button><button type="button" data-page="calendar" aria-label="Calendar"><span data-ui-icon="calendar" aria-hidden="true"></span><span class="rail-nav-label">Calendar</span></button><button type="button" data-page="sounds" aria-label="Sounds"><span data-ui-icon="music" aria-hidden="true"></span><span class="rail-nav-label">Sounds</span></button><button type="button" data-page="settings" aria-label="Settings"><span data-ui-icon="settings" aria-hidden="true"></span><span class="rail-nav-label">Settings</span></button></nav><header><div class="brand"><span class="brand-overline">FOUR WAGS</span><span>Rouse</span></div><button class="icon-button" id="refreshTop" aria-label="Refresh calendar"><span data-ui-icon="refresh"></span></button></header>
 <main>
 <section id="today" class="page">
-<h1 class="sr-only">Alarms</h1><div class="eyebrow" id="dateLabel"></div>
+<div class="eyebrow" id="dateLabel"></div><h1 class="rail-page-title">Next up</h1>
 <div class="hero"><div class="hero-top"><span id="heroLabel">Next alarm</span><span class="badge" id="heroStatus" role="status" aria-live="polite">Getting ready</span></div><div id="nextAlarm"></div><button class="hero-button" id="heroAction">Connect work calendar <span>↗</span></button><button type="button" class="confidence-link" id="calendarConfidence" hidden><span data-ui-icon="calendar" aria-hidden="true"></span><span><strong id="confidenceTitle"></strong><small id="confidenceTime"></small></span><span data-ui-icon="chevron" aria-hidden="true"></span></button></div>
 <div id="attention"></div>
 <div class="alarm-section work-section"><div class="section-head"><div><h2>Work alarms</h2><p id="workConnection" class="fine"></p></div><label class="switch"><input id="enabled" type="checkbox" role="switch" aria-label="Enable work shift alarms" aria-checked="false" aria-describedby="workAlarmProtection" disabled><span></span></label></div><div class="lead-row"><span id="leadSummary">Wake up 90 minutes before each shift</span><button class="text-button" id="editLead">Edit</button></div>
@@ -17,13 +17,13 @@
 <div id="calendarFeedback" role="status" aria-live="polite" hidden></div><div id="allDayAlert" class="all-day-alert" role="alert" hidden></div><p class="fine">Confirm the next wake-up time before relying on calendar alarms.</p>
 <div id="connectedDetails" hidden></div><div id="calendarSources"></div>
 <div id="calendarShiftsSection" hidden><div class="section-head"><h2>Upcoming shifts</h2></div><div id="calendarShiftList"></div></div>
-<form id="connectForm" class="panel"><label for="calendarName">Calendar name</label><input id="calendarName" type="text" maxlength="60" placeholder="Work calendar" value="Work calendar"><label for="calendarService">Calendar service</label><select id="calendarService"><option value="proton">Proton Calendar</option><option value="google">Google Calendar</option><option value="outlook">Outlook</option><option value="icloud">Apple iCloud Calendar</option><option value="fastmail">Fastmail</option><option value="zoho">Zoho Calendar</option><option value="nextcloud">Nextcloud Calendar</option><option value="teamup">Teamup Calendar</option><option value="wheniwork">When I Work</option><option value="deputy">Deputy</option><option value="7shifts">7shifts</option><option value="planday">Planday</option><option value="other">Other calendar or scheduling app</option></select><div id="calendarDirections" class="calendar-directions" aria-live="polite"></div><label class="checkbox-line" id="addCalendarLine" hidden><input type="checkbox" id="addCalendar"> Add as another calendar</label><label for="calendarUrl">Calendar sharing link</label><input type="password" inputmode="url" id="calendarUrl" placeholder="https://…" required autocomplete="off" autocapitalize="none" spellcheck="false"><button type="button" class="text-button" id="showTypedLink" aria-pressed="false">Show entered link</button><p class="fine">Use a live iCalendar subscription link. Saved links and downloaded calendar data are encrypted on this phone. For Limited view, use a work-only calendar: every busy block may become an alarm. Anyone who obtains a sharing link may be able to read its shared information.</p><p class="fine" id="replaceLinkNote" hidden>Petal Wake tests the replacement first. Once it works, delete the old link in your calendar service. Proton may take up to eight hours to publish changes.</p><button class="primary full" type="submit" id="connectButton">Connect work calendar</button></form>
+<form id="connectForm" class="panel"><label for="calendarName">Calendar name</label><input id="calendarName" type="text" maxlength="60" placeholder="Work calendar" value="Work calendar"><label for="calendarService">Calendar service</label><select id="calendarService"><option value="proton">Proton Calendar</option><option value="google">Google Calendar</option><option value="outlook">Outlook</option><option value="icloud">Apple iCloud Calendar</option><option value="fastmail">Fastmail</option><option value="zoho">Zoho Calendar</option><option value="nextcloud">Nextcloud Calendar</option><option value="teamup">Teamup Calendar</option><option value="wheniwork">When I Work</option><option value="deputy">Deputy</option><option value="7shifts">7shifts</option><option value="planday">Planday</option><option value="other">Other calendar or scheduling app</option></select><div id="calendarDirections" class="calendar-directions" aria-live="polite"></div><label class="checkbox-line" id="addCalendarLine" hidden><input type="checkbox" id="addCalendar"> Add as another calendar</label><label for="calendarUrl">Calendar sharing link</label><input type="password" inputmode="url" id="calendarUrl" placeholder="https://…" required autocomplete="off" autocapitalize="none" spellcheck="false"><button type="button" class="text-button" id="showTypedLink" aria-pressed="false">Show entered link</button><p class="fine">Use a live iCalendar subscription link. Saved links and downloaded calendar data are encrypted on this phone. For Limited view, use a work-only calendar: every busy block may become an alarm. Anyone who obtains a sharing link may be able to read its shared information.</p><p class="fine" id="replaceLinkNote" hidden>Rouse tests the replacement first. Once it works, delete the old link in your calendar service. Proton may take up to eight hours to publish changes.</p><button class="primary full" type="submit" id="connectButton">Connect work calendar</button></form>
 <div class="panel" id="setupChecklist"><h2>Ready for your first work alarm</h2><div id="setupSteps" aria-live="polite"></div></div>
 <div class="panel"><h2>No sharing link?</h2><p>Export your work calendar as an .ics file, then import it here.</p><button class="secondary full" id="importFile">Import calendar file</button><p class="fine">Imports are snapshots. Import again when your schedule changes.</p></div>
-<div class="note"><strong>Allow time for schedule changes.</strong> Petal Wake requests updates roughly every 15 minutes; Android and your calendar service can delay refresh. Check the last download and your next alarm after a shift changes.</div>
+<div class="note"><strong>Allow time for schedule changes.</strong> Rouse requests updates roughly every 15 minutes; Android and your calendar service can delay refresh. Check the last download and your next alarm after a shift changes.</div>
 </section>
-<section id="sounds" class="page" hidden><h1>Sounds</h1><p class="subtitle">Choose a gentler start to your day.</p><div class="tabs" role="tablist" aria-label="Sound category"><button id="gentleTab" role="tab" aria-selected="true" class="active">Gentle music</button><button id="classicalTab" role="tab" aria-selected="false">All music</button><button id="natureTab" role="tab" aria-selected="false">Nature</button><button id="standardTab" role="tab" aria-selected="false">Standard</button><button id="mineTab" role="tab" aria-selected="false">My music</button></div><div class="sound-filter"><label for="genreFilter">Genre</label><select id="genreFilter"><option value="">All genres</option></select></div><label class="search-wrap" for="soundSearch"><span data-ui-icon="search" aria-hidden="true"></span><input id="soundSearch" type="search" placeholder="Find music or a nature sound…"></label><p class="fine" id="soundNote">Softer orchestra and solo piano passages, with gentler peaks. All included offline.</p><div id="soundList"></div><div class="panel personal-music"><h2>Add your own music</h2><p>Choose a genre, then pick audio from your phone. Imported music is copied into Petal Wake for dependable offline alarms. Linked music stays in its original location and may stop working if that file or its permission changes.</p><label for="personalGenre">Genre for new music</label><select id="personalGenre"><option>Orchestral</option><option>Piano</option><option>Ambient</option><option>Nature</option><option>Acoustic</option><option>Jazz</option><option>Electronic</option><option>Classical</option><option>Other</option></select><button class="primary full" id="importPersonal" type="button">Import music files · recommended</button><button class="secondary full" id="linkPersonal" type="button">Link a file instead</button><p class="fine">Choose up to 40 files. Imports: up to 100 MB each and 500 MB total. Preview a file before relying on it for an alarm. Personal music stays on this phone and is not included in a settings export. </p><details class="music-guide"><summary>Find music privately</summary><ol><li>Open the official Tor Browser yourself and visit <strong>commons.wikimedia.org</strong>. Look for a gentle recording, not a MIDI file.</li><li>On that file’s page, check the recording’s license and any credit requirements, then download the audio. You do not need to sign in.</li><li>Return here, tap <strong>Import music files</strong>, choose the download, and preview it before setting an alarm.</li></ol><p class="fine">Petal Wake does not contact the music site when importing a local file. Tor Browser protects only the browsing done inside it.</p></details></div><div class="panel" id="soundPackPanel"><h2>Orchestra collection</h2><p id="soundPackStatus">28 additional recordings are available as an optional offline download.</p><button class="secondary full" id="soundPackAction" type="button">Download orchestra pack</button><p class="fine">The smaller app includes gentle music, nature sounds, standard tones, and four orchestra recordings. The pack is about 60 MB, hosted on GitHub, and requires a one-time download agreement. Once saved, it plays offline.</p></div><button class="text-button credits-button" id="showCredits">Sound sources & credits</button></section>
-<section id="settings" class="page" hidden><h1>Settings</h1><p class="subtitle">Your alarms, playback, and appearance.</p><div class="settings-menu" role="group" aria-label="Settings sections"><button type="button" data-settings-group="wake" aria-pressed="true">Wake-up</button><button type="button" data-settings-group="calendar" aria-pressed="false">Calendars &amp; privacy</button><button type="button" data-settings-group="appearance" aria-pressed="false">Appearance</button><button type="button" data-settings-group="diagnostics" aria-pressed="false">Diagnostics</button></div><div class="panel" id="appearancePanel" data-group="appearance"><h2>Appearance</h2><label for="themeSelect">Color theme</label><select id="themeSelect" aria-describedby="appearanceStatus"></select><div class="appearance-summary"><img id="appearancePreview" src="icons/rose_petal.svg" alt=""><div><strong id="appearanceName">Rose &amp; Ivory</strong><p id="appearanceIconName">Petal Clock icon</p></div></div><p>16 shared Petal Key palettes and six icon designs. App icons use the closest bundled palette.</p><button type="button" class="secondary full" id="openAppearance">Choose theme &amp; icon</button></div><div id="unsavedBar" class="unsaved-bar" role="status" hidden><strong>Changes not saved</strong><span>Save your changes before leaving Settings.</span><button type="submit" form="settingsForm" class="primary">Save now</button></div><div class="panel" data-group="wake"><h2>Alarm volume</h2><div id="permissions"></div>
+<section id="sounds" class="page" hidden><h1>Sounds</h1><p class="subtitle">Choose a gentler start to your day.</p><div class="tabs" role="tablist" aria-label="Sound category"><button id="gentleTab" role="tab" aria-selected="true" class="active">Gentle music</button><button id="classicalTab" role="tab" aria-selected="false">All music</button><button id="natureTab" role="tab" aria-selected="false">Nature</button><button id="standardTab" role="tab" aria-selected="false">Standard</button><button id="mineTab" role="tab" aria-selected="false">My music</button></div><div class="sound-filter"><label for="genreFilter">Genre</label><select id="genreFilter"><option value="">All genres</option></select></div><label class="search-wrap" for="soundSearch"><span data-ui-icon="search" aria-hidden="true"></span><input id="soundSearch" type="search" placeholder="Find music or a nature sound…"></label><p class="fine" id="soundNote">Softer orchestra and solo piano passages, with gentler peaks. All included offline.</p><div id="soundList"></div><div class="panel personal-music"><h2>Add your own music</h2><p>Choose a genre, then pick audio from your phone. Imported music is copied into Rouse for dependable offline alarms. Linked music stays in its original location and may stop working if that file or its permission changes.</p><label for="personalGenre">Genre for new music</label><select id="personalGenre"><option>Orchestral</option><option>Piano</option><option>Ambient</option><option>Nature</option><option>Acoustic</option><option>Jazz</option><option>Electronic</option><option>Classical</option><option>Other</option></select><button class="primary full" id="importPersonal" type="button">Import music files · recommended</button><button class="secondary full" id="linkPersonal" type="button">Link a file instead</button><p class="fine">Choose up to 40 files. Imports: up to 100 MB each and 500 MB total. Preview a file before relying on it for an alarm. Personal music stays on this phone and is not included in a settings export. </p><details class="music-guide"><summary>Find music privately</summary><ol><li>Open the official Tor Browser yourself and visit <strong>commons.wikimedia.org</strong>. Look for a gentle recording, not a MIDI file.</li><li>On that file’s page, check the recording’s license and any credit requirements, then download the audio. You do not need to sign in.</li><li>Return here, tap <strong>Import music files</strong>, choose the download, and preview it before setting an alarm.</li></ol><p class="fine">Rouse does not contact the music site when importing a local file. Tor Browser protects only the browsing done inside it.</p></details></div><div class="panel" id="soundPackPanel"><h2>Orchestra collection</h2><p id="soundPackStatus">28 additional recordings are available as an optional offline download.</p><button class="secondary full" id="soundPackAction" type="button">Download orchestra pack</button><p class="fine">The smaller app includes gentle music, nature sounds, standard tones, and four orchestra recordings. The pack is about 60 MB, hosted on GitHub, and requires a one-time download agreement. Once saved, it plays offline.</p></div><button class="text-button credits-button" id="showCredits">Sound sources & credits</button></section>
+<section id="settings" class="page" hidden><h1>Settings</h1><p class="subtitle">Your alarms, playback, and appearance.</p><div class="settings-menu" role="group" aria-label="Settings sections"><button type="button" data-settings-group="wake" aria-pressed="true">Wake-up</button><button type="button" data-settings-group="calendar" aria-pressed="false">Calendars &amp; privacy</button><button type="button" data-settings-group="appearance" aria-pressed="false">Appearance</button><button type="button" data-settings-group="diagnostics" aria-pressed="false">Diagnostics</button><button type="button" data-settings-group="about" aria-pressed="false">About</button></div><div class="panel" id="appearancePanel" data-group="appearance"><h2>Appearance</h2><label for="themeSelect">Color theme</label><select id="themeSelect" aria-describedby="appearanceStatus"></select><div class="appearance-summary"><img id="appearancePreview" src="icons/rose_petal.svg" alt=""><div><strong id="appearanceName">Rose &amp; Ivory</strong><p id="appearanceIconName">Petal Clock icon</p></div></div><p>16 shared Petal Key palettes and six icon designs. App icons use the closest bundled palette.</p><button type="button" class="secondary full" id="openAppearance">Choose theme &amp; icon</button></div><div id="unsavedBar" class="unsaved-bar" role="status" hidden><strong>Changes not saved</strong><span>Save your changes before leaving Settings.</span><button type="submit" form="settingsForm" class="primary">Save now</button></div><div class="panel" data-group="wake"><h2>Alarm volume</h2><div id="permissions"></div>
 <label for="fade">Gradual alarm rise</label><select id="fade" form="settingsForm"><option value="0">Off</option><option value="5">Over 5 seconds</option><option value="15">Over 15 seconds</option><option value="30">Over 30 seconds</option><option value="60">Over 1 minute</option><option value="120">Over 2 minutes</option></select>
 <div class="alarm-rise-meter" id="alarmRiseMeter" role="img" aria-label="Alarm volume from starting level to ending level"><div class="alarm-rise-meter-fill"></div><div class="alarm-rise-meter-start"></div><div class="alarm-rise-meter-end"></div></div>
 <div class="alarm-rise-labels"><span>Starts at<strong id="riseStartValue" aria-live="polite">≈30%</strong></span><span>Ends at<strong id="phoneMaxValue" aria-live="polite">≈100%</strong></span></div>
@@ -31,14 +31,867 @@
 <label for="phoneAlarmVolume">Ending phone alarm volume</label><input id="phoneAlarmVolume" type="range" min="0" max="7" step="1" aria-describedby="phoneVolumeGuide"><div class="volume-number"><label for="endVolumeNumber">Or enter ending volume</label><input id="endVolumeNumber" type="number" min="1" max="100" step="1" value="100" inputmode="numeric" aria-describedby="phoneVolumeGuide"><span>%</span></div><p id="phoneVolumeGuide" class="volume-readout" role="status"></p>
 <button class="secondary full" id="testAlarm" type="button">Test real alarm in 15 seconds</button><button class="secondary full" id="cancelTest" type="button" hidden>Cancel pending test</button><p class="fine">The test uses these levels and the real alarm audio path. Tap Stop test alarm when it rings.</p></div>
 <div class="panel" data-group="wake"><h2>Tomorrow’s check</h2><label class="checkbox-line"><input type="checkbox" id="eveningCheck"> Show tomorrow’s work alarm in the evening</label><label for="eveningTime">Check time</label><input id="eveningTime" type="time" value="19:00"><p class="fine">Shows the next day’s shift and wake-up time when Android runs a background check near this time. It also shows the last calendar download; your provider may publish changes later.</p></div><div class="panel" data-group="calendar"><h2>Calendar confidence</h2><label class="checkbox-line"><input type="checkbox" id="syncAlerts"> Notify me when calendar syncing needs attention</label><p class="fine">Silent notices after repeated failures or 8 hours without a successful download. Saved alarms stay in place. One notice per unresolved issue.</p><p id="syncAlertStatus" class="fine"></p></div>
-<div class="panel" data-group="calendar"><h2>Lock-screen privacy</h2><label class="checkbox-line"><input type="checkbox" id="privateLockScreen"> Hide alarm details on the lock screen</label><p class="fine">Your alarm still rings and opens normally. Android may show the generic Petal Wake alarm notice before you unlock.</p></div><div class="panel" data-group="calendar"><h2>Private calendar links</h2><p>Links and downloaded calendar files are encrypted on this device. Copying a saved link requires your phone’s security check.</p><button type="button" class="secondary full" id="manageLinks">Manage calendar links</button></div><div class="panel" data-group="diagnostics"><h2>Move your settings</h2><p>Save your preferences and custom themes to a file, or restore them on another phone.</p><button class="secondary full" type="button" id="exportSettings">Save settings file</button><button class="secondary full" type="button" id="importSettings">Restore settings file</button><p class="fine">Calendar links, calendar events, personal alarms, and activity history are never included.</p></div><div class="panel" data-group="diagnostics"><h2>Moving to a new phone</h2><ol><li>Save the settings file above and move it to your new phone using a storage location you trust.</li><li>Install Petal Wake on the new phone, then restore that settings file.</li><li>In Proton Calendar, create a fresh Limited view link for your work-only calendar. Connect it on the new phone. Recreate any personal alarms.</li><li>Allow Android alarm permissions, enable Work alarms, and confirm the next wake-up time with a test alarm.</li><li>After the new phone is working, delete the old sharing link in Proton Calendar.</li></ol><p class="fine">The settings file never contains your calendar link. You can also reconnect with a Full view link if you use title filtering.</p></div><div class="panel" data-group="diagnostics"><h2>Alarm activity</h2><p>Review recent scheduled, rung, snoozed, and dismissed alarms. Event titles and calendar links are omitted.</p><button type="button" class="secondary full" id="viewHistory">View activity</button></div><form id="settingsForm" class="panel" data-group="wake"><h2>Alarm preferences</h2><fieldset><legend>Work schedule</legend><label for="lead">Minutes before the shift</label><input id="lead" type="number" min="0" max="1440" required><label for="filter">Only titles containing <span class="optional">(optional)</span></label><input id="filter" type="text" maxlength="120" placeholder="e.g. Work or Shift"><p class="fine">Leave blank for a work-only calendar or Limited view link. Title matching requires a Full view link with event titles.</p><label class="checkbox-line"><input id="allDayEnabled" type="checkbox"> Schedule alarms for all-day work blocks</label><label for="allDayTime">Actual time work begins</label><input id="allDayTime" type="time"><p class="all-day-rule-help">All-day calendar blocks have no start time. No alarm will ring for them until you enable this and enter the actual shift start time. Your wake-up lead time is then applied.</p><div class="rule-divider"><label class="checkbox-line"><input id="shiftRulesEnabled" type="checkbox"> Use different lead times by shift start time</label><div class="rule-grid"><label for="earlyBefore">Early shifts start before</label><input id="earlyBefore" type="time" value="10:00"><label for="earlyLead">Wake minutes before early shifts</label><input id="earlyLead" type="number" min="0" max="1440" value="90"><label for="lateAfter">Later shifts start at or after</label><input id="lateAfter" type="time" value="12:00"><label for="lateLead">Wake minutes before later shifts</label><input id="lateLead" type="number" min="0" max="1440" value="45"></div><p class="fine">Shifts between these times use the calendar’s regular lead time. All-day shifts also use the regular lead time.</p></div></fieldset><fieldset><legend>Snooze &amp; playback</legend><label for="snooze">Snooze minutes</label><input id="snooze" type="number" min="1" max="60" required><label for="fallbackMinutes">If I do not respond</label><select id="fallbackMinutes"><option value="0">Keep the gentle sound</option><option value="5">Play a stronger backup after 5 minutes</option><option value="10">Play a stronger backup after 10 minutes</option><option value="15">Play a stronger backup after 15 minutes</option></select><p class="fine">Optional. The backup uses a standard ring at the selected phone alarm volume without a gradual rise.</p><label for="maxRingMinutes">Stop an unanswered alarm after</label><select id="maxRingMinutes"><option value="15">15 minutes</option><option value="30" selected>30 minutes</option><option value="60">60 minutes</option></select><p class="fine">Choose a longer limit if you need more time to wake. A finite limit protects the phone’s battery if an alarm is left unattended.</p><label class="checkbox-line"><input id="vibrate" type="checkbox"> Strong vibration with the alarm</label><p class="fine">Maximum-strength pulses with short pauses.</p></fieldset><button class="primary full" type="submit">Save preferences</button><p id="unsaved" class="fine" hidden>Changes not saved. Save preferences before leaving this page.</p></form>
-<div class="panel" data-group="wake"><h2>Keep Petal Wake ready</h2><p>Check that Android allows Petal Wake to run in the background. If you use Do Not Disturb, allow alarms in that mode.</p><button class="secondary full" id="battery">Open app settings</button><p class="fine">Alarms are restored after restart once the phone is unlocked. Android force-stop disables alarms until you open Petal Wake again. Alarms ring for the duration you choose above.</p></div><p class="footer-note">PETAL WAKE<br>Your calendar and settings stay on this device.<br>No account, analytics, or advertising.</p></section>
-<section id="appearance" class="page" hidden><button type="button" class="text-button" id="appearanceBack"><span data-ui-icon="back"></span> Settings</button><h1>Appearance</h1><p class="subtitle">16 shared Petal Key themes. Six familiar icons. Each choice saves automatically.</p><div class="panel"><h2>Icon design</h2><p>Pick a shape from the original designs. App icons use the closest bundled palette.</p><div id="iconOptions" class="icon-options" role="group" aria-label="App icon design"></div><p id="iconStatus" class="fine" role="status"></p></div><div class="panel" id="customThemePanel"><div class="section-head"><h2>Your themes</h2><button type="button" class="text-button" id="newCustomTheme">＋ Create</button></div><p id="customThemesEmpty">Create a palette with your own colors and save it here.</p><div id="customThemeList"></div></div><div class="section-head"><h2>Color theme</h2><span class="eyebrow">16 PALETTES</span></div><p id="appearanceStatus" class="fine" role="status"></p><div id="themeOptions" class="theme-options" role="group" aria-label="Color theme"></div><p class="fine">Your phone’s launcher may take a moment to refresh the icon.</p></section>
+<div class="panel" data-group="calendar"><h2>Lock-screen privacy</h2><label class="checkbox-line"><input type="checkbox" id="privateLockScreen"> Hide alarm details on the lock screen</label><p class="fine">Your alarm still rings and opens normally. Android may show the generic Rouse alarm notice before you unlock.</p></div><div class="panel" data-group="calendar"><h2>Private calendar links</h2><p>Links and downloaded calendar files are encrypted on this device. Copying a saved link requires your phone’s security check.</p><button type="button" class="secondary full" id="manageLinks">Manage calendar links</button></div><div class="panel" data-group="diagnostics"><h2>Move your settings</h2><p>Save your preferences and custom themes to a file, or restore them on another phone.</p><button class="secondary full" type="button" id="exportSettings">Save settings file</button><button class="secondary full" type="button" id="importSettings">Restore settings file</button><p class="fine">Calendar links, calendar events, personal alarms, and activity history are never included.</p></div><div class="panel" data-group="diagnostics"><h2>Moving to a new phone</h2><ol><li>Save the settings file above and move it to your new phone using a storage location you trust.</li><li>Install Rouse on the new phone, then restore that settings file.</li><li>In Proton Calendar, create a fresh Limited view link for your work-only calendar. Connect it on the new phone. Recreate any personal alarms.</li><li>Allow Android alarm permissions, enable Work alarms, and confirm the next wake-up time with a test alarm.</li><li>After the new phone is working, delete the old sharing link in Proton Calendar.</li></ol><p class="fine">The settings file never contains your calendar link. You can also reconnect with a Full view link if you use title filtering.</p></div><div class="panel" data-group="diagnostics"><h2>Alarm activity</h2><p>Review recent scheduled, rung, snoozed, and dismissed alarms. Event titles and calendar links are omitted.</p><button type="button" class="secondary full" id="viewHistory">View activity</button></div><form id="settingsForm" class="panel" data-group="wake"><h2>Alarm preferences</h2><fieldset><legend>Work schedule</legend><label for="lead">Minutes before the shift</label><input id="lead" type="number" min="0" max="1440" required><label for="filter">Only titles containing <span class="optional">(optional)</span></label><input id="filter" type="text" maxlength="120" placeholder="e.g. Work or Shift"><p class="fine">Leave blank for a work-only calendar or Limited view link. Title matching requires a Full view link with event titles.</p><label class="checkbox-line"><input id="allDayEnabled" type="checkbox"> Schedule alarms for all-day work blocks</label><label for="allDayTime">Actual time work begins</label><input id="allDayTime" type="time"><p class="all-day-rule-help">All-day calendar blocks have no start time. No alarm will ring for them until you enable this and enter the actual shift start time. Your wake-up lead time is then applied.</p><div class="rule-divider"><label class="checkbox-line"><input id="shiftRulesEnabled" type="checkbox"> Use different lead times by shift start time</label><div class="rule-grid"><label for="earlyBefore">Early shifts start before</label><input id="earlyBefore" type="time" value="10:00"><label for="earlyLead">Wake minutes before early shifts</label><input id="earlyLead" type="number" min="0" max="1440" value="90"><label for="lateAfter">Later shifts start at or after</label><input id="lateAfter" type="time" value="12:00"><label for="lateLead">Wake minutes before later shifts</label><input id="lateLead" type="number" min="0" max="1440" value="45"></div><p class="fine">Shifts between these times use the calendar’s regular lead time. All-day shifts also use the regular lead time.</p></div></fieldset><fieldset><legend>Snooze &amp; playback</legend><label for="snooze">Snooze minutes</label><input id="snooze" type="number" min="1" max="60" required><label for="fallbackMinutes">If I do not respond</label><select id="fallbackMinutes"><option value="0">Keep the gentle sound</option><option value="5">Play a stronger backup after 5 minutes</option><option value="10">Play a stronger backup after 10 minutes</option><option value="15">Play a stronger backup after 15 minutes</option></select><p class="fine">Optional. The backup uses a standard ring at the selected phone alarm volume without a gradual rise.</p><label for="maxRingMinutes">Stop an unanswered alarm after</label><select id="maxRingMinutes"><option value="15">15 minutes</option><option value="30" selected>30 minutes</option><option value="60">60 minutes</option></select><p class="fine">Choose a longer limit if you need more time to wake. A finite limit protects the phone’s battery if an alarm is left unattended.</p><label class="checkbox-line"><input id="vibrate" type="checkbox"> Strong vibration with the alarm</label><p class="fine">Maximum-strength pulses with short pauses.</p></fieldset><button class="primary full" type="submit">Save preferences</button><p id="unsaved" class="fine" hidden>Changes not saved. Save preferences before leaving this page.</p></form>
+<div class="panel" data-group="wake"><h2>Keep Rouse ready</h2><p>Check that Android allows Rouse to run in the background. If you use Do Not Disturb, allow alarms in that mode.</p><button class="secondary full" id="battery">Open app settings</button><p class="fine">Alarms are restored after restart once the phone is unlocked. Android force-stop disables alarms until you open Rouse again. Alarms ring for the duration you choose above.</p></div><div class="panel" data-group="about"><h2>About Rouse</h2><p>Rouse means to awaken or stir into activity. This Four Wags app helps you set personal and work-shift alarms, with optional calendar-linked wake times.</p><p>Made with care by Four Wags. Thank you to the open-source developers and everyone who helped test and improve it.</p><h3>Open-source acknowledgments</h3><p>Sound sources and licenses are listed under Sounds → Sound sources &amp; credits. The library notices below are also included with the source.</p><details><summary>Third-party library notices</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">biweekly/biweekly.license
+
+ Copyright (c) 2013-2024, Michael Angstadt
+ All rights reserved.
+
+ Redistribution and use in source and binary forms, with or without
+ modification, are permitted provided that the following conditions are met:
+
+ 1. Redistributions of source code must retain the above copyright notice, this
+ list of conditions and the following disclaimer.
+ 2. Redistributions in binary form must reproduce the above copyright notice,
+ this list of conditions and the following disclaimer in the documentation
+ and/or other materials provided with the distribution.
+
+ THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS &quot;AS IS&quot; AND
+ ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT OWNER OR CONTRIBUTORS BE LIABLE FOR
+ ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES;
+ LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND
+ ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
+ (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+ SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+biweekly/commons-codec.license
+
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      &quot;License&quot; shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      &quot;Source&quot; form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      &quot;Contribution&quot; shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, &quot;submitted&quot;
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a Contribution.&quot;
+
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a &quot;NOTICE&quot; text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an &quot;AS IS&quot; BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets &quot;[]&quot;
+      replaced with your own identifying information. (Don&#x27;t include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same &quot;printed page&quot; as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+
+biweekly/google-rfc-2445.license
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      &quot;License&quot; shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      &quot;Source&quot; form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      &quot;Contribution&quot; shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, &quot;submitted&quot;
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a Contribution.&quot;
+
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a &quot;NOTICE&quot; text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an &quot;AS IS&quot; BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets &quot;[]&quot;
+      replaced with your own identifying information. (Don&#x27;t include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same &quot;printed page&quot; as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+
+
+VINNIE
+
+vinnie======================
+
+MIT License
+
+Copyright (c) 2016 Michael Angstadt
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the &quot;Software&quot;), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in
+all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+
+commons-codec===================
+
+
+                                 Apache License
+                           Version 2.0, January 2004
+                        http://www.apache.org/licenses/
+
+   TERMS AND CONDITIONS FOR USE, REPRODUCTION, AND DISTRIBUTION
+
+   1. Definitions.
+
+      &quot;License&quot; shall mean the terms and conditions for use, reproduction,
+      and distribution as defined by Sections 1 through 9 of this document.
+
+      &quot;Licensor&quot; shall mean the copyright owner or entity authorized by
+      the copyright owner that is granting the License.
+
+      &quot;Legal Entity&quot; shall mean the union of the acting entity and all
+      other entities that control, are controlled by, or are under common
+      control with that entity. For the purposes of this definition,
+      &quot;control&quot; means (i) the power, direct or indirect, to cause the
+      direction or management of such entity, whether by contract or
+      otherwise, or (ii) ownership of fifty percent (50%) or more of the
+      outstanding shares, or (iii) beneficial ownership of such entity.
+
+      &quot;You&quot; (or &quot;Your&quot;) shall mean an individual or Legal Entity
+      exercising permissions granted by this License.
+
+      &quot;Source&quot; form shall mean the preferred form for making modifications,
+      including but not limited to software source code, documentation
+      source, and configuration files.
+
+      &quot;Object&quot; form shall mean any form resulting from mechanical
+      transformation or translation of a Source form, including but
+      not limited to compiled object code, generated documentation,
+      and conversions to other media types.
+
+      &quot;Work&quot; shall mean the work of authorship, whether in Source or
+      Object form, made available under the License, as indicated by a
+      copyright notice that is included in or attached to the work
+      (an example is provided in the Appendix below).
+
+      &quot;Derivative Works&quot; shall mean any work, whether in Source or Object
+      form, that is based on (or derived from) the Work and for which the
+      editorial revisions, annotations, elaborations, or other modifications
+      represent, as a whole, an original work of authorship. For the purposes
+      of this License, Derivative Works shall not include works that remain
+      separable from, or merely link (or bind by name) to the interfaces of,
+      the Work and Derivative Works thereof.
+
+      &quot;Contribution&quot; shall mean any work of authorship, including
+      the original version of the Work and any modifications or additions
+      to that Work or Derivative Works thereof, that is intentionally
+      submitted to Licensor for inclusion in the Work by the copyright owner
+      or by an individual or Legal Entity authorized to submit on behalf of
+      the copyright owner. For the purposes of this definition, &quot;submitted&quot;
+      means any form of electronic, verbal, or written communication sent
+      to the Licensor or its representatives, including but not limited to
+      communication on electronic mailing lists, source code control systems,
+      and issue tracking systems that are managed by, or on behalf of, the
+      Licensor for the purpose of discussing and improving the Work, but
+      excluding communication that is conspicuously marked or otherwise
+      designated in writing by the copyright owner as &quot;Not a Contribution.&quot;
+
+      &quot;Contributor&quot; shall mean Licensor and any individual or Legal Entity
+      on behalf of whom a Contribution has been received by Licensor and
+      subsequently incorporated within the Work.
+
+   2. Grant of Copyright License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      copyright license to reproduce, prepare Derivative Works of,
+      publicly display, publicly perform, sublicense, and distribute the
+      Work and such Derivative Works in Source or Object form.
+
+   3. Grant of Patent License. Subject to the terms and conditions of
+      this License, each Contributor hereby grants to You a perpetual,
+      worldwide, non-exclusive, no-charge, royalty-free, irrevocable
+      (except as stated in this section) patent license to make, have made,
+      use, offer to sell, sell, import, and otherwise transfer the Work,
+      where such license applies only to those patent claims licensable
+      by such Contributor that are necessarily infringed by their
+      Contribution(s) alone or by combination of their Contribution(s)
+      with the Work to which such Contribution(s) was submitted. If You
+      institute patent litigation against any entity (including a
+      cross-claim or counterclaim in a lawsuit) alleging that the Work
+      or a Contribution incorporated within the Work constitutes direct
+      or contributory patent infringement, then any patent licenses
+      granted to You under this License for that Work shall terminate
+      as of the date such litigation is filed.
+
+   4. Redistribution. You may reproduce and distribute copies of the
+      Work or Derivative Works thereof in any medium, with or without
+      modifications, and in Source or Object form, provided that You
+      meet the following conditions:
+
+      (a) You must give any other recipients of the Work or
+          Derivative Works a copy of this License; and
+
+      (b) You must cause any modified files to carry prominent notices
+          stating that You changed the files; and
+
+      (c) You must retain, in the Source form of any Derivative Works
+          that You distribute, all copyright, patent, trademark, and
+          attribution notices from the Source form of the Work,
+          excluding those notices that do not pertain to any part of
+          the Derivative Works; and
+
+      (d) If the Work includes a &quot;NOTICE&quot; text file as part of its
+          distribution, then any Derivative Works that You distribute must
+          include a readable copy of the attribution notices contained
+          within such NOTICE file, excluding those notices that do not
+          pertain to any part of the Derivative Works, in at least one
+          of the following places: within a NOTICE text file distributed
+          as part of the Derivative Works; within the Source form or
+          documentation, if provided along with the Derivative Works; or,
+          within a display generated by the Derivative Works, if and
+          wherever such third-party notices normally appear. The contents
+          of the NOTICE file are for informational purposes only and
+          do not modify the License. You may add Your own attribution
+          notices within Derivative Works that You distribute, alongside
+          or as an addendum to the NOTICE text from the Work, provided
+          that such additional attribution notices cannot be construed
+          as modifying the License.
+
+      You may add Your own copyright statement to Your modifications and
+      may provide additional or different license terms and conditions
+      for use, reproduction, or distribution of Your modifications, or
+      for any such Derivative Works as a whole, provided Your use,
+      reproduction, and distribution of the Work otherwise complies with
+      the conditions stated in this License.
+
+   5. Submission of Contributions. Unless You explicitly state otherwise,
+      any Contribution intentionally submitted for inclusion in the Work
+      by You to the Licensor shall be under the terms and conditions of
+      this License, without any additional terms or conditions.
+      Notwithstanding the above, nothing herein shall supersede or modify
+      the terms of any separate license agreement you may have executed
+      with Licensor regarding such Contributions.
+
+   6. Trademarks. This License does not grant permission to use the trade
+      names, trademarks, service marks, or product names of the Licensor,
+      except as required for reasonable and customary use in describing the
+      origin of the Work and reproducing the content of the NOTICE file.
+
+   7. Disclaimer of Warranty. Unless required by applicable law or
+      agreed to in writing, Licensor provides the Work (and each
+      Contributor provides its Contributions) on an &quot;AS IS&quot; BASIS,
+      WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or
+      implied, including, without limitation, any warranties or conditions
+      of TITLE, NON-INFRINGEMENT, MERCHANTABILITY, or FITNESS FOR A
+      PARTICULAR PURPOSE. You are solely responsible for determining the
+      appropriateness of using or redistributing the Work and assume any
+      risks associated with Your exercise of permissions under this License.
+
+   8. Limitation of Liability. In no event and under no legal theory,
+      whether in tort (including negligence), contract, or otherwise,
+      unless required by applicable law (such as deliberate and grossly
+      negligent acts) or agreed to in writing, shall any Contributor be
+      liable to You for damages, including any direct, indirect, special,
+      incidental, or consequential damages of any character arising as a
+      result of this License or out of the use or inability to use the
+      Work (including but not limited to damages for loss of goodwill,
+      work stoppage, computer failure or malfunction, or any and all
+      other commercial damages or losses), even if such Contributor
+      has been advised of the possibility of such damages.
+
+   9. Accepting Warranty or Additional Liability. While redistributing
+      the Work or Derivative Works thereof, You may choose to offer,
+      and charge a fee for, acceptance of support, warranty, indemnity,
+      or other liability obligations and/or rights consistent with this
+      License. However, in accepting such obligations, You may act only
+      on Your own behalf and on Your sole responsibility, not on behalf
+      of any other Contributor, and only if You agree to indemnify,
+      defend, and hold each Contributor harmless for any liability
+      incurred by, or claims asserted against, such Contributor by reason
+      of your accepting any such warranty or additional liability.
+
+   END OF TERMS AND CONDITIONS
+
+   APPENDIX: How to apply the Apache License to your work.
+
+      To apply the Apache License to your work, attach the following
+      boilerplate notice, with the fields enclosed by brackets &quot;[]&quot;
+      replaced with your own identifying information. (Don&#x27;t include
+      the brackets!)  The text should be enclosed in the appropriate
+      comment syntax for the file format. We also recommend that a
+      file or class name and description of purpose be included on the
+      same &quot;printed page&quot; as the copyright notice for easier
+      identification within third-party archives.
+
+   Copyright [yyyy] [name of copyright owner]
+
+   Licensed under the Apache License, Version 2.0 (the &quot;License&quot;);
+   you may not use this file except in compliance with the License.
+   You may obtain a copy of the License at
+
+       http://www.apache.org/licenses/LICENSE-2.0
+
+   Unless required by applicable law or agreed to in writing, software
+   distributed under the License is distributed on an &quot;AS IS&quot; BASIS,
+   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+   See the License for the specific language governing permissions and
+   limitations under the License.
+</pre></details><p class="fine">Copyright © 2026 Four Wags in its original app code and artwork. Third-party components and sounds keep their own terms.</p><details><summary>DM Sans font license</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">Copyright 2014 The DM Sans Project Authors (https://github.com/googlefonts/dm-fonts)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+https://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+&quot;Font Software&quot; refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+&quot;Reserved Font Name&quot; refers to any names specified as such after the
+copyright statement(s).
+
+&quot;Original Version&quot; refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+&quot;Author&quot; refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+</pre></details><details><summary>Fraunces font license</summary><pre style="white-space:pre-wrap;overflow-wrap:anywhere">Copyright 2018 The Fraunces Project Authors (https://github.com/undercasetype/Fraunces)
+
+This Font Software is licensed under the SIL Open Font License, Version 1.1.
+This license is copied below, and is also available with a FAQ at:
+http://scripts.sil.org/OFL
+
+
+-----------------------------------------------------------
+SIL OPEN FONT LICENSE Version 1.1 - 26 February 2007
+-----------------------------------------------------------
+
+PREAMBLE
+The goals of the Open Font License (OFL) are to stimulate worldwide
+development of collaborative font projects, to support the font creation
+efforts of academic and linguistic communities, and to provide a free and
+open framework in which fonts may be shared and improved in partnership
+with others.
+
+The OFL allows the licensed fonts to be used, studied, modified and
+redistributed freely as long as they are not sold by themselves. The
+fonts, including any derivative works, can be bundled, embedded,
+redistributed and/or sold with any software provided that any reserved
+names are not used by derivative works. The fonts and derivatives,
+however, cannot be released under any other type of license. The
+requirement for fonts to remain under this license does not apply
+to any document created using the fonts or their derivatives.
+
+DEFINITIONS
+&quot;Font Software&quot; refers to the set of files released by the Copyright
+Holder(s) under this license and clearly marked as such. This may
+include source files, build scripts and documentation.
+
+&quot;Reserved Font Name&quot; refers to any names specified as such after the
+copyright statement(s).
+
+&quot;Original Version&quot; refers to the collection of Font Software components as
+distributed by the Copyright Holder(s).
+
+&quot;Modified Version&quot; refers to any derivative made by adding to, deleting,
+or substituting -- in part or in whole -- any of the components of the
+Original Version, by changing formats or by porting the Font Software to a
+new environment.
+
+&quot;Author&quot; refers to any designer, engineer, programmer, technical
+writer or other person who contributed to the Font Software.
+
+PERMISSION &amp; CONDITIONS
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of the Font Software, to use, study, copy, merge, embed, modify,
+redistribute, and sell modified and unmodified copies of the Font
+Software, subject to the following conditions:
+
+1) Neither the Font Software nor any of its individual components,
+in Original or Modified Versions, may be sold by itself.
+
+2) Original or Modified Versions of the Font Software may be bundled,
+redistributed and/or sold with any software, provided that each copy
+contains the above copyright notice and this license. These can be
+included either as stand-alone text files, human-readable headers or
+in the appropriate machine-readable metadata fields within text or
+binary files as long as those fields can be easily viewed by the user.
+
+3) No Modified Version of the Font Software may use the Reserved Font
+Name(s) unless explicit written permission is granted by the corresponding
+Copyright Holder. This restriction only applies to the primary font name as
+presented to the users.
+
+4) The name(s) of the Copyright Holder(s) or the Author(s) of the Font
+Software shall not be used to promote, endorse or advertise any
+Modified Version, except to acknowledge the contribution(s) of the
+Copyright Holder(s) and the Author(s) or with their explicit written
+permission.
+
+5) The Font Software, modified or unmodified, in part or in whole,
+must be distributed entirely under this license, and must not be
+distributed under any other license. The requirement for fonts to
+remain under this license does not apply to any document created
+using the Font Software.
+
+TERMINATION
+This license becomes null and void if any of the above conditions are
+not met.
+
+DISCLAIMER
+THE FONT SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO ANY WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT
+OF COPYRIGHT, PATENT, TRADEMARK, OR OTHER RIGHT. IN NO EVENT SHALL THE
+COPYRIGHT HOLDER BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+INCLUDING ANY GENERAL, SPECIAL, INDIRECT, INCIDENTAL, OR CONSEQUENTIAL
+DAMAGES, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+FROM, OUT OF THE USE OR INABILITY TO USE THE FONT SOFTWARE OR FROM
+OTHER DEALINGS IN THE FONT SOFTWARE.
+</pre></details></div><p class="footer-note">ROUSE<br>Your calendar and settings stay on this device.<br>No account, analytics, or advertising.</p></section>
+<section id="appearance" class="page" hidden><button type="button" class="text-button" id="appearanceBack"><span data-ui-icon="back"></span> Settings</button><h1>Appearance</h1><p class="subtitle">19 shared Petal Key themes. Six familiar icons and three Rouse designs. Each choice saves automatically.</p><div class="panel"><h2>Icon design</h2><p>Pick a familiar shape or a Rouse design. Rouse icons stay the same across color themes.</p><div id="iconOptions" class="icon-options" role="group" aria-label="App icon design"></div><p id="iconStatus" class="fine" role="status"></p></div><div class="panel" id="customThemePanel"><div class="section-head"><h2>Your themes</h2><button type="button" class="text-button" id="newCustomTheme">＋ Create</button></div><p id="customThemesEmpty">Create a palette with your own colors and save it here.</p><div id="customThemeList"></div></div><div class="section-head"><h2>Color theme</h2><span class="eyebrow">19 PALETTES</span></div><p id="appearanceStatus" class="fine" role="status"></p><div id="themeOptions" class="theme-options" role="group" aria-label="Color theme"></div><p class="fine">Your phone’s launcher may take a moment to refresh the icon.</p></section>
 <section id="themeEditor" class="page" hidden><button type="button" class="text-button" id="editorBack"><span data-ui-icon="back"></span> Appearance</button><h1 id="editorHeading">Create theme</h1><p class="subtitle">Choose your colors and give your theme a name.</p><div id="themeUnsavedBar" class="unsaved-bar" role="status" hidden><strong>Changes not saved</strong><span>Save your theme before leaving this editor.</span><button type="submit" form="customThemeForm" class="primary">Save now</button></div><form id="customThemeForm" class="panel"><label for="customThemeName">Theme name</label><input id="customThemeName" maxlength="40" required value="My theme" autocomplete="off"><div class="color-field"><label for="colorBackground">Background</label><div><input type="color" id="colorBackground" value="#28262d"><input type="text" id="hexBackground" value="#28262D" maxlength="7" pattern="#[0-9A-Fa-f]{6}" aria-label="Background hex color" required spellcheck="false"></div></div><div class="color-field"><label for="colorPrimary">Main accent</label><div><input type="color" id="colorPrimary" value="#d89aaa"><input type="text" id="hexPrimary" value="#D89AAA" maxlength="7" pattern="#[0-9A-Fa-f]{6}" aria-label="Main accent hex color" required spellcheck="false"></div></div><div class="color-field"><label for="colorSecondary">Second accent</label><div><input type="color" id="colorSecondary" value="#a783a8"><input type="text" id="hexSecondary" value="#A783A8" maxlength="7" pattern="#[0-9A-Fa-f]{6}" aria-label="Second accent hex color" required spellcheck="false"></div></div><div class="color-field"><label for="colorText">Text</label><div><input type="color" id="colorText" value="#f4eadc"><input type="text" id="hexText" value="#F4EADC" maxlength="7" pattern="#[0-9A-Fa-f]{6}" aria-label="Text hex color" required spellcheck="false"></div></div><p class="fine">Panels and text adapt for readability. Your accent colors are kept in the in-app icon preview.</p><div id="customThemePreview" class="editor-preview"><img id="editorIcon" alt="Live preview of your chosen icon"><div><strong id="editorPreviewName">My theme</strong><small>A softer start.</small></div><div class="editor-alarm"><span>Snooze</span><strong>I’m up</strong></div></div><p id="customContrastNote" class="fine" role="status"></p><button type="submit" class="primary full" id="saveCustomTheme">Save &amp; use theme</button><button type="button" class="text-button full" id="cancelCustomTheme">Cancel</button></form></section>
 </main>
-<nav aria-label="Main navigation"><button data-page="today" aria-current="page"><span data-ui-icon="alarm" aria-hidden="true"></span>Alarms</button><button data-page="calendar"><span data-ui-icon="calendar" aria-hidden="true"></span>Calendar</button><button data-page="sounds"><span data-ui-icon="music" aria-hidden="true"></span>Sounds</button><button data-page="settings"><span data-ui-icon="settings" aria-hidden="true"></span>Settings</button></nav></div>
+</div>
 <div id="toast" role="status" aria-live="polite"></div>
 <dialog id="calendarRuleDialog"><form id="calendarRuleForm"><div class="section-head"><h2 id="calendarRuleHeading">Edit calendar</h2><button type="button" class="icon-button closeDialog" aria-label="Close"><span data-ui-icon="close"></span></button></div><input id="calendarRuleId" type="hidden"><label for="calendarRuleName">Name</label><input id="calendarRuleName" maxlength="60" required><label for="calendarRuleFilter">Only titles containing (optional)</label><input id="calendarRuleFilter" maxlength="120"><p class="fine">Leave blank for availability-only links. They contain no event titles.</p><label for="calendarRuleLead">Wake minutes before shifts</label><input id="calendarRuleLead" type="number" min="0" max="1440" required><label class="checkbox-line"><input id="calendarRuleAllDay" type="checkbox"> Set a time for all-day shifts</label><label for="calendarRuleTime">Actual start time for all-day shifts</label><input id="calendarRuleTime" type="time" value="08:00"><p id="calendarRuleAllDayHelp" class="all-day-rule-help" hidden>The calendar does not provide a shift start time. Enter the time work actually begins; your wake-up lead time is applied before it. No alarm is scheduled until you save this time.</p><p id="calendarRuleUnsaved" class="note" role="status" hidden>Changes not saved. Save calendar rules before closing.</p><button class="primary full" type="submit">Save calendar rules</button></form></dialog><dialog id="manualDialog"><form id="manualForm"><div class="section-head"><h2>A personal alarm</h2><button type="button" class="icon-button closeDialog" aria-label="Close"><span data-ui-icon="close"></span></button></div><label for="manualTitle">Name</label><input id="manualTitle" maxlength="120" placeholder="Time to wake up" value="Personal alarm" required><label for="manualAt">Date & time</label><input type="datetime-local" id="manualAt" required><button class="primary full" type="submit">Set alarm</button></form></dialog>
 <dialog id="confirmDialog"><h2 id="confirmTitle"></h2><p id="confirmText"></p><div class="dialog-actions"><button class="secondary" id="cancelConfirm">Cancel</button><button class="primary" id="yesConfirm">Disconnect</button></div></dialog>
-<dialog id="creditsDialog"><div class="section-head"><h2>Music & credits</h2><button class="icon-button closeDialog" aria-label="Close"><span data-ui-icon="close"></span></button></div><p>The music uses real performances from the Musopen DVD compilation, marked Public Domain Mark 1.0. The Gentle music section adds eight softer orchestral edits and eight new solo-piano movements, selected for steadier passages. All 54 music and nature recordings now have balanced levels, reduced swells and two-second crossfaded loop joins. The six nature sounds use CC0 recordings. Every selection includes its source, recordist or performer, and license below. Full edit details are bundled in credits.txt.</p><p>The 12 standard alarm tones were created for Petal Wake and released under CC0 1.0.</p><div id="creditsList"></div><p class="fine">Calendar parsing: biweekly 0.6.8 (BSD 2-Clause), vinnie 2.0.2 (BSD 2-Clause), Google recurrence code (Apache 2.0). Full notices are included with the source.</p></dialog>
+<dialog id="creditsDialog"><div class="section-head"><h2>Music & credits</h2><button class="icon-button closeDialog" aria-label="Close"><span data-ui-icon="close"></span></button></div><p>The music uses real performances from the Musopen DVD compilation, marked Public Domain Mark 1.0. The Gentle music section adds eight softer orchestral edits and eight new solo-piano movements, selected for steadier passages. All 54 music and nature recordings now have balanced levels, reduced swells and two-second crossfaded loop joins. The six nature sounds use CC0 recordings. Every selection includes its source, recordist or performer, and license below. Full edit details are bundled in credits.txt.</p><p>The 12 standard alarm tones were created for Rouse and released under CC0 1.0.</p><div id="creditsList"></div><p class="fine">Calendar parsing: biweekly 0.6.8 (BSD 2-Clause), vinnie 2.0.2 (MIT), Google recurrence code (Apache 2.0). Full notices are included with the source.</p></dialog>
 </body></html>

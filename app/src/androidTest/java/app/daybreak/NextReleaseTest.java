@@ -20,6 +20,9 @@ public class NextReleaseTest extends Instrumentation {
         JSONArray changes=ShiftChanges.diff(old,updated,now);
         check(changes.length()==3,"Moved, canceled, and added wake-ups are identified; skipped shifts are ignored");
         check(ShiftChanges.diff(updated,updated,now).length()==0,"Unchanged feeds do not create shift notices");
+        JSONArray sameAlarmOld=new JSONArray().put(new JSONObject().put("id","availability:old-end").put("at",tomorrow));
+        JSONArray sameAlarmNew=new JSONArray().put(new JSONObject().put("id","availability:new-end").put("at",tomorrow));
+        check(ShiftChanges.diff(sameAlarmOld,sameAlarmNew,now).length()==0,"A changed calendar event ID with the same wake-up time does not announce a new alarm");
         String privateUrl="https://secret.example/work?token=private-calendar-key";
         Store.p(c).edit().putString("url",privateUrl).putString("source","Shared calendar link").putBoolean("enabled",false).putInt("volume",80).commit();
         Store.put(c,"manual",new JSONObject().put("private","alarm"));AlarmHistory.record(c,"scheduled",new JSONObject().put("kind","shift").put("title","Sensitive work title").put("at",tomorrow));

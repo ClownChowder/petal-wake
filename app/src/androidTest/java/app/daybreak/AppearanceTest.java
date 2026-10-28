@@ -1,4 +1,6 @@
 package app.daybreak;
+
+import dev.fourwags.rouse.R;
 import android.app.*;
 import android.content.*;
 import android.content.pm.*;
@@ -37,17 +39,20 @@ public class AppearanceTest extends Instrumentation {
     private int background(Button b){return ((GradientDrawable)((RippleDrawable)b.getBackground()).getDrawable(0)).getColor().getDefaultColor();}
     private Map<String,Object> preserved(Context c){Map<String,?> all=Store.p(c).getAll();Map<String,Object> selected=new HashMap<>();for(String key:new String[]{"url","source","enabled","lead","filter","snooze","volume","fade","vibrate","sound","allDayEnabled","allDayMinutes","manual","scheduled","snoozes"})selected.put(key,all.get(key));return selected;}
     @Override public void onStart(){Bundle result=new Bundle();try{
-        Context c=getTargetContext();launch();check(Appearance.current(c)==Appearance.ROSE&&Appearance.icon(c).equals("petal"),"Upgrade preserves Rose & Ivory and defaults to the previously selected Petal icon");
+        Context c=getTargetContext();FourWagsWakeIcon.skip(c);launch();
+        boolean preservedUpgrade=Appearance.current(c)==Appearance.ROSE&&Appearance.icon(c).equals("petal");
+        boolean freshDefault="shiba_black_tan".equals(Appearance.current(c).id)&&"rouse_c".equals(Appearance.icon(c));
+        check(preservedUpgrade||freshDefault,"Upgrade preserves its old icon; new installs default to the Shiba alarm icon");
         js("page('settings');document.getElementById('openAppearance').click()");check("true".equals(js("!document.getElementById('appearance').hidden&&document.querySelector('nav [data-page=settings]').getAttribute('aria-current')==='page'")),"Settings opens a dedicated Appearance screen with Settings navigation selected");
-        check("16".equals(js("document.querySelectorAll('.theme-option').length"))&&"6".equals(js("document.querySelectorAll('.icon-option').length")),"Exactly 16 themes and all six original icon designs are available");capture("twenty-picker-rose");
+        check(("\""+Appearance.ALL.length+"\"").equals(js("String(document.querySelectorAll('.theme-option').length)"))&&("\""+Appearance.ICONS.length+"\"").equals(js("String(document.querySelectorAll('.icon-option').length)")),"All themes and icon designs are available");capture("twenty-picker-rose");
         Map<String,Object> before=preserved(c);js("document.getElementById('lead').value='37';document.getElementById('lead').dispatchEvent(new Event('input',{bubbles:true}))");
         for(Appearance p:Appearance.ALL){
             for(String shape:Appearance.ICONS){select(p,shape);if(!launcherMatches(p,shape)||!renderedMatches(p,shape))throw new Exception("Theme/icon mismatch: "+p.id+"/"+shape);combinations++;}
-            check(true,"All six shapes use the correct single Android launcher icon and rendered palette: "+p.id);
+            check(true,"All icon shapes use one Android launcher and the rendered palette: "+p.id);
             if(Arrays.asList("navy","rose","ocean","lavender","forest","graphite").contains(p.id)){js("window.scrollTo(0,0)");capture("twenty-"+p.id);}
         }
-        check(combinations==96,"All 96 theme and launcher-icon combinations passed");check("\"37\"".equals(js("document.getElementById('lead').value")),"Theme and icon changes preserve unsaved alarm preferences");check(before.equals(preserved(c)),"All saved calendar, alarm and playback preferences remain unchanged");
-        boolean[] rejected={false};runOnMainSync(()->{try{Appearance.chooseIcon(c,"../unknown");}catch(IllegalArgumentException expected){rejected[0]=true;}});check(rejected[0]&&Appearance.icon(c).equals("calendar"),"Unknown icon choices are rejected without changing the selection");
+        check(combinations==Appearance.ALL.length*Appearance.ICONS.length,"Every theme and launcher-icon combination passed");check("\"37\"".equals(js("document.getElementById('lead').value")),"Theme and icon changes preserve unsaved alarm preferences");check(before.equals(preserved(c)),"All saved calendar, alarm and playback preferences remain unchanged");
+        boolean[] rejected={false};runOnMainSync(()->{try{Appearance.chooseIcon(c,"../unknown");}catch(IllegalArgumentException expected){rejected[0]=true;}});check(rejected[0]&&Appearance.icon(c).equals(Appearance.ICONS[Appearance.ICONS.length-1]),"Unknown icon choices are rejected without changing the selection");
         runOnMainSync(activity::finish);
         ActivityMonitor monitor=addMonitor(MainActivity.class.getName(),null,false);Appearance saved=Appearance.current(c);String savedShape=Appearance.icon(c);
         c.startActivity(new Intent(Intent.ACTION_MAIN).addCategory(Intent.CATEGORY_LAUNCHER).setComponent(new ComponentName(c.getPackageName(),"app.daybreak."+saved.launcher(savedShape))).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
@@ -55,7 +60,7 @@ public class AppearanceTest extends Instrumentation {
         Store.put(c,"current",new JSONObject().put("title","Morning work shift"));Activity ring=startActivitySync(new Intent(c,RingActivity.class).addFlags(Intent.FLAG_ACTIVITY_NEW_TASK));
         for(Appearance p:Appearance.ALL){runOnMainSync(()->Appearance.choose(c,p.id));await(()->background(button(ring,0))==p.surface&&background(button(ring,1))==p.action,5);if(button(ring,0).getCurrentTextColor()!=p.text||button(ring,1).getCurrentTextColor()!=p.onAction)throw new Exception("Alarm text colors: "+p.id);}
         check(true,"Native full-screen alarm recolors correctly across all 16 themes");runOnMainSync(()->Appearance.choose(c,"ocean"));Thread.sleep(200);capture("twenty-ring-light");runOnMainSync(()->Appearance.choose(c,"rose"));Thread.sleep(200);capture("twenty-ring-dark");runOnMainSync(ring::finish);Store.put(c,"current",new JSONObject());
-        js("send('state');page('settings');document.getElementById('testAlarm').click()");await(()->Store.object(c,"manual").length()>0,5);js("page('appearance')");select(Appearance.NAVY,"moon");select(Appearance.ALL[15],"dawn");await(()->Store.object(c,"current").length()>0,22);check(true,"Native exact alarm fires after changing both theme and icon while armed");
+        js("send('state');page('settings');document.getElementById('testAlarm').click()");await(()->Store.object(c,"testAlarms").length()>0,5);js("page('appearance')");select(Appearance.NAVY,"moon");select(Appearance.ALL[15],"dawn");await(()->Store.object(c,"current").length()>0,22);check(true,"Native exact alarm fires after changing both theme and icon while armed");
         var nm=(NotificationManager)c.getSystemService(Context.NOTIFICATION_SERVICE);await(()->nm.getActiveNotifications().length==1&&nm.getActiveNotifications()[0].getNotification().color==Appearance.current(c).surface,5);check(true,"Alarm notification uses the selected light theme");runOnMainSync(()->Appearance.choose(c,"rose"));await(()->nm.getActiveNotifications()[0].getNotification().color==Appearance.ROSE.surface,5);check(AlarmService.playbackPercent()>0,"Notification recolors from light to dark without interrupting native playback");c.startService(new Intent(c,AlarmService.class).setAction("STOP"));await(()->Store.object(c,"current").length()==0,5);
         runOnMainSync(()->Appearance.chooseIcon(c,"petal"));js("send('state');page('appearance');document.getElementById('appearanceBack').click()");check("true".equals(js("!document.getElementById('settings').hidden")),"Appearance back button returns to Settings");
         result.putString("summary",checks+" appearance checks passed; "+combinations+" launcher/theme combinations verified");finish(Activity.RESULT_OK,result);

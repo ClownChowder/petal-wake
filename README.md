@@ -1,10 +1,12 @@
-# Petal Wake
+# Rouse
 
-Petal Wake is an Android alarm app that schedules work wake-ups from shared iCalendar feeds and offers gentle recorded music and nature sounds. This source tree is version **0.1.37** (Android version code 38).
+Rouse means to awaken or stir into activity. The name fits an alarm that helps a workday begin gently.
 
-Version 0.1.37 is a preview with safer linked-audio fallback and background calendar refresh. Check the [GitHub releases page](https://github.com/FourWags/petal-wake/releases) for the published APK and verification notes. The compatible optional orchestra pack remains available from the [v0.1.23 release](https://github.com/FourWags/petal-wake/releases/tag/v0.1.23).
+Rouse is an Android alarm app that schedules work wake-ups from shared iCalendar feeds and offers gentle recorded music and nature sounds. This source release is version **0.1.40** (Android version code 41), with the Schedule Rail interface.
 
-See [README.txt](README.txt) for setup, calendar sharing, features, practical limits, and testing notes. See [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt) and [CREDITS.txt](CREDITS.txt) for audio and upstream attribution.
+Check the [GitHub releases page](https://github.com/FourWags/petal-wake/releases) for the published APK and verification notes. The compatible optional orchestra pack remains available from the [v0.1.23 release](https://github.com/FourWags/petal-wake/releases/tag/v0.1.23).
+
+See [README.txt](README.txt) for setup, calendar sharing, features, practical limits, and testing notes. Four Wags original materials are proprietary; see [LICENSE](LICENSE). Third-party terms and audio provenance are in [THIRD_PARTY_COMPONENTS.md](THIRD_PARTY_COMPONENTS.md), [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt), and [CREDITS.txt](CREDITS.txt).
 
 ## Obtainium
 

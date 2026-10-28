@@ -1,4 +1,6 @@
 package app.daybreak;
+
+import dev.fourwags.rouse.R;
 import android.app.*;
 import android.content.*;
 import android.content.pm.ServiceInfo;
@@ -92,7 +94,7 @@ public class AlarmService extends Service {
         String guidance=testOnly?"Test alarm sounding · choose Stop test to finish"
             :access!=null&&access.isEnabled()?(fallbackActive?"Backup alert sounding · choose I’m up to confirm dismissal":"Time to wake up · choose I’m up to confirm or Snooze")
             :(fallbackActive?"Backup alert sounding · hold I’m up to dismiss":"Time to wake up · hold I’m up to dismiss or tap Snooze");
-        return new Notification.Builder(this,CHANNEL).setSmallIcon(app.daybreak.R.drawable.ic_alarm_notification).setColor(Appearance.current(this).surface).setColorized(true).setOnlyAlertOnce(true).setContentTitle(title).setContentText(guidance).setCategory(Notification.CATEGORY_ALARM).setVisibility(Store.p(this).getBoolean("privateLockScreen",true)?Notification.VISIBILITY_PRIVATE:Notification.VISIBILITY_PUBLIC).setPublicVersion(new Notification.Builder(this,CHANNEL).setSmallIcon(R.drawable.ic_alarm_notification).setContentTitle("Petal Wake alarm").setContentText("Alarm sounding").build()).setOngoing(true).setContentIntent(full).setFullScreenIntent(full,true)
+        return new Notification.Builder(this,CHANNEL).setSmallIcon(R.drawable.ic_alarm_notification).setColor(Appearance.current(this).surface).setColorized(true).setOnlyAlertOnce(true).setContentTitle(title).setContentText(guidance).setCategory(Notification.CATEGORY_ALARM).setVisibility(Store.p(this).getBoolean("privateLockScreen",true)?Notification.VISIBILITY_PRIVATE:Notification.VISIBILITY_PUBLIC).setPublicVersion(new Notification.Builder(this,CHANNEL).setSmallIcon(R.drawable.ic_alarm_notification).setContentTitle("Petal Wake alarm").setContentText("Alarm sounding").build()).setOngoing(true).setContentIntent(full).setFullScreenIntent(full,true)
             .addAction(new Notification.Action.Builder(null,"Snooze",action("SNOOZE")).build())
             .addAction(new Notification.Action.Builder(null,testOnly?"Stop test":"I’m up",testOnly?action("STOP_TEST"):full).build()).build();
     }

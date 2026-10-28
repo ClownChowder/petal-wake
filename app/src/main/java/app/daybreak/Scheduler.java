@@ -1,4 +1,6 @@
 package app.daybreak;
+
+import dev.fourwags.rouse.R;
 import android.app.*;
 import android.content.*;
 import android.net.Uri;
@@ -21,7 +23,7 @@ public final class Scheduler {
         PendingIntent pi=operation(c,id,PendingIntent.FLAG_NO_CREATE);
         if(pi!=null){((AlarmManager)c.getSystemService(Context.ALARM_SERVICE)).cancel(pi);pi.cancel();}
     }
-    public static synchronized void reconcile(Context c,JSONObject desired)throws Exception {
+    public static synchronized void reconcile(Context c,JSONObject desired,boolean forceRearm)throws Exception {
         // Sync may have assembled a snapshot before a snooze, personal alarm, or
         // test was cancelled on another executor. Recheck at the install boundary.
         JSONObject live=new JSONObject();
@@ -41,9 +43,14 @@ public final class Scheduler {
         }}
         if(allowed(c))for(Iterator<String> it=desired.keys();it.hasNext();) {
             String id=it.next();JSONObject a=desired.getJSONObject(id);
+            JSONObject prior=old.optJSONObject(id);
+            if(!forceRearm&&prior!=null&&prior.optLong("at")==a.optLong("at")
+                    &&operation(c,id,PendingIntent.FLAG_NO_CREATE)!=null){
+                installed.put(id,a);continue;
+            }
             Intent show=new Intent(c,MainActivity.class).setData(Uri.parse("daybreak://show/"+Uri.encode(id)));
             PendingIntent display=PendingIntent.getActivity(c,0,show,PendingIntent.FLAG_UPDATE_CURRENT|PendingIntent.FLAG_IMMUTABLE);
-            try {m.setAlarmClock(new AlarmManager.AlarmClockInfo(a.getLong("at"),display),operation(c,id,PendingIntent.FLAG_UPDATE_CURRENT));installed.put(id,a);JSONObject prior=old.optJSONObject(id);if(prior==null||prior.optLong("at")!=a.optLong("at"))AlarmHistory.record(c,"scheduled",a);}
+            try {m.setAlarmClock(new AlarmManager.AlarmClockInfo(a.getLong("at"),display),operation(c,id,PendingIntent.FLAG_UPDATE_CURRENT));installed.put(id,a);if(prior==null||prior.optLong("at")!=a.optLong("at"))AlarmHistory.record(c,"scheduled",a);}
             catch(SecurityException e){Store.error(c,"Allow Alarms & reminders in Android settings.");break;}
         }
         Store.put(c,"scheduled",installed);

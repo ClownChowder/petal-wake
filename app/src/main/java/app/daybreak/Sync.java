@@ -37,7 +37,8 @@ public final class Sync {
         Store.setUrl(c,"");Store.p(c).edit().putString("source","Imported calendar file").putLong("lastSync",System.currentTimeMillis()).putString("error","").commit();CalendarConfidence.reset(c);run(c,false);
     }
     static void validate(String data){CalendarReader.read(data,System.currentTimeMillis()-DAY,System.currentTimeMillis()+60*DAY);}
-    public static void run(Context c,boolean fetch) {
+    public static void run(Context c,boolean fetch) {run(c,fetch,false);}
+    static void run(Context c,boolean fetch,boolean forceRearm) {
         var p=Store.p(c);long now=System.currentTimeMillis();String error="";boolean downloaded=false;JSONArray previousShifts=Store.array(c,"shifts");
         String primaryUrl=Store.url(c);
         if(fetch&&!primaryUrl.trim().isEmpty()) {
@@ -100,7 +101,7 @@ public final class Sync {
             for(Iterator<String> it=snoozes.keys();it.hasNext();) {String id=it.next();JSONObject a=snoozes.getJSONObject(id);if(a.optLong("at")>now)desired.put(id,a);}
             Store.put(c,"shifts",visible);p.edit().putInt("late",late).commit();
             Store.put(c,"calendarInfo",new JSONObject().put("events",totals.events).put("timed",totals.timed).put("allDay",totals.allDay).put("cancelled",totals.cancelled).put("missingStart",totals.missingStart).put("availability",totals.availability).put("upcomingTimed",upcomingTimed).put("upcomingAllDay",upcomingAllDay).put("filtered",filtered).put("needsTime",needsTimeCount).put("windowDays",60));
-            Scheduler.reconcile(c,desired);
+            Scheduler.reconcile(c,desired,forceRearm);
             if(downloaded&&p.getBoolean("enabled",false))ShiftChanges.publish(c,ShiftChanges.diff(previousShifts,visible,now));
         } catch(Exception e){error="Calendar could not be read. Existing alarms are kept. "+Store.safeError(e.getMessage());}
         Store.error(c,error);

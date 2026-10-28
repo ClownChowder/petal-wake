@@ -1,5 +1,7 @@
 package app.daybreak;
 
+import dev.fourwags.rouse.R;
+
 import android.app.*;
 import android.content.*;
 import android.os.*;

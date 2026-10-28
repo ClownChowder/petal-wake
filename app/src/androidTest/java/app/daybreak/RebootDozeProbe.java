@@ -23,6 +23,9 @@ public final class RebootDozeProbe extends Instrumentation {
             Store.put(c,"manual",new JSONObject().put(id,alarm));Sync.run(c,false);
             if(!Store.object(c,"scheduled").has(id))throw new Exception("Synthetic alarm was not scheduled");
             result.putString("summary","Scheduled "+id+" at "+at);result.putLong("at",at);
+        }else if("refresh".equals(phase)||"forceRefresh".equals(phase)){
+            Sync.run(c,false,"forceRefresh".equals(phase));
+            result.putString("summary","Ran "+phase+" against synthetic stored alarms");
         }else if("verify".equals(phase)){
             if(!Store.object(c,"ringing").has(id))throw new Exception("Synthetic alarm did not ring; scheduled="+Store.object(c,"scheduled").has(id)+" inFlight="+Store.object(c,"inFlight").has(id));
             result.putString("summary",id+" rang through normal AlarmReceiver and AlarmService");

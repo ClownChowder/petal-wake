@@ -1,4 +1,6 @@
 package app.daybreak;
+
+import dev.fourwags.rouse.R;
 import android.content.*;
 import android.content.pm.*;
 import android.graphics.Color;
@@ -24,10 +26,13 @@ public final class Appearance {
         keyPalette("marigold","Marigold Sail",R.style.Key_marigold,"#183455","#F1D95B","#FFE9A8","#FFF8F0"),
         keyPalette("coral","Coral Reef",R.style.Key_coral,"#EEAD94","#19515F","#313F70","#211B22"),
         keyPalette("chartreuse","Chartreuse Smoke",R.style.Key_chartreuse,"#354351","#C5D46E","#DCEAB1","#FFF8F0"),
-        keyPalette("amethyst","Amethyst Ice",R.style.Key_amethyst,"#67428A","#C4E4EF","#E3D1F3","#FFF8F0")};
+        keyPalette("amethyst","Amethyst Ice",R.style.Key_amethyst,"#67428A","#C4E4EF","#E3D1F3","#FFF8F0"),
+        shibaPalette("shiba_apricot","Apricot & Cream",R.style.Key_shiba_apricot),
+        shibaPalette("shiba_black_tan","Black & Tan",R.style.Key_shiba_black_tan),
+        shibaPalette("shiba_sesame","Sesame Dusk",R.style.Key_shiba_sesame)};
     public static final Appearance NAVY=builtin("navy"),ROSE=builtin("rose");
     private static Appearance builtin(String id){for(Appearance p:ALL)if(p.id.equals(id))return p;throw new IllegalArgumentException(id);}
-    public static final String[] ICONS={"petal","dawn","moon","bell","baton","calendar"};
+    public static final String[] ICONS={"petal","dawn","moon","bell","baton","calendar","rouse_a","rouse_b","rouse_c"};
     public final String id,name;
     public final int theme,background,surface,text,action,onAction,accent;
     public final boolean dark;
@@ -39,6 +44,11 @@ public final class Appearance {
     private static Appearance keyPalette(String id,String name,int style,String bg,String primary,String secondary,String text){
         ThemeColors colors=new ThemeColors(bg,primary,secondary,text);
         Appearance p=new Appearance(id,name,style,ThemeColors.luminance(bg)<.179,colors.background,colors.surface,colors.text,colors.primary,colors.actionText,colors.link);
+        p.customColors=colors;return p;
+    }
+    private static Appearance shibaPalette(String id,String name,int style){
+        ThemeColors colors=ThemeColors.shiba(id);
+        Appearance p=new Appearance(id,name,style,ThemeColors.luminance(colors.background)<.179,colors.background,colors.surface,colors.text,colors.primary,colors.actionText,colors.link);
         p.customColors=colors;return p;
     }
     private static String resolveId(String id){switch(id){case "lavender":return "violet";case "sand":return "arctic";case "peach":return "vermilion";case "plum":return "pistachio";case "graphite":return "navy";case "moonstone":return "rose";case "forest":return "sage";case "amber":return "marigold";case "cocoa":return "arctic";case "twilight":return "violet";case "mint":return "sage";case "terracotta":return "berry";case "copper":return "coral";case "mulberry":return "berry";case "lilacspruce":return "sage";case "jaderibbon":return "rose";case "raspberry":return "berry";case "skypapaya":return "cobalt";case "saffron":return "marigold";case "olive":return "sage";case "flamingo":return "rose";case "ochre":return "marigold";case "peony":return "blush";case "cherry":return "rose";default:return id;}}
@@ -62,24 +72,38 @@ public final class Appearance {
         JSONArray saved=Store.array(c,"customThemes"),next=new JSONArray();boolean found=false;for(int n=0;n<saved.length();n++){JSONObject item=saved.getJSONObject(n);if(id.equals(item.optString("id")))found=true;else next.put(item);}if(!found)throw new IllegalArgumentException("That custom theme no longer exists.");
         if(current(c).id.equals(id))choose(c,"rose");Store.put(c,"customThemes",next);
     }
-    public static Appearance launcherPalette(Appearance p){for(Appearance candidate:ALL)if(candidate.id.equals(p.id))return candidate;Appearance closest=ROSE;double distance=Double.MAX_VALUE;for(Appearance candidate:ALL){double score=0;int[] x={p.background,p.action},y={candidate.background,candidate.action};for(int k=0;k<x.length;k++)score+=Math.pow(Color.red(x[k])-Color.red(y[k]),2)+Math.pow(Color.green(x[k])-Color.green(y[k]),2)+Math.pow(Color.blue(x[k])-Color.blue(y[k]),2);if(score<distance){distance=score;closest=candidate;}}return closest;}
-    public static Appearance current(Context c){String id=Store.p(c).getString("appearance","rose");Appearance p=find(c,id);if(p!=null&&!p.id.equals(id)){Store.p(c).edit().putString("appearance",p.id).commit();syncLauncher(c);}return p==null?ROSE:p;}
+    public static Appearance launcherPalette(Appearance p){for(Appearance candidate:ALL)if(candidate.id.equals(p.id)&&!candidate.id.startsWith("shiba_"))return candidate;Appearance closest=ROSE;double distance=Double.MAX_VALUE;for(Appearance candidate:ALL){if(candidate.id.startsWith("shiba_"))continue;double score=0;int[] x={p.background,p.action},y={candidate.background,candidate.action};for(int k=0;k<x.length;k++)score+=Math.pow(Color.red(x[k])-Color.red(y[k]),2)+Math.pow(Color.green(x[k])-Color.green(y[k]),2)+Math.pow(Color.blue(x[k])-Color.blue(y[k]),2);if(score<distance){distance=score;closest=candidate;}}return closest;}
+    public static synchronized Appearance current(Context c){
+        var prefs=Store.p(c);
+        // A single atomic preference commit changes only the app theme and its migration marker.
+        ShibaThemeMigration.apply(prefs);
+        String id=prefs.getString("appearance","shiba_black_tan");
+        Appearance p=find(c,id);
+        if(p!=null&&!p.id.equals(id)){prefs.edit().putString("appearance",p.id).commit();syncLauncher(c);}
+        return p==null?ROSE:p;
+    }
     public static String icon(Context c){String id=Store.p(c).getString("iconDesign","petal");return Arrays.asList(ICONS).contains(id)?id:"petal";}
     public String launcher(String icon){
         if(customColors!=null){Appearance closest=launcherPalette(this);return closest.launcherName(icon);}
         return launcherName(icon);
     }
     private String launcherName(String icon){
+        if(icon.startsWith("rouse_"))return "FourWagsIcon_"+icon.substring(6);
         if("petal".equals(icon)&&("navy".equals(id)||"rose".equals(id)))return title(id)+"Launcher";
         return title(id)+title(icon)+"Launcher";
     }
     private static String title(String id){return id.substring(0,1).toUpperCase(Locale.ROOT)+id.substring(1);}
-    public int iconResource(Context c,String shape){if(customColors!=null)return launcherPalette(this).bundledIcon(c,shape);return bundledIcon(c,shape);}
+    public int iconResource(Context c,String shape){
+        if("rouse_a".equals(shape))return R.mipmap.fw_rouse_a;
+        if("rouse_b".equals(shape))return R.mipmap.fw_rouse_b;
+        if("rouse_c".equals(shape))return R.mipmap.fw_rouse_c;if(customColors!=null)return launcherPalette(this).bundledIcon(c,shape);return bundledIcon(c,shape);}
     private int bundledIcon(Context c,String shape){return c.getResources().getIdentifier("ic_launcher_"+id+"_"+shape,"mipmap",c.getPackageName());}
     public static void choose(Context c,String id){if(find(c,id)==null)throw new IllegalArgumentException("Unknown theme.");save(c,id,icon(c));}
     public static void chooseIcon(Context c,String shape){if(!Arrays.asList(ICONS).contains(shape))throw new IllegalArgumentException("Unknown icon design.");save(c,current(c).id,shape);}
-    private static void save(Context c,String id,String shape){
-        var prefs=Store.p(c);String oldTheme=prefs.getString("appearance",null),oldIcon=prefs.getString("iconDesign",null);
+    private static synchronized void save(Context c,String id,String shape){
+        current(c);
+        var prefs=Store.p(c);
+        if(prefs.getInt(ShibaThemeMigration.MARKER,0)<1)throw new IllegalStateException("Could not record the one-time theme migration.");String oldTheme=prefs.getString("appearance",null),oldIcon=prefs.getString("iconDesign",null);
         if(!prefs.edit().putString("appearance",id).putString("iconDesign",shape).commit())throw new IllegalStateException("Could not save appearance.");
         try{syncLauncher(c);}catch(RuntimeException e){var editor=prefs.edit();if(oldTheme==null)editor.remove("appearance");else editor.putString("appearance",oldTheme);if(oldIcon==null)editor.remove("iconDesign");else editor.putString("iconDesign",oldIcon);editor.commit();syncLauncher(c);throw e;}
         AlarmService.appearanceChanged();c.sendBroadcast(new Intent(CHANGED).setPackage(c.getPackageName()));

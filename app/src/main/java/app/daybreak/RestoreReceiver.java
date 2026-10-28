@@ -9,7 +9,9 @@ public class RestoreReceiver extends BroadcastReceiver {
             boolean attention=false;
             try{if(Intent.ACTION_BOOT_COMPLETED.equals(action))attention=Scheduler.recoverMissedAfterBoot(c);}catch(Exception failure){attention=true;}
             try{Scheduler.recoverOutstanding(c);}catch(Exception failure){attention=true;}
-            try{Sync.run(c,false);}catch(Exception failure){attention=true;}
+            // Android may have discarded alarm registrations during reboot,
+            // replacement, clock changes, or an exact-alarm permission change.
+            try{Sync.run(c,false,true);}catch(Exception failure){attention=true;}
             try{SyncJob.install(c);}catch(Exception failure){attention=true;}
             if(attention)Scheduler.failureNotice(c);
         }finally{done.finish();}});

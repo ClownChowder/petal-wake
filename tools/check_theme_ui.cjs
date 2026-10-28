@@ -8,9 +8,9 @@ function fresh(){
  const app=fs.readFileSync(assets+'app.js','utf8');vm.runInContext(app.slice(0,app.indexOf('renderAppearanceOptions();applyAppearance')),c);
  return {c,elements,tokens,get};
 }
-let x=fresh(); const all=x.c.window.APPEARANCE.themes;assert.equal(all.length,16);
-for(const t of all){vm.runInContext(`applyAppearance('${t.id}','petal')`,x.c);assert.equal(x.get('themeSelect').value,t.id);assert.equal(x.tokens['--paper'],t.background);assert.equal(x.get('appearanceName').textContent,t.name);assert(x.get('brandMark').src.startsWith('data:image/svg+xml'));assert.equal((x.get('themeSelect').innerHTML.match(/<option /g)||[]).length,16);
- for(const shape of x.c.window.APPEARANCE.icons)assert(!vm.runInContext(`customIconSvg(appearanceCatalog.themes.find(t=>t.id==='${t.id}'),'${shape.id}')`,x.c).includes('{{'));
+let x=fresh(); const all=x.c.window.APPEARANCE.themes;assert.equal(all.length,19);
+for(const t of all){vm.runInContext(`applyAppearance('${t.id}','petal')`,x.c);assert.equal(x.get('themeSelect').value,t.id);assert.equal(x.tokens['--paper'],t.background);assert.equal(x.get('appearanceName').textContent,t.name);assert(x.get('brandMark').src.startsWith('data:image/svg+xml'));assert.equal((x.get('themeSelect').innerHTML.match(/<option /g)||[]).length,19);
+ for(const shape of x.c.window.APPEARANCE.icons){const icon=vm.runInContext(`customIconUrl(appearanceCatalog.themes.find(t=>t.id==='${t.id}'),'${shape.id}')`,x.c);if(shape.id.startsWith('rouse_'))assert.equal(icon,`icons/fourwags_${shape.id}.svg`);else assert(!decodeURIComponent(icon).includes('{{'));}
  const reopened=fresh();vm.runInContext(`applyAppearance('${t.id}','petal')`,reopened.c);assert.equal(reopened.get('themeSelect').value,t.id);assert.deepEqual(reopened.tokens,x.tokens);
 }
-console.log('PASS: 40 palette switches, 40 fresh-context restores from selected ID, dropdown labels/options, token resets, 240 SVG previews. Android relaunch persistence and visual rendering not tested.');
+console.log('PASS: 19 palette switches, 19 fresh-context restores from selected ID, dropdown labels/options, token resets, 171 icon previews including fixed Rouse designs. Android relaunch persistence and visual rendering not tested.');

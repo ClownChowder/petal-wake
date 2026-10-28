@@ -1,4 +1,6 @@
 package app.daybreak;
+
+import dev.fourwags.rouse.R;
 import android.app.*;import android.content.*;import android.os.*;import android.view.*;import android.webkit.*;import org.json.*;import java.util.*;import java.util.concurrent.*;
 /** Theme-only QA on an owned disposable emulator. Never schedules or fires an alarm. */
 public class KeyThemeQaTest extends Instrumentation {

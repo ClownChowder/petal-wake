@@ -272,6 +272,111 @@
         "functionShadow": "#AFA1BB"
       },
       "legacy_index": 38
+    },
+    {
+      "id": "shiba_apricot",
+      "name": "Apricot & Cream",
+      "keyboard": {
+        "surface": "#E8DEC8",
+        "key": "#EEE2CC",
+        "function": "#EFE4D0",
+        "ink": "#1C1B1A",
+        "hint": "#66594B",
+        "stripInk": "#1C1B1A",
+        "keyOutline": "#9E8B75",
+        "functionOutline": "#9E8B75",
+        "keyShadow": "#C9B69C",
+        "functionShadow": "#C9B69C"
+      },
+      "legacy_index": 42,
+      "shiba": {
+        "id": "shiba_apricot",
+        "name": "Apricot & Cream",
+        "background": "#E8DEC8",
+        "surface": "#F6EFE2",
+        "elevated": "#EFE4D0",
+        "key": "#EEE2CC",
+        "foreground": "#1C1B1A",
+        "muted": "#66594B",
+        "border": "#9E8B75",
+        "accent": "#D98242",
+        "strong": "#97451D",
+        "track": "#C9B69C",
+        "error": "#AC3535",
+        "warning": "#775519",
+        "success": "#246448",
+        "dark": false
+      }
+    },
+    {
+      "id": "shiba_black_tan",
+      "name": "Black & Tan",
+      "keyboard": {
+        "surface": "#1C1B1A",
+        "key": "#3E3730",
+        "function": "#37312B",
+        "ink": "#F6EFE2",
+        "hint": "#CDBCA8",
+        "stripInk": "#F6EFE2",
+        "keyOutline": "#8F7D69",
+        "functionOutline": "#8F7D69",
+        "keyShadow": "#655444",
+        "functionShadow": "#655444"
+      },
+      "legacy_index": 43,
+      "shiba": {
+        "id": "shiba_black_tan",
+        "name": "Black & Tan",
+        "background": "#1C1B1A",
+        "surface": "#2B2825",
+        "elevated": "#37312B",
+        "key": "#3E3730",
+        "foreground": "#F6EFE2",
+        "muted": "#CDBCA8",
+        "border": "#8F7D69",
+        "accent": "#E2A56A",
+        "strong": "#E2A56A",
+        "track": "#655444",
+        "error": "#F39D98",
+        "warning": "#F4D17D",
+        "success": "#AED4AC",
+        "dark": true
+      }
+    },
+    {
+      "id": "shiba_sesame",
+      "name": "Sesame Dusk",
+      "keyboard": {
+        "surface": "#302822",
+        "key": "#574536",
+        "function": "#514136",
+        "ink": "#F6EFE2",
+        "hint": "#DBC3AB",
+        "stripInk": "#F6EFE2",
+        "keyOutline": "#AA8B70",
+        "functionOutline": "#AA8B70",
+        "keyShadow": "#6A5140",
+        "functionShadow": "#6A5140"
+      },
+      "legacy_index": 44,
+      "shiba": {
+        "id": "shiba_sesame",
+        "name": "Sesame Dusk",
+        "background": "#302822",
+        "surface": "#40352D",
+        "elevated": "#514136",
+        "key": "#574536",
+        "foreground": "#F6EFE2",
+        "muted": "#DBC3AB",
+        "border": "#AA8B70",
+        "accent": "#D98242",
+        "strong": "#E8A46F",
+        "track": "#6A5140",
+        "error": "#F39D98",
+        "warning": "#F4D17D",
+        "success": "#AED4AC",
+        "dark": true
+      }
     }
   ]
 }

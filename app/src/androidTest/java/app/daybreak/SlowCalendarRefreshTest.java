@@ -2,6 +2,7 @@ package app.daybreak;
 
 import android.app.Activity;
 import android.app.Instrumentation;
+import android.app.job.JobScheduler;
 import android.content.Context;
 import android.os.Bundle;
 import org.json.JSONArray;
@@ -45,6 +46,12 @@ public final class SlowCalendarRefreshTest extends Instrumentation {
     private void blockNext(){entered=new CountDownLatch(1);release=new CountDownLatch(1);slow=true;}
     private void saveQuickly(Future<?> action)throws Exception{action.get(2,TimeUnit.SECONDS);}
     @Override public void onStart(){Bundle result=new Bundle();Context c=getTargetContext();try{
+        // A freshly installed app can start its periodic refresh as this
+        // instrumentation begins. Drain it before installing the slow fixture.
+        c.getSystemService(JobScheduler.class).cancel(100);
+        DaybreakApp.IO.submit(()->{}).get(10,TimeUnit.SECONDS);
+        DaybreakApp.NETWORK_IO.submit(()->{}).get(10,TimeUnit.SECONDS);
+        DaybreakApp.IO.submit(()->{}).get(10,TimeUnit.SECONDS);
         fixtures();
         DaybreakApp.IO.submit(()->{try{
             JSONObject old=Store.object(c,"scheduled");for(java.util.Iterator<String> ids=old.keys();ids.hasNext();)Scheduler.cancel(c,ids.next());
@@ -52,15 +59,23 @@ public final class SlowCalendarRefreshTest extends Instrumentation {
             Sync.connect(c,"https://fixture.invalid/primary.ics");CalendarSources.add(c,"Second","https://fixture.invalid/extra.ics");
         }catch(Exception error){throw new RuntimeException(error);}}).get(10,TimeUnit.SECONDS);
         if(Store.array(c,"shifts").length()!=2)throw new Exception("Synthetic calendars did not connect.");
+        java.lang.reflect.Field refreshField=CalendarRefresh.class.getDeclaredField("inProgress");
+        refreshField.setAccessible(true);
+        java.util.concurrent.atomic.AtomicBoolean refreshBusy=(java.util.concurrent.atomic.AtomicBoolean)refreshField.get(null);
+        long idleDeadline=System.currentTimeMillis()+10_000L;
+        while(refreshBusy.get()&&System.currentTimeMillis()<idleDeadline)Thread.sleep(50);
+        if(refreshBusy.get())throw new Exception("Startup calendar refresh did not become idle.");
+        extraRequests.set(0);
         String extraId=CalendarSources.extras(c).getJSONObject(0).getString("id");
         blockNext();CountDownLatch done=new CountDownLatch(1);
-        if(!CalendarRefresh.request(c,()->true,done::countDown)||!entered.await(5,TimeUnit.SECONDS))throw new Exception("Slow refresh did not start.");
+        if(!CalendarRefresh.request(c,()->true,done::countDown))throw new Exception("A separate calendar refresh was already in progress.");
+        if(!entered.await(5,TimeUnit.SECONDS))throw new Exception("The calendar network worker did not enter the slow fixture.");
         saveQuickly(DaybreakApp.IO.submit(()->{Store.p(c).edit().putInt("lead",47).commit();Sync.run(c,false);}));
         saveQuickly(DaybreakApp.IO.submit(()->{try{CalendarSources.remove(c,extraId);}catch(Exception error){throw new RuntimeException(error);}}));
         release.countDown();if(!done.await(10,TimeUnit.SECONDS))throw new Exception("Slow refresh did not finish.");
         JSONArray shifts=Store.array(c,"shifts");
-        if(CalendarSources.extras(c).length()!=0||shifts.length()!=1||shifts.getJSONObject(0).optInt("leadMinutes")!=47||extraRequests.get()!=1)
-            throw new Exception("Refresh restored a removed source or overwrote saved settings.");
+        if(CalendarSources.extras(c).length()!=0||shifts.length()!=1||shifts.getJSONObject(0).optInt("leadMinutes")!=47||extraRequests.get()!=0)
+            throw new Exception("Refresh restored a removed source or overwrote saved settings: extras="+CalendarSources.extras(c).length()+" shifts="+shifts.length()+" lead="+shifts.getJSONObject(0).optInt("leadMinutes")+" requests="+extraRequests.get());
         slow=false;responseCode=403;done=new CountDownLatch(1);CountDownLatch failed=done;
         if(!CalendarRefresh.request(c,()->true,failed::countDown)||!done.await(5,TimeUnit.SECONDS))throw new Exception("Failed refresh did not finish.");
         if(Store.array(c,"shifts").length()!=1||!"failed".equals(CalendarConfidence.snapshot(c).optString("status")))

@@ -9,10 +9,10 @@ def luminance(h):
  return sum((x/12.92 if x<=.04045 else ((x+.055)/1.055)**2.4)*w for x,w in zip(v,[.2126,.7152,.0722]))
 for t in palettes:
  k=t['keyboard'];bg=k['surface'];primary=k['key'];secondary=k['function'];text=k['stripInk'];id=t['id'];name=t['name']
- entries.append(f'keyPalette("{id}",{json.dumps(name)},R.style.Key_{id},"{bg}","{primary}","{secondary}","{text}")')
+ entries.append(f'keyPalette("{id}",{json.dumps(name)},R.style.Key_{id},"{bg}","{primary}","{secondary}","{text}")' if not id.startswith('shiba_') else f'shibaPalette("{id}",{json.dumps(name)},R.style.Key_{id})')
  parent='AppTheme' if luminance(bg)<.179 else 'AppTheme.Light'
  styles.append(f'<style name="Key_{id}" parent="{parent}"><item name="android:windowBackground">{bg}</item><item name="android:colorBackground">{bg}</item><item name="android:textColorPrimary">{text}</item><item name="android:colorAccent">{primary}</item><item name="android:textColorSecondary">{text}</item></style>')
- catalog.append(dict(id=id,name=name,background=bg,primary=primary,secondary=secondary,preferredText=text))
+ catalog.append(dict(id=id,name=name,background=bg,primary=primary,secondary=secondary,preferredText=text,**({'shiba':t['shiba']} if 'shiba' in t else {})))
 s=re.sub(r'public static final Appearance\[\] ALL=\{.*?\};','public static final Appearance[] ALL={'+',\n        '.join(entries)+'};',s,flags=re.S)
 f.write_text(s)
 (a/'res/values/key_themes.xml').write_text('<resources>'+''.join(styles)+'</resources>')
