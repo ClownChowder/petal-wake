@@ -36,14 +36,14 @@ VERSION 0.1.35 — TWO PHONE ALARM VOLUME CONTROLS (LOCAL CANDIDATE)
 - This candidate is undergoing v1 reliability, accessibility, device, and signing checks. It is not the published Obtainium update until release evidence is recorded.
 
 VERSION 0.1.32 — CLEAR MAXIMUM ALARM VOLUME
-- The Wake-up screen labels its Android alarm-volume slider as Maximum phone alarm volume and displays the actual phone step plus an approximate percentage. Move it left to limit how loud Petal Wake gets. With gradual rise off, the alarm starts at that level; with gradual rise on, it stops there. The setting changes the real Android alarm stream immediately and also affects other alarm apps. Android’s volume steps mean percentages are approximate.
+- The Wake-up screen labels its Android alarm-volume slider as Maximum phone alarm volume and displays the actual phone step plus an approximate percentage. Move it left to limit how loud Rouse gets. With gradual rise off, the alarm starts at that level; with gradual rise on, it stops there. The setting changes the real Android alarm stream immediately and also affects other alarm apps. Android’s volume steps mean percentages are approximate.
 - The separate Rise starts at control remains available; if the chosen start would exceed the selected maximum, the alarm starts at the maximum. This version is a local candidate until it is verified and published.
 
 VERSION 0.1.31 — EDITOR SAVES, READINESS AND PHONE ALARM VOLUME
 - Calendar-rule and custom-theme editors show unsaved changes and keep them onscreen when you tap Back, Close, Cancel, or another page. Calendar rules close only after Android confirms the save; a failed save keeps the edits ready to correct and retry.
 - Alarm-readiness checks now include upcoming personal alarms when work alarms are off. A phone setting that prevents a personal alarm can trigger the same generic warning without revealing the alarm title.
 - Wake-up Settings now have one Phone alarm volume slider that changes Android’s actual alarm stream and shows its measured step. Gradual alarm rise has a separate duration and a selectable starting percentage of the phone’s full alarm-volume range (10–100%). If the start would exceed the selected end level, it starts at the end level. The real 15-second test uses the same alarm audio path as scheduled alarms. A completed or interrupted rise returns the phone alarm stream to its selected level; a volume-key change during ringing takes precedence.
-- The old app playback gain and Quiet wake-up preset are retired from the visible Settings screen. Existing app gain settings migrate to full so the phone alarm slider is the audible level control. Android’s alarm stream is global: other alarm apps share the selected level and any rise while Petal Wake rings.
+- The old app playback gain and Quiet wake-up preset are retired from the visible Settings screen. Existing app gain settings migrate to full so the phone alarm slider is the audible level control. Android’s alarm stream is global: other alarm apps share the selected level and any rise while Rouse rings.
 - This preview is distributed as GitHub Latest for Obtainium. The app ID and signer remain unchanged.
 
 VERSION 0.1.30 — CLEAR SELECTIONS AND FULL-VOLUME START
@@ -71,15 +71,15 @@ VERSION 0.1.27 — WAKE RELIABILITY & PERSONAL AUDIO
 - Tomorrow's alarm preview recreates its Android notification channel before posting, so a fresh app-data state does not mark an unseen notice as sent.
 - The release retains the existing app ID and signing certificate for in-place Obtainium updates. Review your next wake time and phone permissions after updating.
 
-VERSION 0.1.26 — PETAL KEY THEME CONTRAST
-- The 16 curated Petal Key family palettes were already included. Appearance now names the actual selection count instead of the retired 40-theme count.
+VERSION 0.1.26 — SUMI THEME CONTRAST
+- The 16 curated Sumi family palettes were already included. Appearance now names the actual selection count instead of the retired 40-theme count.
 - The next-alarm card uses each palette's main color and a high-contrast text color. Navigation, section accents, panels, and sound selection have stronger visual hierarchy while preserving the selected theme and launcher icon.
 - Theme choices now show their background and two accent colors so they are easier to compare. Custom themes use the same updated layout.
 
 VERSION 0.1.25 — ALL-DAY CLARITY & STABILITY
 - Home and Calendar now flag every all-day work block with no alarm. The Set start time action opens the correct calendar, leaves the time blank, and requires the actual shift start time before saving. The import control remains available when the setup checklist is complete.
 - Audio-preview callbacks ignore released players; media, audio focus, wake locks, WebView, and receivers are cleaned up through their lifecycle. Background refresh jobs finish reliably and repeated foreground refresh requests are combined.
-- Petal Wake remains the app name and the six-petal clock remains the default icon. Appearance copy now refers to Petal Wake instead of Petal Key.
+- Rouse remains the app name and the six-petal clock remains the default icon. Appearance copy now refers to Rouse instead of Sumi.
 
 VERSION 0.1.24 — AVAILABILITY & PHONE MOVE
 - Availability-only iCalendar feeds with explicit busy intervals can now create work alarms. Free and tentative intervals are ignored, and overlapping busy intervals are combined. A work-only calendar is essential: the feed cannot distinguish work from other busy appointments.
@@ -89,14 +89,14 @@ VERSION 0.1.24 — AVAILABILITY & PHONE MOVE
 
 VERSION 0.1.23 — CALENDAR PRIVACY & SETUP
 - Calendar sharing links and downloaded .ics caches are encrypted with a device-bound Android Keystore key. Existing links and caches migrate in place when read. Already scheduled alarms stay scheduled if decryption fails; reconnect the calendar if Android has removed its key.
-- Calendar setup now recommends a dedicated work-only calendar and explains Proton sharing. Petal Wake 0.1.23 needed Full view to receive shift events; Limited view availability blocks were identified but not scheduled.
+- Calendar setup now recommends a dedicated work-only calendar and explains Proton sharing. Rouse 0.1.23 needed Full view to receive shift events; Limited view availability blocks were identified but not scheduled.
 - Replacing a link asks for confirmation and downloads the new calendar before saving it. After checking new shifts, revoke the old link in the calendar service. A saved link can be copied only after Android authentication, and the clipboard is marked sensitive.
 - Lock-screen privacy hides alarm details by default; it can be changed under Settings > Calendars & privacy. Settings are divided into Wake-up, Calendars & privacy, Appearance, and Diagnostics. A first-run checklist helps verify the next alarm.
 - The app's local WebView now uses a scoped HTTPS asset origin and main-frame, origin-checked messages rather than an all-frame JavaScript interface. The settings export remains private and now includes the lock-screen preference.
 - The existing APK signing certificate remains unchanged for Obtainium update compatibility. See RELEASE_SIGNING.md for the dedicated-key migration plan.
 
 VERSION 0.1.22 — ALARM SAFETY & SETTINGS
-- After a successful calendar download, changed, added, or removed future work wake-ups appear in local activity history. A private notification summarizes the changes while work alarms are enabled. A provider can still delay publishing a change; Petal Wake cannot detect it before the feed changes.
+- After a successful calendar download, changed, added, or removed future work wake-ups appear in local activity history. A private notification summarizes the changes while work alarms are enabled. A provider can still delay publishing a change; Rouse cannot detect it before the feed changes.
 - Optional unattended backup alert: after 5, 10, or 15 minutes without a response, the gentle selection changes to a full-volume standard ring. It is off by default. The phone's alarm volume still applies.
 - Recent activity lists scheduled, ringing, snoozed, dismissed, timed-out, and changed alarms. It stores no calendar links or event titles, keeps at most 100 entries for 30 days, and can be cleared in the app.
 - Settings can be saved to and restored from a JSON file with Android's document picker. Calendar links, calendar contents, personal alarms, and activity history are excluded. Reconnect calendars on a new phone and check Android permissions.
@@ -105,24 +105,24 @@ VERSION 0.1.22 — ALARM SAFETY & SETTINGS
 
 INSTALL & FIRST TEST
 1. Install petal-wake.apk from the GitHub release or update it through Obtainium. Android may ask you to allow installation from the browser or file manager you used. Requires Android 8.0 or newer with an updated Android System WebView.
-2. Open Petal Wake > Settings. Allow exact alarms, alarm notifications, and showing alarms on the lock screen. Increase your phone's alarm volume if it is muted. Check that Do Not Disturb allows alarms and that Android permits background activity for Petal Wake.
+2. Open Rouse > Settings. Allow exact alarms, alarm notifications, and showing alarms on the lock screen. Increase your phone's alarm volume if it is muted. Check that Do Not Disturb allows alarms and that Android permits background activity for Rouse.
 3. Tap "Try an alarm in 15 seconds", lock the phone, and verify that it rings. Test both I’m up and Snooze before relying on it for a work shift.
 4. Add your work calendar, review the displayed shifts and wake-up times, then enable Work alarms.
 
 CONNECT A WORK CALENDAR
-In Petal Wake > Calendar, select Proton, Google, Outlook, iCloud, Fastmail, Zoho, Nextcloud, Teamup, When I Work, Deputy, 7shifts, Planday, or Other. The app displays the steps for obtaining a live iCalendar link from the selected service. Paste the link into Calendar sharing link and review the downloaded shifts before enabling work alarms. Select Add as another calendar to connect up to five more feeds, each with its own name, title filter, wake-up lead time, and all-day shift time. The first calendar and its settings migrate in place on upgrade. Some work scheduling feeds are available only on the service's website, and some employers may disable sharing.
+In Rouse > Calendar, select Proton, Google, Outlook, iCloud, Fastmail, Zoho, Nextcloud, Teamup, When I Work, Deputy, 7shifts, Planday, or Other. The app displays the steps for obtaining a live iCalendar link from the selected service. Paste the link into Calendar sharing link and review the downloaded shifts before enabling work alarms. Select Add as another calendar to connect up to five more feeds, each with its own name, title filter, wake-up lead time, and all-day shift time. The first calendar and its settings migrate in place on upgrade. Some work scheduling feeds are available only on the service's website, and some employers may disable sharing.
 
 For a paid Proton account:
 - Open https://calendar.proton.me in a browser.
 - Settings > All settings > Calendars > select your WORK calendar.
 - Under "Share with anyone", create and copy a sharing link.
-- Paste it into Petal Wake > Calendar > Calendar sharing link.
+- Paste it into Rouse > Calendar > Calendar sharing link.
 - A calendar containing only work shifts is easiest: leave the title filter blank.
-- Choose Limited view for a work-only calendar if you want to hide event details. Each busy interval can become a work alarm, so do not include personal appointments. Leave title filtering blank. Full view also works and is needed for title filtering. Anyone holding the link can see the information exposed by that link; revoke unused links. Petal Wake encrypts the link on your phone and fetches the calendar directly; it does not send it to an app server.
+- Choose Limited view for a work-only calendar if you want to hide event details. Each busy interval can become a work alarm, so do not include personal appointments. Leave title filtering blank. Full view also works and is needed for title filtering. Anyone holding the link can see the information exposed by that link; revoke unused links. Rouse encrypts the link on your phone and fetches the calendar directly; it does not send it to an app server.
 
 For a free Proton account, or if you prefer files:
 - Export the work calendar from Proton Calendar's web Import/export settings.
-- In Petal Wake > Calendar, tap Import calendar file and select the .ics file.
+- In Rouse > Calendar, tap Import calendar file and select the .ics file.
 - File imports are snapshots, not live connections. Import a fresh file after every schedule change. Importing replaces the previous connection; replacing a connection with a link requires a successful download first.
 
 Official instructions:
@@ -155,17 +155,17 @@ MUSIC
 - Full recording sources, excerpt offsets, edits and licensing are in app/src/main/assets/credits.txt and the in-app Music sources & credits screen.
 
 LOOK & BRANDING
-The interface and alarm screen use Scribe-inspired dark navy, sapphire blue, teal and pale cream text. Petal Wake is the selected name, with the six-petal clock icon (option D), recolored charcoal, rose pink, mauve and warm ivory in the launcher and app header. Android adaptive and themed launcher icons are included. The native status-bar background matches the dark app, and the alarm screen is divided into full-width Snooze and I’m up halves. The application ID stays app.daybreak so this APK updates the existing app and preserves its settings.
+The interface and alarm screen use Scribe-inspired dark navy, sapphire blue, teal and pale cream text. Rouse is the selected name, with the six-petal clock icon (option D), recolored charcoal, rose pink, mauve and warm ivory in the launcher and app header. Android adaptive and themed launcher icons are included. The native status-bar background matches the dark app, and the alarm screen is divided into full-width Snooze and I’m up halves. The application ID stays app.daybreak so this APK updates the existing app and preserves its settings.
 
 PRACTICAL LIMITS
-- Petal Wake requests link updates approximately every 15 minutes and when opened. Android may delay background jobs.
+- Rouse requests link updates approximately every 15 minutes and when opened. Android may delay background jobs.
 - Proton says shared calendar changes can take up to EIGHT HOURS to appear. A successful download does not guarantee that Proton has published your latest edit. Check wake-up times after schedule changes, especially changes made shortly before a shift.
 - Failed downloads retain the previously downloaded calendar and alarms. Last successful download time and refresh errors are displayed.
 - Alarms already scheduled can ring without internet. New/changed shifts require a successful calendar update.
 - Calendar > Calendar check shows how many event records arrived, how many are all-day, and how many upcoming entries your title filter excluded. Copy calendar check copies counts only; it does not include your link, titles, UIDs, or event details.
-- Empty downloads and availability-only feeds have an explanation on the Calendar screen. Explicit busy intervals in availability-only feeds are treated as work. Petal Wake cannot identify which busy blocks represent work, so use a dedicated work-only calendar and confirm the resulting alarms.
+- Empty downloads and availability-only feeds have an explanation on the Calendar screen. Explicit busy intervals in availability-only feeds are treated as work. Rouse cannot identify which busy blocks represent work, so use a dedicated work-only calendar and confirm the resulting alarms.
 - A newly imported shift whose wake-up time is already in the past will not suddenly ring; the app flags it so you can add a personal alarm.
-- Alarms are restored after restarting and unlocking the phone. Force-stopping Petal Wake prevents alarms until it is opened again. Powering off the phone prevents Android alarms.
+- Alarms are restored after restarting and unlocking the phone. Force-stopping Rouse prevents alarms until it is opened again. Powering off the phone prevents Android alarms.
 - Some less common ICS forms (period-valued RDATE and RANGE=THISANDFUTURE overrides) are rejected with an error instead of partially scheduling them.
 - Automated calendar tests use fixture calendars rather than a real Proton account. Native alarm playback has also been verified on the attached Pixel phone. Device-specific battery controls and Do Not Disturb behavior still depend on your phone settings.
 
@@ -213,10 +213,10 @@ https://opengameart.org/content/rain-long-thunder
 These recordings are marked CC0 1.0. Complete credit and edit details are in the bundled credits.txt.
 
 NAME UPDATE (0.1.7)
-Petal Clock is now Petal Wake. The package ID and signing certificate are unchanged so this APK upgrades the existing app. The name is updated in Android’s launcher, the app header, ringing screen, setup messages and standard-tone credits. Existing calendar data, alarms, selected sound and playback preferences are preserved.
+Petal Clock is now Rouse. The package ID and signing certificate are unchanged so this APK upgrades the existing app. The name is updated in Android’s launcher, the app header, ringing screen, setup messages and standard-tone credits. Existing calendar data, alarms, selected sound and playback preferences are preserved.
 
 ICON PALETTE (0.1.9)
-The selected six-petal icon now follows Petal Key’s charcoal/rose/mauve/ivory direction: charcoal #28262D, rose #D89AAA, mauve #A783A8, warm ivory #F4EADC. Android launcher, adaptive icon and in-app brand mark use this palette.
+The selected six-petal icon now follows Sumi’s charcoal/rose/mauve/ivory direction: charcoal #28262D, rose #D89AAA, mauve #A783A8, warm ivory #F4EADC. Android launcher, adaptive icon and in-app brand mark use this palette.
 
 APPEARANCE PROFILES (0.1.9)
 Open Settings > Appearance. Each option saves immediately and updates the entire app, full-screen alarm, notification color and actual Android launcher icon together.
@@ -268,7 +268,7 @@ F. Calendar Song
 
 The 20 palettes include 11 night palettes and nine day palettes. Native alarm buttons, notification color, WebView controls, status and navigation backgrounds follow the theme. Text and main action color pairs were checked for at least 4.5:1 contrast.
 
-There are 120 bundled, offline launcher icon combinations. This is a chooser for the original six designs; it does not import arbitrary photos. The app is still named Petal Wake regardless of the chosen icon.
+There are 120 bundled, offline launcher icon combinations. This is a chooser for the original six designs; it does not import arbitrary photos. The app is still named Rouse regardless of the chosen icon.
 
 Your existing theme is preserved on upgrade and the current Petal icon remains selected by default. The calendar, alarms, music and playback preferences are preserved. The previous NavyLauncher and RoseLauncher component names are retained for the original Petal design. The launcher entry opens MainActivity in its own task before finishing, so later theme/icon changes do not close the running app or its alarm screen.
 Reference: https://developer.android.com/guide/components/activities/tasks-and-back-stack
@@ -296,7 +296,7 @@ Custom-theme integration test (owned disposable emulator ONLY):
   adb -s emulator-5554 shell am instrument -w app.daybreak.test/app.daybreak.CustomThemeTest
 This test changes emulator theme fixtures and runs an exact alarm. Do not run instrumentation on your personal phone.
 
-PETAL WAKE 0.1.13 — QUIET FOCUS
+ROUSE 0.1.13 — QUIET FOCUS
 
 Quiet Focus now guides the Alarms, Calendar, Sounds, Settings, Appearance, custom theme editor and dialogs. The app uses consistent sans-serif type, larger readable supporting text, restrained theme accents, clear line icons, solid surfaces and 44px or larger button targets. The header stays visible while scrolling.
 The next alarm is the main focus on Alarms, with its date, related shift start and wake-up lead time. Skip once skips that work alarm through Android's native scheduler. Restore in the work list brings it back. The home screen shows three additional work shifts; View all shifts opens Calendar for the complete list.
@@ -307,7 +307,7 @@ The ringing screen retains the full-screen Snooze and I'm up touch areas, with c
 Install over the existing app. Calendar, scheduled alarms, music and playback preferences are preserved.
 
 
-PETAL WAKE 0.1.14 — CALENDAR CONFIDENCE & GENTLER AUDIO
+ROUSE 0.1.14 — CALENDAR CONFIDENCE & GENTLER AUDIO
 
 CALENDAR CONFIDENCE
 The Alarms screen shows calendar download status and recency beside the next alarm. Tap it to open Calendar, where you can see the last successful download and last attempt. Download failure stays visible even when local alarm settings are changed. A successful download confirms receipt from Proton; publication delays can still affect whether a changed shift is included.
@@ -331,7 +331,7 @@ https://developer.android.com/develop/ui/compose/notifications/channels
 https://www.ffmpeg.org/ffmpeg-filters.html
 
 
-PETAL WAKE 0.1.15 — PROTECTED WORK ALARM SWITCH
+ROUSE 0.1.15 — PROTECTED WORK ALARM SWITCH
 
 Turning off Work alarms requires a fresh Android identity check. On Android 11 or newer, the system prompt accepts a supported strong fingerprint or face authenticator, or the phone's existing PIN, password, or pattern. Android 10 uses its system biometric/credential prompt. Android 8–9 use the phone's screen-lock confirmation.
 
@@ -339,7 +339,7 @@ The switch stays visibly on while authentication is pending. Canceling, incorrec
 
 Disconnecting the calendar while Work alarms is enabled requires the same identity check. Disconnecting an already paused calendar retains the usual confirmation.
 
-Petal Wake never receives or stores your PIN, fingerprint, or face data. Authentication is handled by Android. There is no separate Petal Wake PIN or reusable unlocked session.
+Rouse never receives or stores your PIN, fingerprint, or face data. Authentication is handled by Android. There is no separate Rouse PIN or reusable unlocked session.
 
 Turning Work alarms off pauses work alarms and retains the calendar link, downloaded shifts, and preferences. Personal alarms remain independent. Snooze, I'm up, and skipping one shift keep their existing behavior.
 
@@ -351,12 +351,12 @@ https://developer.android.com/reference/android/app/KeyguardManager
 
 0.1.17: sixteen approved family palettes, matching all six bundled launcher shapes; retired built-in IDs migrate, custom themes and other preferences remain.
 
-PETAL WAKE 0.1.18 — TWO-SECOND ALARM DISMISSAL
+ROUSE 0.1.18 — TWO-SECOND ALARM DISMISSAL
 
 The full-screen “I’m up” control now requires a two-second press and hold. A visible countdown bar shows progress; releasing early cancels dismissal and leaves the alarm ringing. Snooze remains a one-tap action.
 The notification’s “I’m up” action now opens the same alarm screen, so it cannot stop the alarm directly. The ongoing alarm notification explains the hold gesture.
 
-PETAL WAKE 0.1.19 — CALENDAR SERVICE GUIDE
+ROUSE 0.1.19 — CALENDAR SERVICE GUIDE
 
 The Calendar setup screen now provides a service menu with inline sharing-link directions for Proton Calendar, Google Calendar, Outlook, Apple iCloud Calendar, and other calendar or work scheduling apps. The link connector accepts standard secure iCalendar subscription URLs from those services. Existing calendar links and alarms are retained when updating.
 
