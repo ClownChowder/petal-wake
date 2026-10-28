@@ -30,7 +30,13 @@ public final class SettingsTransfer {
         return new JSONObject().put("app","Petal Wake").put("schema",1).put("settings",settings).put("customThemes",themes).toString(2);
     }
 
-    public static void importJson(Context c,String text)throws Exception{
+    public static void validateJson(Context c,String text)throws Exception{validate(c,text);}
+
+    private static final class Validated {
+        final JSONObject settings;final JSONArray themes;final boolean hasThemes;
+        Validated(JSONObject settings,JSONArray themes,boolean hasThemes){this.settings=settings;this.themes=themes;this.hasThemes=hasThemes;}
+    }
+    private static Validated validate(Context c,String text)throws Exception{
         if(text==null||text.length()>262_144)throw new IllegalArgumentException("Settings file is too large.");
         JSONObject root=new JSONObject(text);
         if(!"Petal Wake".equals(root.optString("app"))||root.optInt("schema")!=1)throw new IllegalArgumentException("Choose a Petal Wake settings file.");
@@ -54,7 +60,7 @@ public final class SettingsTransfer {
         for(String key:BOOLEANS)if(settings.has(key)&&!(settings.get(key) instanceof Boolean))throw new IllegalArgumentException("Invalid "+key+" setting.");
         for(String key:STRINGS)if(settings.has(key)&&!(settings.get(key) instanceof String))throw new IllegalArgumentException("Invalid "+key+" setting.");
         if(settings.has("filter")&&settings.getString("filter").length()>120)throw new IllegalArgumentException("Invalid title filter.");
-        if(settings.has("sound")&&!SoundLibrary.allowed(settings.getString("sound")))throw new IllegalArgumentException("Invalid alarm sound.");
+        if(settings.has("sound")&&!SoundLibrary.allowed(settings.getString("sound"))&&!CustomSounds.id(settings.getString("sound")))throw new IllegalArgumentException("Invalid alarm sound.");
         if(settings.has("iconDesign")&&!Arrays.asList(Appearance.ICONS).contains(settings.getString("iconDesign")))throw new IllegalArgumentException("Invalid icon design.");
         if(settings.has("appearance")){
             String id=settings.getString("appearance");boolean known=false;
@@ -65,12 +71,16 @@ public final class SettingsTransfer {
         int early=settings.has("earlyBefore")?exactInt(settings.get("earlyBefore"),"earlyBefore"):Store.p(c).getInt("earlyBefore",600);
         int late=settings.has("lateAfter")?exactInt(settings.get("lateAfter"),"lateAfter"):Store.p(c).getInt("lateAfter",720);
         if(late<=early)throw new IllegalArgumentException("Later shift time must follow early shift time.");
+        return new Validated(settings,themes,rawThemes!=null);
+    }
+    public static void importJson(Context c,String text)throws Exception{
+        Validated checked=validate(c,text);JSONObject settings=checked.settings;JSONArray themes=checked.themes;
         SharedPreferences.Editor editor=Store.p(c).edit();
         for(String key:INTS)if(settings.has(key)){int value=exactInt(settings.get(key),key);if(!"volume".equals(key))editor.putInt(key,value);}
         for(String key:BOOLEANS)if(settings.has(key)&&!"quietPreset".equals(key))editor.putBoolean(key,settings.getBoolean(key));
         editor.putInt("volume",100).putBoolean("quietPreset",false).remove("previousPlayback");
         for(String key:STRINGS)if(settings.has(key))editor.putString(key,settings.getString(key));
-        if(rawThemes!=null)editor.putString("customThemes",themes.toString());
+        if(checked.hasThemes)editor.putString("customThemes",themes.toString());
         if(!editor.commit())throw new IllegalStateException("Could not save settings.");
         Appearance.syncLauncher(c);Sync.run(c,false);
     }

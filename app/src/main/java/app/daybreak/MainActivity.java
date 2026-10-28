@@ -23,6 +23,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 public class MainActivity extends Activity {
     static volatile boolean visible;
     private WorkAlarmAuthorization workAlarmAuthorization;
+    private char[] pendingMovePassword;
     private boolean pageReady,receiverRegistered,destroying,iconPromptShown;private String pendingPage,pendingSoundGenre="Other";private WebView web;private MediaPlayer preview;private VolumeShaper previewShaper;private android.widget.FrameLayout host;
     private final Handler handler=new Handler(Looper.getMainLooper());
     private static final AtomicBoolean PREVIEW_BUSY=new AtomicBoolean();
@@ -58,6 +59,7 @@ public class MainActivity extends Activity {
     @Override public void onBackPressed(){if(web!=null&&pageReady){web.evaluateJavascript("window.handleAndroidBack&&window.handleAndroidBack()",null);return;}super.onBackPressed();}
     @Override protected void onDestroy(){
         destroying=true;pageReady=false;
+        clearMovePassword();
         if(workAlarmAuthorization!=null)workAlarmAuthorization.destroy();
         if(receiverRegistered){unregisterReceiver(updates);receiverRegistered=false;}
         stopPreview();
@@ -69,7 +71,10 @@ public class MainActivity extends Activity {
     @Override protected void onNewIntent(Intent i){super.onNewIntent(i);setIntent(i);incoming(i);}
     private void incoming(Intent i){if(i==null)return;if("calendar".equals(i.getStringExtra("page"))){pendingPage="calendar";if(web!=null&&pageReady){web.evaluateJavascript("window.openPage&&window.openPage(\"calendar\")",null);pendingPage=null;}}Uri uri=null;if(Intent.ACTION_SEND.equals(i.getAction()))uri=i.getParcelableExtra(Intent.EXTRA_STREAM);else if(Intent.ACTION_VIEW.equals(i.getAction()))uri=i.getData();if(uri!=null&&"content".equals(uri.getScheme()))confirmImport(uri);else if(Intent.ACTION_SEND.equals(i.getAction())){String text=i.getStringExtra(Intent.EXTRA_TEXT);if(text!=null){String link=text.trim();if(link.startsWith("https://")||link.startsWith("webcal://"))new AlertDialog.Builder(this).setTitle("Connect shared calendar?").setMessage("Petal Wake will download this calendar link and replace the current calendar connection. Review the shifts before enabling work alarms.").setNegativeButton("Cancel",null).setPositiveButton("Connect",(d,w)->background(()->Sync.connect(this,link),"Calendar connected. Review shifts before enabling alarms.")).show();}}}
     private void confirmImport(Uri uri){new AlertDialog.Builder(this).setTitle("Import work calendar?").setMessage("This replaces your current calendar connection with a one-time snapshot. Files do not automatically refresh.").setNegativeButton("Cancel",null).setPositiveButton("Import",(d,w)->importUri(uri)).show();}
-    @Override protected void onActivityResult(int request,int result,Intent data){super.onActivityResult(request,result,data);if(workAlarmAuthorization!=null&&workAlarmAuthorization.onActivityResult(request,result))return;if(result!=RESULT_OK||data==null)return;if(request==30||request==31){addPersonalSounds(data,request==31);return;}if(data.getData()==null)return;if(request==10)confirmImport(data.getData());else if(request==20)exportSettings(data.getData());else if(request==21)confirmSettingsImport(data.getData());}
+    @Override protected void onActivityResult(int request,int result,Intent data){super.onActivityResult(request,result,data);if(workAlarmAuthorization!=null&&workAlarmAuthorization.onActivityResult(request,result))return;
+        if(request==22){char[] password=pendingMovePassword;pendingMovePassword=null;if(result==RESULT_OK&&data!=null&&data.getData()!=null&&password!=null)exportMove(data.getData(),password);else if(password!=null)Arrays.fill(password,'\0');return;}
+        if(result!=RESULT_OK||data==null)return;if(request==30||request==31){addPersonalSounds(data,request==31);return;}if(data.getData()==null)return;
+        if(request==10)confirmImport(data.getData());else if(request==20)exportSettings(data.getData());else if(request==21)confirmSettingsImport(data.getData());else if(request==23)confirmMoveImport(data.getData());}
     private void addPersonalSounds(Intent data,boolean link){
         ArrayList<Uri> uris=new ArrayList<>();if(data.getClipData()!=null)for(int i=0;i<data.getClipData().getItemCount();i++)uris.add(data.getClipData().getItemAt(i).getUri());else if(data.getData()!=null)uris.add(data.getData());
         if(uris.isEmpty())return;String genre=pendingSoundGenre;
@@ -82,6 +87,36 @@ public class MainActivity extends Activity {
     private void importUri(Uri uri){background(()->{try(InputStream in=getContentResolver().openInputStream(uri);ByteArrayOutputStream out=new ByteArrayOutputStream()){if(in==null)throw new IOException("File could not be opened.");byte[] b=new byte[8192];int n;while((n=in.read(b))!=-1){out.write(b,0,n);if(out.size()>4_000_000)throw new IOException("Calendar file is too large.");}Sync.importFile(this,out.toString(StandardCharsets.UTF_8.name()));}},"Calendar imported. Review your shifts, then enable alarms.");}
     private void exportSettings(Uri uri){background(()->{try(OutputStream out=getContentResolver().openOutputStream(uri,"wt")){if(out==null)throw new IOException("Settings file could not be created.");out.write(SettingsTransfer.exportJson(this).getBytes(StandardCharsets.UTF_8));}},"Settings saved. Calendar links, events, and alarms were excluded.");}
     private void confirmSettingsImport(Uri uri){new AlertDialog.Builder(this).setTitle("Restore Petal Wake settings?").setMessage("This replaces alarm preferences and themes from the file. Calendar links, work alarms, and personal alarms stay as they are. Review your next alarm afterward.").setNegativeButton("Cancel",null).setPositiveButton("Restore",(d,w)->background(()->{try(InputStream in=getContentResolver().openInputStream(uri);ByteArrayOutputStream out=new ByteArrayOutputStream()){if(in==null)throw new IOException("Settings file could not be opened.");byte[] b=new byte[8192];int n;while((n=in.read(b))!=-1){out.write(b,0,n);if(out.size()>262_144)throw new IOException("Settings file is too large.");}SettingsTransfer.importJson(this,out.toString(StandardCharsets.UTF_8.name()));}},"Settings restored. Review your next alarm and Android permissions.")).show();}
+    private static char[] secret(android.widget.EditText field){android.text.Editable value=field.getText();char[] result=new char[value.length()];value.getChars(0,value.length(),result,0);return result;}
+    private android.widget.EditText secretField(String hint){android.widget.EditText field=new android.widget.EditText(this);field.setSingleLine(true);field.setHint(hint);field.setInputType(android.text.InputType.TYPE_CLASS_TEXT|android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);return field;}
+    private void clearMovePassword(){if(pendingMovePassword!=null){Arrays.fill(pendingMovePassword,'\0');pendingMovePassword=null;}}
+    private void chooseMoveExport(){
+        android.widget.LinearLayout fields=new android.widget.LinearLayout(this);fields.setOrientation(android.widget.LinearLayout.VERTICAL);int pad=Math.round(getResources().getDisplayMetrics().density*20);fields.setPadding(pad,0,pad,0);
+        android.widget.EditText first=secretField("Password: at least 12 characters"),again=secretField("Confirm password");fields.addView(first);fields.addView(again);
+        AlertDialog dialog=new AlertDialog.Builder(this).setTitle("Save a private move package").setMessage("Includes calendar sharing links, personal alarms, themes, history, and your music. Keep the password separately; it cannot be recovered.").setView(fields).setNegativeButton("Cancel",(d,w)->{first.setText("");again.setText("");}).setPositiveButton("Choose file",null).create();
+        dialog.setOnDismissListener(ignored->{first.setText("");again.setText("");});
+        dialog.setOnShowListener(ignored->dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v->{
+            char[] a=secret(first),b=secret(again);
+            if(a.length<12||!Arrays.equals(a,b)){Arrays.fill(a,'\0');Arrays.fill(b,'\0');again.setError("Use matching passwords of at least 12 characters.");return;}
+            Arrays.fill(b,'\0');clearMovePassword();pendingMovePassword=a;first.setText("");again.setText("");dialog.dismiss();
+            String date=new java.text.SimpleDateFormat("yyyy-MM-dd",java.util.Locale.ROOT).format(new java.util.Date());
+            Intent save=new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/octet-stream").putExtra(Intent.EXTRA_TITLE,"rouse-move-"+date+".rouse");
+            try{startActivityForResult(save,22);}catch(RuntimeException unavailable){clearMovePassword();tell("No file picker is available for the move package.");}
+        }));dialog.show();
+    }
+    private void exportMove(Uri uri,char[] password){tell("Saving move package. Keep Rouse open; a large music library may take a few minutes.");background(()->{
+        try(OutputStream out=getContentResolver().openOutputStream(uri,"wt")){if(out==null)throw new IOException("Move package file could not be created.");MovePackage.exportTo(this,out,password);}
+        finally{Arrays.fill(password,'\0');}
+    },"Move package saved. Keep its password separately and move the file to your new phone.",null,DaybreakApp.PACK_IO);}
+    private void confirmMoveImport(Uri uri){
+        android.widget.EditText passwordField=secretField("Move-package password");
+        AlertDialog dialog=new AlertDialog.Builder(this).setTitle("Restore Rouse on this phone?").setMessage("Use a new or empty Rouse setup. The encrypted package restores calendars, personal alarms, themes, history, and music. Work alarms stay paused until you check permissions and wake times.").setView(passwordField).setNegativeButton("Cancel",(d,w)->passwordField.setText("")).setPositiveButton("Restore",null).create();
+        dialog.setOnDismissListener(ignored->passwordField.setText(""));
+        dialog.setOnShowListener(ignored->dialog.getButton(AlertDialog.BUTTON_POSITIVE).setOnClickListener(v->{
+            char[] password=secret(passwordField);if(password.length<12){Arrays.fill(password,'\0');passwordField.setError("Enter the package password.");return;}
+            passwordField.setText("");dialog.dismiss();tell("Checking the move package. Keep Rouse open until restore finishes.");background(()->{try(InputStream in=getContentResolver().openInputStream(uri)){if(in==null)throw new IOException("Move package could not be opened.");MovePackage.importFrom(this,in,password);}finally{Arrays.fill(password,'\0');}},"Move package restored. Grant Android alarm permissions, enable work alarms, then check your next wake time and phone alarm volume.",null,DaybreakApp.PACK_IO);
+        }));dialog.show();
+    }
     private void tell(String message){runOnUiThread(()->{if(destroying||isDestroyed()||web==null){Toast.makeText(getApplicationContext(),message,Toast.LENGTH_LONG).show();return;}web.evaluateJavascript("window.toast&&window.toast("+JSONObject.quote(message)+")",null);});}
     private interface Work {void run()throws Exception;}
     private void background(Work work,String message){background(work,message,null);}
@@ -145,6 +180,8 @@ public class MainActivity extends Activity {
             case "import":Intent choose=new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*");startActivityForResult(choose,10);break;
             case "exportSettings":Intent save=new Intent(Intent.ACTION_CREATE_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("application/json").putExtra(Intent.EXTRA_TITLE,"petal-wake-settings.json");startActivityForResult(save,20);break;
             case "importSettings":Intent restore=new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*");startActivityForResult(restore,21);break;
+            case "exportMove":workAlarmAuthorization.request("Save private move package?","Confirm before exporting private calendar links and audio.",this::chooseMoveExport,"Move package was not saved.");break;
+            case "importMove":Intent move=new Intent(Intent.ACTION_OPEN_DOCUMENT).addCategory(Intent.CATEGORY_OPENABLE).setType("*/*");startActivityForResult(move,23);break;
             case "clearHistory":AlarmHistory.clear(this);state();tell("Alarm activity cleared from this phone.");break;
             case "disconnect":Runnable disconnect=()->background(()->{CalendarSources.clear(this);Store.setUrl(this,"");Store.p(this).edit().remove("source").remove("lastSync").remove("primaryName").putBoolean("enabled",false).commit();CalendarConfidence.reset(this);Store.cache(this,"");Sync.run(this,false);},"Calendars disconnected.");if(Store.p(this).getBoolean("enabled",false))workAlarmAuthorization.request("Disconnect work calendars?","This removes all calendar connections and turns off their work alarms.",disconnect);else disconnect.run();break;
             case "exact":if(Build.VERSION.SDK_INT>=31)startActivity(new Intent(Settings.ACTION_REQUEST_SCHEDULE_EXACT_ALARM,Uri.parse("package:"+getPackageName())));break;

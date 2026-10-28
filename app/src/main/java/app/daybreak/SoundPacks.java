@@ -15,6 +15,12 @@ public final class SoundPacks {
     public static boolean optional(String name){if(name==null||!name.matches("orchestra_[0-9]{2}\\.m4a"))return false;int number=Integer.parseInt(name.substring(10,12));return number>=5&&number<=32;}
     public static File file(Context c,String name){if(!optional(name))throw new IllegalArgumentException("Unknown pack sound.");return new File(folder(c),name);}
     public static boolean installed(Context c){File dir=folder(c);for(int i=5;i<=32;i++)if(!new File(dir,String.format(java.util.Locale.ROOT,"orchestra_%02d.m4a",i)).isFile())return false;return true;}
+    static void restoreFrom(Context c,File staged)throws IOException{
+        if(installed(c))return;
+        File target=folder(c);
+        if(target.exists())throw new IOException("Existing orchestra pack needs repair before restore.");
+        if(!staged.renameTo(target))throw new IOException("Could not restore the orchestra pack.");
+    }
     public static void install(Context c)throws Exception{
         if(installed(c))return;
         File archive=new File(c.getCacheDir(),"orchestra-pack-download.zip");File temp=new File(c.getFilesDir(),"orchestra-pack-new");removeTree(temp);

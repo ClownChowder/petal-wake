@@ -1,6 +1,12 @@
-ROUSE — ANDROID ALARM APP 0.1.40
+ROUSE — ANDROID ALARM APP 0.1.41
 
 This is an early installable Android build. It creates wake-up alarms from a live iCalendar sharing link or imported iCalendar (.ics) file. It also supports one-time personal alarms.
+
+VERSION 0.1.41 — PRIVATE PHONE MOVE (PREVIEW)
+- Settings includes a password-protected move package. It carries calendar sharing links and snapshots, calendar rules, future personal alarms, themes, alarm history, personal audio, and an installed optional orchestra pack. Linked audio is saved as an offline copy. The package uses a password independent of the old phone's Android KeyStore, and links are encrypted again on the new phone.
+- Restore is limited to a new or empty Rouse setup. Work alarms remain paused until the new phone's alarm and notification permissions are granted and the wake time is reviewed. The phone alarm volume is restored to the closest available Android step; check it with a test alarm. Android permissions, in-progress alarms, and expired personal alarms do not transfer.
+- Keep the package and its password separately. Anyone with both can read the private calendar links. Rouse cannot recover the password. An unavailable linked audio file blocks export so the package cannot silently omit it. The smaller settings-only export still excludes private links and alarms.
+- The move package restores the same calendar sharing links. Do not revoke one while the new phone uses it. To rotate a link, connect its replacement on the new phone first, then revoke the old one in your calendar service.
 
 VERSION 0.1.40 — SCHEDULE RAIL (PREVIEW)
 - A persistent, theme-aware side rail provides Alarms, Calendar, Sounds, and Settings navigation. The next scheduled wake-up is prominent on the home screen, with the upcoming work-shift list directly below it.

@@ -11,6 +11,9 @@ import org.json.JSONObject;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 /** User-selected audio. Copies are private and offline; links keep a persisted read grant. */
@@ -23,6 +26,35 @@ public final class CustomSounds {
     private static File folder(Context c){return new File(c.getFilesDir(),"custom-sounds");}
     private static File file(Context c,String id){if(!id(id))throw new IllegalArgumentException("Invalid custom sound.");return new File(folder(c),id.substring(7)+".audio");}
     private static JSONArray saved(Context c){return Store.array(c,KEY);}
+    static JSONArray transferRows(Context c){return saved(c);}
+    static InputStream transferAudio(Context c,JSONObject row)throws Exception{
+        String id=row.getString("id");
+        if(!id(id))throw new IOException("A personal sound has an invalid ID.");
+        if("copy".equals(row.optString("mode")))return new FileInputStream(file(c,id));
+        if("link".equals(row.optString("mode"))){
+            Uri uri=Uri.parse(row.getString("uri"));
+            if(!"content".equals(uri.getScheme()))throw new IOException("A linked sound has an invalid source.");
+            try{InputStream stream=c.getContentResolver().openInputStream(uri);if(stream!=null)return stream;}
+            catch(Exception unavailable){throw new IOException("A linked sound is unavailable. Reconnect it before saving a move package.");}
+        }
+        throw new IOException("A linked sound is unavailable. Reconnect it before saving a move package.");
+    }
+    static void restoreCopies(Context c,JSONArray rows,File staged)throws Exception{
+        if(saved(c).length()!=0)throw new IOException("Restore on a new Rouse setup without personal sounds.");
+        if(rows.length()==0)return;
+        File directory=folder(c);
+        if(!directory.isDirectory()&&!directory.mkdirs())throw new IOException("Could not prepare personal sound storage.");
+        ArrayList<File> installed=new ArrayList<>();
+        try{
+            for(int i=0;i<rows.length();i++){
+                String id=rows.getJSONObject(i).getString("id");
+                File source=new File(staged,id.substring(7)+".audio"),target=file(c,id);
+                if(!source.isFile()||target.exists()||!source.renameTo(target))throw new IOException("Could not restore a personal sound.");
+                installed.add(target);
+            }
+            Store.put(c,KEY,rows);
+        }catch(Exception failure){for(File file:installed)file.delete();throw failure;}
+    }
     private static JSONObject find(Context c,String id){if(!id(id))return null;JSONArray list=saved(c);for(int i=0;i<list.length();i++){JSONObject row=list.optJSONObject(i);if(row!=null&&id.equals(row.optString("id")))return row;}return null;}
     public static JSONArray forUi(Context c)throws Exception{
         JSONArray result=new JSONArray(),list=saved(c);
