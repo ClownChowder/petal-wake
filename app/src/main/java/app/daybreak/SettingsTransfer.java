@@ -27,7 +27,7 @@ public final class SettingsTransfer {
                 .put("background",source.getString("background")).put("primary",source.getString("primary"))
                 .put("secondary",source.getString("secondary")).put("preferredText",source.getString("preferredText")));
         }
-        return new JSONObject().put("app","Petal Wake").put("schema",1).put("settings",settings).put("customThemes",themes).toString(2);
+        return new JSONObject().put("app","Rouse").put("schema",1).put("settings",settings).put("customThemes",themes).toString(2);
     }
 
     public static void validateJson(Context c,String text)throws Exception{validate(c,text);}
@@ -39,7 +39,8 @@ public final class SettingsTransfer {
     private static Validated validate(Context c,String text)throws Exception{
         if(text==null||text.length()>262_144)throw new IllegalArgumentException("Settings file is too large.");
         JSONObject root=new JSONObject(text);
-        if(!"Petal Wake".equals(root.optString("app"))||root.optInt("schema")!=1)throw new IllegalArgumentException("Choose a Petal Wake settings file.");
+        String app=root.optString("app");
+        if(!("Rouse".equals(app)||"Petal Wake".equals(app))||root.optInt("schema")!=1)throw new IllegalArgumentException("Choose a Rouse settings file.");
         JSONObject settings=root.getJSONObject("settings");
         JSONArray rawThemes=root.optJSONArray("customThemes"),themes=new JSONArray();
         if(rawThemes!=null){

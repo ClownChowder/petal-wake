@@ -61,7 +61,7 @@ public final class ShiftChanges {
             JSONObject change=changes.optJSONObject(i);if(change!=null)AlarmHistory.change(c,change.optString("event"),change.optLong("at"),change.optLong("to"));
         }
         JSONObject first=changes.optJSONObject(0);
-        String detail="Open Petal Wake to review the new wake-up times.";
+        String detail="Open Rouse to review the new wake-up times.";
         if(changes.length()==1&&first!=null){
             DateFormat format=DateFormat.getDateTimeInstance(DateFormat.SHORT,DateFormat.SHORT);
             String event=first.optString("event");

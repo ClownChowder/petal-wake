@@ -1,4 +1,4 @@
-Petal Wake credits Musopen and the credited composers and performers for its public-domain orchestral excerpts. Recordings were commissioned/released by Musopen. Excerpts were selected, normalized, faded and encoded for the app.
+Rouse credits Musopen and the credited composers and performers for its public-domain orchestral excerpts. Recordings were commissioned/released by Musopen. Excerpts were selected, normalized, faded and encoded for the app.
 
 Composers credited by the source recording catalog:
 90-second excerpt, loudness normalized, gentle boundary fades; stereo AAC at 192 kb/s. Remastered in 0.1.14 from source audio: circular slow swell control, mild compression, -28 LUFS / -12 dBTP ceilings; 2-second circular crossfade, no long intro fade; stereo AAC 192 kb/s. Loop length 88 seconds.

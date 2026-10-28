@@ -2,3 +2,10 @@
 **/build/
 local.properties
 *.jks
+/AGENTS.md
+/Archive/
+/Releases/
+/Work/
+/PROJECT-FILES.md
+/QUALITY-REVIEW-2026-10-23.md
+/CLEANUP-MANIFEST-*.json

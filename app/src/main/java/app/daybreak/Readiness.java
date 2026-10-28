@@ -23,7 +23,7 @@ public final class Readiness {
         if(!Scheduler.allowed(c))return "Exact alarm access is off. Alarms may not ring on time.";
         if(Build.VERSION.SDK_INT>=33&&c.checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)!=PackageManager.PERMISSION_GRANTED||!nm.areNotificationsEnabled())return "Alarm notifications are off. Allow them before relying on alarms.";
         NotificationChannel alarms=nm.getNotificationChannel(AlarmService.CHANNEL);if(alarms!=null&&alarms.getImportance()<NotificationManager.IMPORTANCE_HIGH)return "The wake-up alarm channel is muted or lowered.";
-        if(Build.VERSION.SDK_INT>=34&&!nm.canUseFullScreenIntent())return "Lock-screen alarm display is off. Open Petal Wake settings to allow it.";
+        if(Build.VERSION.SDK_INT>=34&&!nm.canUseFullScreenIntent())return "Lock-screen alarm display is off. Open Rouse settings to allow it.";
         AudioManager audio=(AudioManager)c.getSystemService(Context.AUDIO_SERVICE);if(audio.getStreamVolume(AudioManager.STREAM_ALARM)==0)return "Phone alarm volume is muted.";
         return "";
     }

@@ -33,7 +33,7 @@ button:disabled,input:disabled,select:disabled{opacity:1;color:var(--muted);back
 @media(max-width:360px){.alarm-time{font-size:clamp(44px,17vw,66px)}.calendar-source{flex-wrap:wrap}.calendar-source-actions{max-width:none;width:100%;flex-direction:row;justify-content:space-between}}
 .all-day-alert{background:var(--error-bg);color:var(--error-text);border:1px solid var(--error-text);border-radius:18px;padding:20px;margin:16px 0}.all-day-alert strong{display:block;font-size:16px;line-height:1.35}.all-day-alert p{color:var(--error-text);margin:8px 0 14px;font-size:14px}.all-day-alert .full{margin-top:8px}.alarm-row.needs-time{background:var(--error-bg);border-radius:14px;padding:12px;margin:8px 0}.needs-time-label{color:var(--error-text);font-size:13px}.alarm-row.needs-time .wake{font-size:13px;white-space:normal;text-align:right;color:var(--error-text)}.set-start-action{font-weight:700;color:var(--error-text);text-decoration:underline}.all-day-rule-help{background:var(--error-bg);color:var(--error-text);border-radius:12px;padding:12px 14px;font-size:13px}
 
-/* Let the shared Petal Key palette define the visual hierarchy, not just button text. */
+/* Let the shared Sumi palette define the visual hierarchy, not just button text. */
 header{border-bottom:1px solid var(--line);padding-bottom:16px}
 .eyebrow{color:var(--lavender);font-weight:700}
 .hero{background:var(--action);color:var(--on-action);border:1px solid var(--action);border-radius:22px;padding:22px;margin-bottom:28px}

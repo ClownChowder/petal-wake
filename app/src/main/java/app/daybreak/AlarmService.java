@@ -29,7 +29,7 @@ public class AlarmService extends Service {
     @Override public void onCreate(){super.onCreate();active=this;}
     public static int playbackPercent(){AlarmService service=active;if(service==null||service.player==null||service.audio==null)return -1;int maximum=service.audio.getStreamMaxVolume(AudioManager.STREAM_ALARM);return maximum<=0?-1:Math.round(100f*service.audio.getStreamVolume(AudioManager.STREAM_ALARM)/maximum);}
     @Override protected void dump(FileDescriptor fd,PrintWriter writer,String[] args){
-        writer.println("Petal Wake alarm volume");writer.println("elapsedMs="+(playbackBegan==0?0:SystemClock.elapsedRealtime()-playbackBegan));writer.println("riseSeconds="+fadeSeconds);writer.println("currentAlarmStep="+(audio==null?-1:audio.getStreamVolume(AudioManager.STREAM_ALARM)));writer.println("displayedPercent="+playbackPercent());
+        writer.println("Rouse alarm volume");writer.println("elapsedMs="+(playbackBegan==0?0:SystemClock.elapsedRealtime()-playbackBegan));writer.println("riseSeconds="+fadeSeconds);writer.println("currentAlarmStep="+(audio==null?-1:audio.getStreamVolume(AudioManager.STREAM_ALARM)));writer.println("displayedPercent="+playbackPercent());
     }
     public static void createChannel(Context c){
         NotificationChannel ch=new NotificationChannel(CHANNEL,"Wake-up alarms",NotificationManager.IMPORTANCE_HIGH);
@@ -94,7 +94,7 @@ public class AlarmService extends Service {
         String guidance=testOnly?"Test alarm sounding · choose Stop test to finish"
             :access!=null&&access.isEnabled()?(fallbackActive?"Backup alert sounding · choose I’m up to confirm dismissal":"Time to wake up · choose I’m up to confirm or Snooze")
             :(fallbackActive?"Backup alert sounding · hold I’m up to dismiss":"Time to wake up · hold I’m up to dismiss or tap Snooze");
-        return new Notification.Builder(this,CHANNEL).setSmallIcon(R.drawable.ic_alarm_notification).setColor(Appearance.current(this).surface).setColorized(true).setOnlyAlertOnce(true).setContentTitle(title).setContentText(guidance).setCategory(Notification.CATEGORY_ALARM).setVisibility(Store.p(this).getBoolean("privateLockScreen",true)?Notification.VISIBILITY_PRIVATE:Notification.VISIBILITY_PUBLIC).setPublicVersion(new Notification.Builder(this,CHANNEL).setSmallIcon(R.drawable.ic_alarm_notification).setContentTitle("Petal Wake alarm").setContentText("Alarm sounding").build()).setOngoing(true).setContentIntent(full).setFullScreenIntent(full,true)
+        return new Notification.Builder(this,CHANNEL).setSmallIcon(R.drawable.ic_alarm_notification).setColor(Appearance.current(this).surface).setColorized(true).setOnlyAlertOnce(true).setContentTitle(title).setContentText(guidance).setCategory(Notification.CATEGORY_ALARM).setVisibility(Store.p(this).getBoolean("privateLockScreen",true)?Notification.VISIBILITY_PRIVATE:Notification.VISIBILITY_PUBLIC).setPublicVersion(new Notification.Builder(this,CHANNEL).setSmallIcon(R.drawable.ic_alarm_notification).setContentTitle("Rouse alarm").setContentText("Alarm sounding").build()).setOngoing(true).setContentIntent(full).setFullScreenIntent(full,true)
             .addAction(new Notification.Action.Builder(null,"Snooze",action("SNOOZE")).build())
             .addAction(new Notification.Action.Builder(null,testOnly?"Stop test":"I’m up",testOnly?action("STOP_TEST"):full).build()).build();
     }

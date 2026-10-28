@@ -7,6 +7,6 @@ public class AlarmReceiver extends BroadcastReceiver {
         if(id==null)return;
         try {JSONObject a=Scheduler.claim(c,id);if(a==null)return;
             c.startForegroundService(new Intent(c,AlarmService.class).setAction("RING").putExtra("alarm",a.toString()));
-        } catch(Exception e){if(Store.object(c,"inFlight").has(id)){Scheduler.retryFailedDelivery(c,id);Store.error(c,"Alarm start failed. Petal Wake will retry once if Android allows it.");}else Scheduler.failureNotice(c);}
+        } catch(Exception e){if(Store.object(c,"inFlight").has(id)){Scheduler.retryFailedDelivery(c,id);Store.error(c,"Alarm start failed. Rouse will retry once if Android allows it.");}else Scheduler.failureNotice(c);}
     }
 }
