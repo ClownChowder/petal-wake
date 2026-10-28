@@ -9,7 +9,7 @@ import java.util.zip.*;
 
 /** Signed-release optional orchestra recordings, stored privately on the phone. */
 public final class SoundPacks {
-    private static final String URL="https://github.com/FourWags/petal-wake/releases/download/v0.1.21/petal-wake-music-pack.zip";
+    private static final String URL="https://github.com/FourWags/rouse/releases/download/v0.1.21/petal-wake-music-pack.zip";
     private static final String SHA256="748449a1fb7dbcd39ac7a75532161e6d72927c9b6125583405be0d76c1065f16";
     private static File folder(Context c){return new File(c.getFilesDir(),"orchestra-pack");}
     public static boolean optional(String name){if(name==null||!name.matches("orchestra_[0-9]{2}\\.m4a"))return false;int number=Integer.parseInt(name.substring(10,12));return number>=5&&number<=32;}

@@ -4,13 +4,13 @@ Rouse means to awaken or stir into activity. The name fits an alarm that helps a
 
 Rouse is an Android alarm app that schedules work wake-ups from shared iCalendar feeds and offers gentle recorded music and nature sounds. This source release is version **0.1.41** (Android version code 42), with a password-protected move package for transferring Rouse data to another phone.
 
-Check the [GitHub releases page](https://github.com/FourWags/petal-wake/releases) for the published APK and verification notes. The compatible optional orchestra pack remains available from the [v0.1.23 release](https://github.com/FourWags/petal-wake/releases/tag/v0.1.23).
+Check the [GitHub releases page](https://github.com/FourWags/rouse/releases) for the published APK and verification notes. The compatible optional orchestra pack remains available from the [v0.1.23 release](https://github.com/FourWags/rouse/releases/tag/v0.1.23).
 
 See [README.txt](README.txt) for setup, calendar sharing, features, practical limits, and testing notes. Four Wags original materials are proprietary; see [LICENSE](LICENSE). Third-party terms and audio provenance are in [THIRD_PARTY_COMPONENTS.md](THIRD_PARTY_COMPONENTS.md), [THIRD_PARTY_NOTICES.txt](THIRD_PARTY_NOTICES.txt), and [CREDITS.txt](CREDITS.txt).
 
 ## Obtainium
 
-Source: `https://github.com/FourWags/petal-wake`
+Source: `https://github.com/FourWags/rouse`
 
 APK filename filter: `^petal-wake\.apk$`
 
