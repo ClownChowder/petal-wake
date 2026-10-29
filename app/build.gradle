@@ -3,7 +3,7 @@ android {
     namespace 'dev.fourwags.rouse'
     testNamespace 'app.daybreak.test'
     compileSdk 35
-    defaultConfig { applicationId 'app.daybreak'; minSdk 26; targetSdk 35; versionCode 42; versionName '0.1.41'; testInstrumentationRunner 'app.daybreak.NativeSmokeTest' }
+    defaultConfig { applicationId 'app.daybreak'; minSdk 26; targetSdk 35; versionCode 43; versionName '0.1.42'; testInstrumentationRunner 'app.daybreak.NativeSmokeTest' }
     compileOptions { sourceCompatibility JavaVersion.VERSION_17; targetCompatibility JavaVersion.VERSION_17 }
     // Keep the established update certificate for Android 8 users and Obtainium.
     buildTypes { release { signingConfig signingConfigs.debug; minifyEnabled false } }

@@ -1,0 +1,19 @@
+Rouse 0.1.42 / code 43
+Prepared 2026-10-29 UTC
+
+Repair source base: c2528ca36f4ffc016bf187de2da5580a717996e5
+Source branch: FourWags/rouse main
+App code differs from that repaired base only by the version bump. Release evidence documents are refreshed.
+APK SHA256: fc1a28408fd5424a4ceca5798e41d85a15effdbc8f74d3686aa38005c05d37ad
+Signing certificate SHA256: 386f097ea7de3749f0b0cc87e433d0f8a8a70cebb1848d7e7cb4bd5f60cff2b4
+Same package and signer as previous verified APK; version code strictly increased.
+Non-debuggable: verified
+ZIP alignment: verified for 16 KiB pages
+
+Fresh host results: {"errors": 0, "failures": 0, "skipped": 0, "tests": 44}
+Release lint: {"Warning": 70}
+Exact signed release updated code42 in place on an isolated API 37 emulator. Four failed commit points and a persistent rollback failure recovered, with all five retries passing. Process death after a real write recovered on restart and then retried successfully. Encrypted synthetic round-trip, wrong-password/tamper rejection, existing-data protection and ten encrypted-storage checks passed.
+
+Personal Preview; not production, Google Play, or sale-readiness qualification. No physical phone installation or foreground interaction occurred. Real Obtainium phone upgrades, long-duration behavior, live assistive technology and power/thermal behavior remain unqualified for these artifacts. Sumi and Rouse retain their existing debug-origin preview certificate for update continuity; the APKs are non-debuggable, but this does not qualify production signing. Existing audio and component notices are retained; this release does not establish worldwide recording-rights clearance.
+
+Only retained, reviewed source/assets are included. Signing credentials, personal imports, private logs and build outputs are excluded. The source ZIP includes required binary build assets; generic GitHub source archives may omit these assets for Sumi.
