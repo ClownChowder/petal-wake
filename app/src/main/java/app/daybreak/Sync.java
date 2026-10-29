@@ -39,6 +39,7 @@ public final class Sync {
     static void validate(String data){CalendarReader.read(data,System.currentTimeMillis()-DAY,System.currentTimeMillis()+60*DAY);}
     public static void run(Context c,boolean fetch) {run(c,fetch,false);}
     static void run(Context c,boolean fetch,boolean forceRearm) {
+        if(MoveRestoreJournal.blocked)return;
         var p=Store.p(c);long now=System.currentTimeMillis();String error="";boolean downloaded=false;JSONArray previousShifts=Store.array(c,"shifts");
         String primaryUrl=Store.url(c);
         if(fetch&&!primaryUrl.trim().isEmpty()) {

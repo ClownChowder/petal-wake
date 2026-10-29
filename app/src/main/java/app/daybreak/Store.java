@@ -6,7 +6,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 
 public final class Store {
-    public static SharedPreferences p(Context c){return c.getSharedPreferences("daybreak",Context.MODE_PRIVATE);}
+    public static SharedPreferences p(Context c){if(MoveRestoreJournal.blocked)throw new IllegalStateException("Restore recovery is pending. Free storage and reopen Rouse.");return c.getSharedPreferences("daybreak",Context.MODE_PRIVATE);}
     public static JSONArray array(Context c,String key){
         String saved=p(c).getString(key,"[]");
         if("extraCalendars".equals(key)||"customSounds".equals(key)){

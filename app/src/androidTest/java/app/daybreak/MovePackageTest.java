@@ -17,6 +17,7 @@ public class MovePackageTest extends Instrumentation {
     private boolean largePack;
     @Override public void onCreate(Bundle args){largePack=args!=null&&"true".equals(args.getString("largePack"));super.onCreate(args);start();}
     @Override public void onStart(){
+        waitForIdleSync();
         Bundle result=new Bundle();Context c=getTargetContext();String url="https://example.invalid/private/synthetic-move-token";
         File packageFile=new File(c.getCacheDir(),"synthetic-rouse-transfer.rouse"),damagedFile=new File(c.getCacheDir(),"synthetic-rouse-damaged.rouse");
         try{

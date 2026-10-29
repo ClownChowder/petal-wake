@@ -62,8 +62,11 @@ public final class MovePackage {
         out.write(mac.doFinal());out.flush();
     }
 
-    public static void importFrom(Context c,InputStream in,char[] password)throws Exception{
+    static volatile boolean restoring;
+
+    public static synchronized void importFrom(Context c,InputStream in,char[] password)throws Exception{
         checkPassword(password);
+        if (MoveRestoreJournal.blocked) throw new IOException("Restore recovery is pending. Reopen Rouse to retry.");
         if(!empty(c))throw new IOException("Restore on a new Rouse setup. This phone already has calendars, personal alarms, or personal sounds.");
         File encrypted=new File(c.getCacheDir(),"rouse-move-"+UUID.randomUUID()+".enc");
         File archive=new File(c.getCacheDir(),"rouse-move-"+UUID.randomUUID()+".zip");
@@ -94,8 +97,50 @@ public final class MovePackage {
             if(!stage.mkdirs())throw new IOException("Could not prepare private restore storage.");
             Prepared prepared=prepare(c,archive,stage);
             if(!empty(c))throw new IOException("Rouse data changed while the package was being checked. Restore was cancelled.");
-            apply(c,prepared,stage);
+            synchronized (Scheduler.class) {
+                if (!empty(c)) throw new IOException("Rouse data changed while the package was being checked. Restore was cancelled.");
+                restoring = true;
+                try {
+                    Set<String> paths = new LinkedHashSet<>();
+                    if (!prepared.data.getString("source").isEmpty()) addCalendarPaths(paths, "calendar.ics");
+                    JSONArray caches = prepared.data.getJSONArray("extraCaches");
+                    for (int i = 0; i < caches.length(); i++)
+                        addCalendarPaths(paths, "calendar-" + caches.getJSONObject(i).getString("id") + ".ics");
+                    if (prepared.sounds.length() > 0) paths.add("custom-sounds");
+                    if (prepared.data.getBoolean("soundPack") && !SoundPacks.installed(c)) paths.add("orchestra-pack");
+                    MoveRestoreJournal.begin(c, paths);
+                    try {
+                        apply(c, prepared, stage);
+                        MoveRestoreJournal.committed(c);
+                    } catch (Exception failure) {
+                        try { MoveRestoreJournal.recover(c); }
+                        catch (Exception recovery) {
+                            failure.addSuppressed(recovery);
+                            throw new IOException("Restore recovery is pending. Free storage and reopen Rouse; saved recovery data is kept.", failure);
+                        }
+                        throw new IOException("Restore could not finish. Previous settings were restored; retry the original move package.", failure);
+                    }
+                } finally { restoring = false; }
+                // OS side effects happen only after destination data commits.
+                try {
+                    Appearance.syncLauncher(c);
+                    AudioManager audio = c.getSystemService(AudioManager.class);
+                    int max = audio.getStreamMaxVolume(AudioManager.STREAM_ALARM);
+                    int min = Build.VERSION.SDK_INT >= 28 ? audio.getStreamMinVolume(AudioManager.STREAM_ALARM) : 0;
+                    int target = Math.max(min, Math.min(max, Math.round(max * prepared.data.getInt("phoneAlarmPercent") / 100f)));
+                    try { audio.setStreamVolume(AudioManager.STREAM_ALARM, target, 0); }
+                    catch (RuntimeException unavailable) { /* User checks Android alarm volume after restore. */ }
+                    Sync.run(c, false);
+                    Readiness.update(c);
+                } catch (Exception unavailable) {
+                    Store.error(c, "Move data restored. Reopen Rouse and check alarm readiness and phone alarm volume.");
+                }
+            }
         }finally{deleteTree(stage);archive.delete();encrypted.delete();}
+    }
+
+    private static void addCalendarPaths(Set<String> paths, String name) {
+        paths.add(name); paths.add(name + ".bak"); paths.add(name + ".new");
     }
 
     /** Clear abandoned plaintext staging after a crash before any user action. */
@@ -202,20 +247,17 @@ public final class MovePackage {
         SharedPreferences.Editor edit=Store.p(c).edit().putString("source",source).putString("primaryName",data.getString("primaryName"))
             .putLong("lastSync",source.isEmpty()?0:System.currentTimeMillis()).putBoolean("enabled",false).putString("error","");
         if(!edit.commit())throw new IOException("Could not save restored calendar state.");
-        SettingsTransfer.importJson(c,data.getJSONObject("settings").toString());
+        SettingsTransfer.importJson(c,data.getJSONObject("settings").toString(),false);
         JSONObject savedSettings=data.getJSONObject("settings").getJSONObject("settings");
         if(savedSettings.optBoolean("quietPreset",false)){
             JSONObject prior=data.optJSONObject("previousPlayback");
             if(prior!=null&&prior.length()>0)
-                Store.p(c).edit().putBoolean("quietPreset",true)
+                if (!Store.p(c).edit().putBoolean("quietPreset",true)
                     .putInt("volume",savedSettings.getInt("volume"))
-                    .putString("previousPlayback",prior.toString()).commit();
+                    .putString("previousPlayback",prior.toString()).commit())
+                    throw new IOException("Could not save restored wake-up settings.");
         }
-        AudioManager audio=c.getSystemService(AudioManager.class);
-        int max=audio.getStreamMaxVolume(AudioManager.STREAM_ALARM),min=Build.VERSION.SDK_INT>=28?audio.getStreamMinVolume(AudioManager.STREAM_ALARM):0;
-        int target=Math.max(min,Math.min(max,Math.round(max*data.getInt("phoneAlarmPercent")/100f)));
-        try{audio.setStreamVolume(AudioManager.STREAM_ALARM,target,0);}catch(RuntimeException unavailable){/* The data restore succeeds; the user must check Android alarm volume. */}
-        Sync.run(c,false);Readiness.update(c);
+
     }
 
     private static JSONArray validateCalendars(JSONArray rows,JSONArray caches)throws Exception{

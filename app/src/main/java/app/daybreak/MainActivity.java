@@ -32,6 +32,21 @@ public class MainActivity extends Activity {
     private final BroadcastReceiver updates=new BroadcastReceiver(){public void onReceive(Context c,Intent i){state();}};
     @SuppressLint("UnspecifiedRegisterReceiverFlag") // Pre-33 receivers require the signature permission; 33+ also use NOT_EXPORTED.
     @Override public void onCreate(Bundle saved){
+        if (MoveRestoreJournal.blocked) {
+            super.onCreate(saved);
+            android.widget.LinearLayout recovery = new android.widget.LinearLayout(this);
+            recovery.setOrientation(android.widget.LinearLayout.VERTICAL); recovery.setPadding(48,48,48,48);
+            android.widget.TextView message = new android.widget.TextView(this);
+            message.setText(dev.fourwags.rouse.R.string.move_recovery_pending); message.setTextSize(18);
+            android.widget.Button retry = new android.widget.Button(this); retry.setText(dev.fourwags.rouse.R.string.move_recovery_retry);
+            recovery.addView(message); recovery.addView(retry); setContentView(recovery);
+            retry.setOnClickListener(v -> { retry.setEnabled(false); DaybreakApp.IO.execute(() -> {
+                try { synchronized(Scheduler.class) { MoveRestoreJournal.recover(this); }
+                    ((DaybreakApp)getApplication()).initialize(); runOnUiThread(this::recreate);
+                } catch(Exception failure) { runOnUiThread(() -> { message.setText(dev.fourwags.rouse.R.string.move_recovery_failed); retry.setEnabled(true); }); }
+            }); });
+            return;
+        }
         setTheme(Appearance.current(this).theme);super.onCreate(saved);
         if(saved!=null)pendingSoundGenre=saved.getString("pendingSoundGenre","Other");
         int background=Appearance.current(this).background;getWindow().setBackgroundDrawable(new android.graphics.drawable.ColorDrawable(background));
@@ -54,7 +69,7 @@ public class MainActivity extends Activity {
         workAlarmAuthorization=new WorkAlarmAuthorization(this,this::state,this::tell);
         incoming(getIntent());
     }
-    @Override protected void onResume(){super.onResume();visible=true;if(web!=null){Readiness.update(this);state();((DaybreakApp)getApplication()).refresh(true);}}
+    @Override protected void onResume(){super.onResume();visible=true;if(MoveRestoreJournal.blocked&&web!=null){recreate();return;}if(web!=null){Readiness.update(this);state();((DaybreakApp)getApplication()).refresh(true);}}
     @Override protected void onPause(){visible=false;stopPreview();super.onPause();}
     @Override public void onBackPressed(){if(web!=null&&pageReady){web.evaluateJavascript("window.handleAndroidBack&&window.handleAndroidBack()",null);return;}super.onBackPressed();}
     @Override protected void onDestroy(){
@@ -121,7 +136,7 @@ public class MainActivity extends Activity {
     private interface Work {void run()throws Exception;}
     private void background(Work work,String message){background(work,message,null);}
     private void background(Work work,String message,String successCallback){background(work,message,successCallback,DaybreakApp.IO);}
-    private void background(Work work,String message,String successCallback,java.util.concurrent.ExecutorService executor){if(destroying||web==null)return;web.evaluateJavascript("window.setBusy(true)",null);executor.execute(()->{try{work.run();if(successCallback!=null)runOnUiThread(()->{if(!destroying&&!isDestroyed()&&web!=null)web.evaluateJavascript(successCallback,null);});if(message!=null)tell(message);}catch(Exception e){String error=Store.safeError(e.getMessage()==null?"That action could not be completed.":e.getMessage());Store.error(this,error);tell(error);}finally{runOnUiThread(()->{if(!destroying&&!isDestroyed()&&web!=null){web.evaluateJavascript("window.setBusy&&window.setBusy(false)",null);state();}});}});}
+    private void background(Work work,String message,String successCallback,java.util.concurrent.ExecutorService executor){if(destroying||web==null)return;web.evaluateJavascript("window.setBusy(true)",null);executor.execute(()->{try{work.run();if(successCallback!=null)runOnUiThread(()->{if(!destroying&&!isDestroyed()&&web!=null)web.evaluateJavascript(successCallback,null);});if(message!=null)tell(message);}catch(Exception e){String error=Store.safeError(e.getMessage()==null?"That action could not be completed.":e.getMessage());if(!MoveRestoreJournal.blocked)Store.error(this,error);tell(error);if(MoveRestoreJournal.blocked)runOnUiThread(this::recreate);}finally{runOnUiThread(()->{if(!destroying&&!isDestroyed()&&web!=null){web.evaluateJavascript("window.setBusy&&window.setBusy(false)",null);state();}});}});}
     private boolean notifyAllowed(){NotificationManager nm=(NotificationManager)getSystemService(NOTIFICATION_SERVICE);NotificationChannel ch=nm.getNotificationChannel(AlarmService.CHANNEL);return (Build.VERSION.SDK_INT<33||checkSelfPermission(Manifest.permission.POST_NOTIFICATIONS)==PackageManager.PERMISSION_GRANTED)&&nm.areNotificationsEnabled()&&(ch==null||ch.getImportance()>=NotificationManager.IMPORTANCE_HIGH);}
     private boolean fullAllowed(){return Build.VERSION.SDK_INT<34||((NotificationManager)getSystemService(NOTIFICATION_SERVICE)).canUseFullScreenIntent();}
     private void state(){
@@ -152,6 +167,7 @@ public class MainActivity extends Activity {
         else getWindow().getDecorView().setSystemUiVisibility((getWindow().getDecorView().getSystemUiVisibility()&~mask)|appearance);
     }
     private void dispatch(JSONObject q)throws Exception {
+        if(MovePackage.restoring||MoveRestoreJournal.blocked){tell("Restore recovery is in progress. Reopen Rouse if it cannot finish.");return;}
         String action=q.getString("action");
         if(workAlarmAuthorization!=null&&workAlarmAuthorization.isPending()&&!"state".equals(action))return;
         switch(action) {

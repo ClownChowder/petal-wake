@@ -74,7 +74,8 @@ public final class SettingsTransfer {
         if(late<=early)throw new IllegalArgumentException("Later shift time must follow early shift time.");
         return new Validated(settings,themes,rawThemes!=null);
     }
-    public static void importJson(Context c,String text)throws Exception{
+    public static void importJson(Context c,String text)throws Exception{importJson(c,text,true);}
+    static void importJson(Context c,String text,boolean notify)throws Exception{
         Validated checked=validate(c,text);JSONObject settings=checked.settings;JSONArray themes=checked.themes;
         SharedPreferences.Editor editor=Store.p(c).edit();
         for(String key:INTS)if(settings.has(key)){int value=exactInt(settings.get(key),key);if(!"volume".equals(key))editor.putInt(key,value);}
@@ -83,7 +84,7 @@ public final class SettingsTransfer {
         for(String key:STRINGS)if(settings.has(key))editor.putString(key,settings.getString(key));
         if(checked.hasThemes)editor.putString("customThemes",themes.toString());
         if(!editor.commit())throw new IllegalStateException("Could not save settings.");
-        Appearance.syncLauncher(c);Sync.run(c,false);
+        if(notify){Appearance.syncLauncher(c);Sync.run(c,false);}
     }
 
     private static int exactInt(Object value,String key){

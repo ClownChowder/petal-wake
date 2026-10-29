@@ -14,7 +14,8 @@ public class DaybreakApp extends Application {
     public static final ExecutorService ALARM_IO=Executors.newSingleThreadExecutor();
     public static final String CHANGED="app.daybreak.CHANGED";
     public static final String INTERNAL_PERMISSION="app.daybreak.permission.INTERNAL_BROADCAST";
-    @Override public void onCreate(){super.onCreate();MovePackage.clearAbandoned(this);FourWagsWakeIcon.initialize(this);if(!FourWagsWakeIcon.pending(this))Appearance.syncLauncher(this);SoundLibrary.migrate(this);upgradePlayback();AlarmService.recoverAlarmVolume(this);AlarmService.createChannel(this);CalendarConfidence.createChannel(this);EveningCheck.createChannel(this);Readiness.createChannel(this);ShiftChanges.createChannel(this);SyncJob.install(this);}
+    @Override public void onCreate(){super.onCreate();try{MoveRestoreJournal.recover(this);}catch(Exception recovery){MoveRestoreJournal.blocked=true;return;}initialize();}
+    void initialize(){MovePackage.clearAbandoned(this);FourWagsWakeIcon.initialize(this);if(!FourWagsWakeIcon.pending(this))Appearance.syncLauncher(this);SoundLibrary.migrate(this);upgradePlayback();AlarmService.recoverAlarmVolume(this);AlarmService.createChannel(this);CalendarConfidence.createChannel(this);EveningCheck.createChannel(this);Readiness.createChannel(this);ShiftChanges.createChannel(this);SyncJob.install(this);}
     private void upgradePlayback(){
         var preferences=Store.p(this);
         int revision=preferences.getInt("playbackRevision",0);

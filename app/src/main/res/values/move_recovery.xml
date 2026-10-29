@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="move_recovery_pending">A move restore was interrupted. Recovery data is kept. Free some device storage, then tap Retry recovery. Do not clear Rouse storage.</string>
+    <string name="move_recovery_retry">Retry recovery</string>
+    <string name="move_recovery_failed">Recovery could not finish. Free storage and retry; recovery data is still kept.</string>
+</resources>
